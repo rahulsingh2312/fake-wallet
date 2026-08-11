@@ -2,7 +2,7 @@
 
 A fake Phantom wallet you can install on your phone.
 
-**Live: https://fake-phantom-wallet.vercel.app**
+**Live: https://fakewalletz.vercel.app**
 
 This is a pixel matched clone of the Phantom wallet UI, measured screenshot by screenshot against the real app, running as an installable PWA. You open a hidden editor, type in whatever tokens and balances you want, and the home screen renders them exactly like the real thing. Same fonts, same spacing, same purple.
 
