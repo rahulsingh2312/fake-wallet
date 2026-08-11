@@ -172,6 +172,7 @@ export function AdminScreen({
                     name={t.name || "?"}
                     size={40}
                     chain={t.chain}
+                    symbol={t.symbol}
                   />
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-[15px] font-semibold">
@@ -428,6 +429,7 @@ function TokenEditor({
             name={t.name || "?"}
             size={48}
             chain={t.chain}
+            symbol={t.symbol}
           />
           <div className="min-w-0">
             <div className="truncate text-[15px] font-semibold">

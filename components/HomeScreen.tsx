@@ -176,6 +176,7 @@ function TokenRow({ token, onClick }: { token: Token; onClick: () => void }) {
         name={token.name}
         size={40}
         chain={token.chain}
+        symbol={token.symbol}
       />
 
       <div className="min-w-0 flex-1">

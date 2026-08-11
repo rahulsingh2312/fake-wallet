@@ -59,6 +59,7 @@ export function TokenDetail({
           name={token.name}
           size={40}
           chain={token.chain}
+          symbol={token.symbol}
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">

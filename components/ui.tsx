@@ -51,14 +51,50 @@ const CHAIN_MARKS: Record<Exclude<ChainBadge, "none">, React.ReactNode> = {
   ),
 };
 
+/**
+ * Phantom draws the Solana badge as a chunky squircle, and the EVM chain
+ * badges as smaller circles.
+ */
+const BADGE_STYLE: Record<
+  Exclude<ChainBadge, "none">,
+  { scale: number; radius: number }
+> = {
+  solana: { scale: 0.56, radius: 0.32 },
+  base: { scale: 0.56, radius: 0.32 },
+  sui: { scale: 0.56, radius: 0.32 },
+  polygon: { scale: 0.45, radius: 0.5 },
+  ethereum: { scale: 0.45, radius: 0.5 },
+  bitcoin: { scale: 0.45, radius: 0.5 },
+};
+
+/** A token native to its own chain never gets a badge (SOL, ETH, POL, BTC). */
+const NATIVE_SYMBOLS: Partial<Record<Exclude<ChainBadge, "none">, string[]>> = {
+  solana: ["SOL"],
+  ethereum: ["ETH"],
+  polygon: ["POL", "MATIC"],
+  bitcoin: ["BTC"],
+  sui: ["SUI"],
+};
+
 /** Small chain marker on the logo's bottom-right, like Phantom's. */
-function ChainDot({ chain, size }: { chain: ChainBadge; size: number }) {
+function ChainDot({
+  chain,
+  size,
+  symbol,
+}: {
+  chain: ChainBadge;
+  size: number;
+  symbol?: string;
+}) {
   if (chain === "none") return null;
-  const d = Math.round(size * 0.56);
+  if (NATIVE_SYMBOLS[chain]?.includes((symbol ?? "").toUpperCase())) return null;
+
+  const { scale, radius } = BADGE_STYLE[chain];
+  const d = Math.round(size * scale);
   return (
     <span
       className="absolute -bottom-px -right-px grid place-items-center border-[2.5px] border-black bg-white"
-      style={{ width: d, height: d, borderRadius: d * 0.32, fontSize: d }}
+      style={{ width: d, height: d, borderRadius: d * radius, fontSize: d }}
     >
       {CHAIN_MARKS[chain]}
     </span>
@@ -70,12 +106,15 @@ export function TokenLogo({
   name,
   size = 56,
   chain = "none",
+  symbol,
   className = "",
 }: {
   src: string;
   name: string;
   size?: number;
   chain?: ChainBadge;
+  /** Used to suppress the badge on a chain's own native token */
+  symbol?: string;
   className?: string;
 }) {
   const [failed, setFailed] = useState(false);
@@ -105,7 +144,7 @@ export function TokenLogo({
           {name.slice(0, 1).toUpperCase()}
         </div>
       )}
-      <ChainDot chain={chain} size={size} />
+      <ChainDot chain={chain} size={size} symbol={symbol} />
     </div>
   );
 }
