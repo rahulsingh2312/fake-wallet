@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { qty, usd, usdDelta, pct } from "@/lib/format";
 import {
   accountChangePct,
@@ -24,6 +24,15 @@ export function HomeScreen({
   onSecret: () => void;
 }) {
   const { account, prices } = useWallet();
+
+  // Phantom orders the token list by USD value, biggest holding first.
+  const tokens = useMemo(
+    () =>
+      [...account.tokens].sort(
+        (a, b) => tokenValue(b, prices) - tokenValue(a, prices)
+      ),
+    [account.tokens, prices]
+  );
 
   const total = accountTotal(account, prices);
   const change = accountChangeUsd(account, prices);
@@ -90,8 +99,8 @@ export function HomeScreen({
       <SectionHeading label="Tokens" />
 
       <div className="flex flex-col gap-[18px]">
-        {account.tokens.length === 0 && <EmptyRow label="No tokens yet" />}
-        {account.tokens.map((t) => (
+        {tokens.length === 0 && <EmptyRow label="No tokens yet" />}
+        {tokens.map((t) => (
           <TokenRow key={t.id} token={t} onClick={() => onToken(t)} />
         ))}
       </div>
