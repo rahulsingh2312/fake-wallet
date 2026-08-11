@@ -47,6 +47,10 @@ Each token has:
 
 **About the chain badge:** native tokens do not get one. SOL on Solana, ETH on Ethereum and POL on Polygon all show a plain logo with no badge. Set those to `none`. Wrapped and bridged tokens do get one, so USDC or WBTC sitting on Solana show the Solana badge. That is how the real app does it, and getting it wrong is the fastest way for a screenshot to look off.
 
+### Autopilot trackers
+
+There is a second button under "Add token" called **Load Autopilot trackers**. It drops in all nine tracker vaults from [autopilot-solana](https://autopilot-solana.vercel.app) at once, each priced in SOL and sized between 10k and 15k. Handy if that is the portfolio you keep rebuilding.
+
 ### Perps
 
 Add positions to the Perps row: side (long or short), leverage, value, and PnL in dollars and percent.
@@ -66,6 +70,8 @@ Everything is stored in your browser under `localStorage`, so it survives reload
 Two modes, set per token:
 
 **Manual.** The price you typed. Values are just `price x quantity`, and the 24h delta comes from the change percentage you set. Use this when you want a number to stay exactly where you put it.
+
+**Priced in SOL.** Fill in the "Price in SOL" field and the token is valued at that many SOL times the live SOL price. Good for vault shares and staked SOL, where the token tracks SOL rather than having its own market. The 24h number becomes SOL's move plus whatever alpha you set.
 
 **Live from Jupiter.** Turn on the toggle and give the token a Solana mint. The app polls `lite-api.jup.ag/price/v3` every 30 seconds and whenever the window regains focus, and takes both the USD price and the real 24h change from it. Values drift with the market, which looks a lot more convincing on video than frozen numbers.
 
