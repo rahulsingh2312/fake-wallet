@@ -14,6 +14,9 @@ import type { Account, PriceMap, Token, WalletState } from "./types";
 
 const KEY = "larp-phantom:v1";
 
+/** Wrapped SOL, used to value anything priced in SOL. */
+export const SOL_MINT = "So11111111111111111111111111111111111111112";
+
 type Ctx = {
   state: WalletState;
   prices: PriceMap;
@@ -62,8 +65,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const liveMints = useMemo(() => {
     const mints: string[] = [];
+    let needsSol = false;
     for (const acc of state.accounts)
-      for (const t of acc.tokens) if (t.live && t.mint) mints.push(t.mint);
+      for (const t of acc.tokens) {
+        if (t.live && t.mint) mints.push(t.mint);
+        if (t.priceInSol) needsSol = true;
+      }
+    if (needsSol) mints.push(SOL_MINT);
     return Array.from(new Set(mints)).sort();
   }, [state.accounts]);
 
@@ -133,11 +141,18 @@ export function useWallet(): Ctx {
 /* ------------------------------- derivations ------------------------------ */
 
 export function tokenPrice(t: Token, prices: PriceMap): number {
+  // SOL-denominated tokens (vault shares, LSTs) follow the SOL price.
+  if (t.priceInSol && prices[SOL_MINT])
+    return t.priceInSol * prices[SOL_MINT].usdPrice;
   if (t.live && t.mint && prices[t.mint]) return prices[t.mint].usdPrice;
+  if (t.priceInSol) return t.priceInSol * t.price;
   return t.price;
 }
 
 export function tokenChangePct(t: Token, prices: PriceMap): number {
+  // Priced in SOL: SOL's own move, plus whatever alpha the token is set to.
+  if (t.priceInSol)
+    return (prices[SOL_MINT]?.priceChange24h ?? 0) + t.change24h;
   if (t.live && t.mint && prices[t.mint])
     return prices[t.mint].priceChange24h ?? 0;
   return t.change24h;

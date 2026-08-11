@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { uid } from "@/lib/format";
+import { AUTOPILOT_TRACKERS, buildTrackerTokens } from "@/lib/autopilot";
 import { searchTokens, type JupToken } from "@/lib/jupiter";
 import { useWallet } from "@/lib/store";
 import type {
@@ -47,8 +48,15 @@ export function AdminScreen({
   open: boolean;
   onClose: () => void;
 }) {
-  const { state, setState, account, setActiveAccount, reset, refreshPrices } =
-    useWallet();
+  const {
+    state,
+    prices,
+    setState,
+    account,
+    setActiveAccount,
+    reset,
+    refreshPrices,
+  } = useWallet();
   const [editing, setEditing] = useState<Token | null>(null);
   const [tab, setTab] = useState<
     "tokens" | "perps" | "accounts" | "profile"
@@ -130,6 +138,29 @@ export function AdminScreen({
               <PlusIcon className="h-5 w-5" /> Add token
             </button>
 
+            <button
+              onClick={() => {
+                const fresh = buildTrackerTokens(prices);
+                const keep = account.tokens.filter(
+                  (t) => !AUTOPILOT_TRACKERS.some((a) => a.symbol === t.symbol)
+                );
+                patchAccount(account.id, { tokens: [...fresh, ...keep] });
+                refreshPrices();
+              }}
+              className="mb-4 flex w-full items-center justify-between gap-2 rounded-2xl bg-[#141416] px-4 py-3.5 text-left ring-1 ring-[#26262c] active:opacity-70"
+            >
+              <span>
+                <span className="block text-[15px] font-semibold text-ph-purple">
+                  Load Autopilot trackers
+                </span>
+                <span className="block text-[12px] text-ph-mute-2">
+                  All {AUTOPILOT_TRACKERS.length} vaults, priced in SOL, 10k to
+                  15k each
+                </span>
+              </span>
+              <PlusIcon className="h-5 w-5 shrink-0 text-ph-purple" />
+            </button>
+
             <div className="flex flex-col gap-2">
               {account.tokens.map((t) => (
                 <div
@@ -148,8 +179,11 @@ export function AdminScreen({
                       <span className="text-ph-mute-2">{t.symbol}</span>
                     </div>
                     <div className="tnum truncate text-[13px] text-ph-mute-2">
-                      {t.quantity} × ${t.price}{" "}
-                      {t.live && <span className="text-ph-green">· live</span>}
+                      {t.quantity} ×{" "}
+                      {t.priceInSol ? `${t.priceInSol} SOL` : `$${t.price}`}{" "}
+                      {(t.live || t.priceInSol) && (
+                        <span className="text-ph-green">· live</span>
+                      )}
                     </div>
                   </div>
                   <button
@@ -325,7 +359,8 @@ function TokenEditor({
     setResults([]);
   };
 
-  const value = (t.price || 0) * (t.quantity || 0);
+  const unit = t.priceInSol ? t.priceInSol * (t.price || 0) : t.price || 0;
+  const value = unit * (t.quantity || 0);
 
   return (
     <div className="absolute inset-0 z-10 flex flex-col bg-[#0b0b0d]">
@@ -450,6 +485,25 @@ function TokenEditor({
             inputMode="decimal"
             value={t.price}
             onChange={(e) => set("price", Number(e.target.value) || 0)}
+            className={inputCls}
+          />
+        </Field>
+
+        <Field
+          label="Price in SOL (optional)"
+          hint="Set this for SOL-denominated tokens like vault shares. The USD price then follows the live SOL price, and this overrides the price above."
+        >
+          <input
+            type="number"
+            inputMode="decimal"
+            value={t.priceInSol ?? ""}
+            onChange={(e) =>
+              set(
+                "priceInSol",
+                e.target.value === "" ? undefined : Number(e.target.value) || 0
+              )
+            }
+            placeholder="e.g. 1.5"
             className={inputCls}
           />
         </Field>

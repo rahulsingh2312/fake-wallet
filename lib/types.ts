@@ -19,6 +19,12 @@ export type Token = {
   mint?: string;
   /** Manual USD price (fallback / used when live is off) */
   price: number;
+  /**
+   * Price expressed in SOL. When set, the USD price becomes
+   * `priceInSol x live SOL price`, so SOL-denominated vault tokens move with
+   * the market instead of sitting frozen.
+   */
+  priceInSol?: number;
   quantity: number;
   /** 24h change in percent, e.g. -2.88 */
   change24h: number;
