@@ -138,29 +138,6 @@ export function AdminScreen({
               <PlusIcon className="h-5 w-5" /> Add token
             </button>
 
-            <button
-              onClick={() => {
-                const fresh = buildTrackerTokens(prices);
-                const keep = account.tokens.filter(
-                  (t) => !AUTOPILOT_TRACKERS.some((a) => a.symbol === t.symbol)
-                );
-                patchAccount(account.id, { tokens: [...fresh, ...keep] });
-                refreshPrices();
-              }}
-              className="mb-4 flex w-full items-center justify-between gap-2 rounded-2xl bg-[#141416] px-4 py-3.5 text-left ring-1 ring-[#26262c] active:opacity-70"
-            >
-              <span>
-                <span className="block text-[15px] font-semibold text-ph-purple">
-                  Load Autopilot trackers
-                </span>
-                <span className="block text-[12px] text-ph-mute-2">
-                  All {AUTOPILOT_TRACKERS.length} vaults, priced in SOL, 10k to
-                  15k each
-                </span>
-              </span>
-              <PlusIcon className="h-5 w-5 shrink-0 text-ph-purple" />
-            </button>
-
             <div className="flex flex-col gap-2">
               {account.tokens.map((t) => (
                 <div
@@ -217,6 +194,20 @@ export function AdminScreen({
                 className={inputCls}
               />
             </Field>
+
+            <button
+              onClick={() => {
+                const fresh = buildTrackerTokens(prices);
+                const keep = account.tokens.filter(
+                  (t) => !AUTOPILOT_TRACKERS.some((a) => a.symbol === t.symbol)
+                );
+                patchAccount(account.id, { tokens: [...fresh, ...keep] });
+                refreshPrices();
+              }}
+              className="mt-10 mb-2 w-full text-center text-[11px] text-[#3f3f46] active:text-ph-purple"
+            >
+              load autopilot trackers
+            </button>
           </>
         )}
 

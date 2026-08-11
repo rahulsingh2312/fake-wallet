@@ -8,12 +8,13 @@ import { AdminScreen } from "./AdminScreen";
 import { HomeScreen } from "./HomeScreen";
 import { InstallPrompt } from "./InstallPrompt";
 import { PlusIcon, SearchIcon } from "./icons";
+import { PullToRefresh } from "./PullToRefresh";
 import { SideDrawer } from "./SideDrawer";
 import { TokenDetail } from "./TokenDetail";
 import { TopTabs, type Tab } from "./TopTabs";
 
 export function WalletApp() {
-  const { state, account, ready } = useWallet();
+  const { state, account, ready, refreshPrices } = useWallet();
   const [tab, setTab] = useState<Tab>("Home");
   const [drawer, setDrawer] = useState(false);
   const [accounts, setAccounts] = useState(false);
@@ -45,26 +46,28 @@ export function WalletApp() {
           : "origin-right scale-100"
       }`}
     >
-      <header className="safe-t sticky top-0 z-30 bg-ph-bg">
-        <TopTabs
-          active={tab}
-          onChange={setTab}
-          avatar={state.avatar}
-          onAvatar={() => setDrawer(true)}
-        />
-      </header>
-
-      <main className={ready ? "" : "opacity-0"}>
-        {tab === "Home" ? (
-          <HomeScreen
-            onAccounts={() => setAccounts(true)}
-            onToken={setToken}
-            onSecret={() => setAdmin(true)}
+      <PullToRefresh onRefresh={refreshPrices}>
+        <header className="safe-t sticky top-0 z-30 bg-ph-bg">
+          <TopTabs
+            active={tab}
+            onChange={setTab}
+            avatar={state.avatar}
+            onAvatar={() => setDrawer(true)}
           />
-        ) : (
-          <Placeholder tab={tab} />
-        )}
-      </main>
+        </header>
+
+        <main className={ready ? "" : "opacity-0"}>
+          {tab === "Home" ? (
+            <HomeScreen
+              onAccounts={() => setAccounts(true)}
+              onToken={setToken}
+              onSecret={() => setAdmin(true)}
+            />
+          ) : (
+            <Placeholder tab={tab} />
+          )}
+        </main>
+      </PullToRefresh>
 
       {/* --------------------------- bottom bar ---------------------------- */}
       <div className="safe-b fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[520px] bg-gradient-to-t from-black via-black/85 to-transparent px-[21px] pb-[14px] pt-8">
