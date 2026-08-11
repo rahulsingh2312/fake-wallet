@@ -46,16 +46,17 @@ export function WalletApp() {
           : "origin-right scale-100"
       }`}
     >
-      <PullToRefresh onRefresh={refreshPrices}>
-        <header className="safe-t sticky top-0 z-30 bg-ph-bg">
-          <TopTabs
-            active={tab}
-            onChange={setTab}
-            avatar={state.avatar}
-            onAvatar={() => setDrawer(true)}
-          />
-        </header>
+      <header className="safe-t sticky top-0 z-30 bg-ph-bg">
+        <TopTabs
+          active={tab}
+          onChange={setTab}
+          avatar={state.avatar}
+          onAvatar={() => setDrawer(true)}
+        />
+      </header>
 
+      {/* only the content below the tab bar follows the pull */}
+      <PullToRefresh onRefresh={refreshPrices}>
         <main className={ready ? "" : "opacity-0"}>
           {tab === "Home" ? (
             <HomeScreen

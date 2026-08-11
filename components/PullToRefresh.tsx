@@ -115,10 +115,10 @@ export function PullToRefresh({
     : "none";
 
   return (
-    <>
-      {/* spinner sits behind the content and is revealed as it slides down */}
+    <div className="relative">
+      {/* revealed in the gap that opens below the header as content slides down */}
       <div
-        className="pointer-events-none fixed inset-x-0 top-0 z-20 mx-auto flex max-w-[520px] justify-center"
+        className="pointer-events-none absolute inset-x-0 top-0 flex justify-center overflow-hidden"
         style={{
           height: offset,
           opacity: offset > 4 ? 1 : 0,
@@ -126,7 +126,7 @@ export function PullToRefresh({
         }}
       >
         <span
-          className="mt-[16px] grid h-[26px] w-[26px] place-items-center"
+          className="mt-[10px] grid h-[26px] w-[26px] place-items-center"
           style={{
             transform: `scale(${0.45 + progress * 0.55})`,
             opacity: 0.25 + progress * 0.75,
@@ -151,6 +151,6 @@ export function PullToRefresh({
       >
         {children}
       </div>
-    </>
+    </div>
   );
 }
