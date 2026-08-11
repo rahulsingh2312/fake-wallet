@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ph-bg: #000000;
+  --color-ph-card: #191919;
+  --color-ph-card-2: #232323;
+  --color-ph-line: #2a2a2e;
+  --color-ph-text: #ffffff;
+  --color-ph-mute: #999da1;
+  --color-ph-mute-2: #77797d;
+  --color-ph-purple: #ab9ff2;
+  --color-ph-purple-dark: #8a7ee0;
+  --color-ph-green: #21de7f;
+  --color-ph-red: #ff4d4d;
+  --color-ph-red-badge: #ea3336;
+
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #000;
+  color: #fff;
+  overscroll-behavior-y: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Phantom's tabular-ish numerals for balances */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.safe-b {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-t {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* prevent text selection on the chrome so long-press feels native */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@keyframes ph-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes ph-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ph-drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.anim-sheet {
+  animation: ph-sheet-up 340ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.anim-fade {
+  animation: ph-fade-in 220ms ease-out;
+}
+.anim-drawer {
+  animation: ph-drawer-in 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
