@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 // Phantom on Android renders in Roboto. Inter sits ~10% wider at the same cap
@@ -11,9 +11,19 @@ const roboto = Roboto({
   display: "swap",
 });
 
+// Landing-only display face. The wallet itself stays on Roboto so it keeps
+// matching the real app.
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Phantom",
-  description: "A crypto wallet reimagined for DeFi & NFTs",
+  description:
+    "your portfolio, exactly as big as you say it is. a pixel-matched phantom wallet you fill in yourself, with live jupiter prices.",
   manifest: "/manifest.webmanifest",
   applicationName: "Phantom",
   appleWebApp: {
@@ -45,7 +55,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={roboto.variable}>
+    <html lang="en" className={`${roboto.variable} ${display.variable}`}>
       <body className="bg-ph-bg text-ph-text antialiased no-select">
         {children}
       </body>

@@ -93,7 +93,7 @@ export function TokenDetail({
       </div>
 
       {/* ------------------------------- scroller ---------------------------- */}
-      <div className="no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[110px]">
+      <div className="no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+110px)]">
         <div className="tnum mt-[10px] text-[50.8px] font-bold leading-[1.08]">
           {usdPrice(price)}
         </div>
@@ -240,7 +240,7 @@ export function TokenDetail({
       </div>
 
       {/* ------------------------------ buy / sell --------------------------- */}
-      <div className="safe-b pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/95 to-transparent pb-[14px] pt-8">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/95 to-transparent pt-8 pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+14px)]">
         <div className="pointer-events-auto grid grid-cols-2 gap-[13px] px-4">
           <button className="rounded-full bg-ph-purple py-[14px] text-[18px] font-medium text-black active:opacity-80">
             Buy

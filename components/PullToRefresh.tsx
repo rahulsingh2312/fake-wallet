@@ -20,6 +20,7 @@ export function PullToRefresh({
   const [busy, setBusy] = useState(false);
   const [settling, setSettling] = useState(false);
 
+  const hostRef = useRef<HTMLDivElement | null>(null);
   const startY = useRef<number | null>(null);
   const offsetRef = useRef(0);
   const busyRef = useRef(false);
@@ -56,8 +57,14 @@ export function PullToRefresh({
   }, [onRefresh, setPull]);
 
   useEffect(() => {
+    // On phones the document scrolls; inside the desktop device frame an inner
+    // element does. Pull only when whichever one it is sits at the top.
+    const scrollTop = () => {
+      const el = hostRef.current?.closest<HTMLElement>(".ptr-scroll");
+      return el ? el.scrollTop : window.scrollY;
+    };
     const canPull = () =>
-      window.scrollY <= 0 &&
+      scrollTop() <= 0 &&
       !busyRef.current &&
       // A sheet or the editor is open on top of the wallet.
       document.body.style.overflow !== "hidden";
@@ -73,7 +80,7 @@ export function PullToRefresh({
         if (offsetRef.current !== 0) setPull(0);
         return;
       }
-      if (window.scrollY > 0) {
+      if (scrollTop() > 0) {
         startY.current = null;
         setPull(0);
         return;
@@ -115,7 +122,7 @@ export function PullToRefresh({
     : "none";
 
   return (
-    <div className="relative">
+    <div ref={hostRef} className="relative">
       {/* revealed in the gap that opens below the header as content slides down */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 flex justify-center overflow-hidden"

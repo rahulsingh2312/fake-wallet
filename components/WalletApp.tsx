@@ -38,15 +38,16 @@ export function WalletApp() {
     : null;
 
   return (
-    <div
-      className={`mx-auto flex min-h-dvh w-full max-w-[520px] flex-col bg-ph-bg transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+    <>
+      <div
+        className={`mx-auto flex min-h-full w-full max-w-[520px] flex-col bg-ph-bg transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
         // Phantom slides the wallet aside as a rounded card behind the drawer.
         drawer
           ? "origin-right scale-[0.93] overflow-hidden rounded-[26px]"
-          : "origin-right scale-100"
+          : ""
       }`}
     >
-      <header className="safe-t sticky top-0 z-30 bg-ph-bg">
+      <header className="sticky top-0 z-30 bg-ph-bg pt-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px))]">
         <TopTabs
           active={tab}
           onChange={setTab}
@@ -71,8 +72,10 @@ export function WalletApp() {
       </PullToRefresh>
 
       {/* --------------------------- bottom bar ---------------------------- */}
-      <div className="safe-b fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[520px] bg-gradient-to-t from-black via-black/85 to-transparent px-[21px] pb-[14px] pt-8">
-        <InstallPrompt />
+      <div className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[520px] bg-gradient-to-t from-black via-black/85 to-transparent px-[21px] pt-8 pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+14px)]">
+        <div className="lg:hidden">
+          <InstallPrompt />
+        </div>
         <div className="flex items-center gap-[15px]">
           <div
             onClick={onSearchTap}
@@ -90,6 +93,8 @@ export function WalletApp() {
         </div>
       </div>
 
+      </div>
+
       <SideDrawer
         open={drawer}
         onClose={() => setDrawer(false)}
@@ -105,7 +110,7 @@ export function WalletApp() {
       />
       <TokenDetail token={liveToken} onClose={() => setToken(null)} />
       <AdminScreen open={admin} onClose={() => setAdmin(false)} />
-    </div>
+    </>
   );
 }
 

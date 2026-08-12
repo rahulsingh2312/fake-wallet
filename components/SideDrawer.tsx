@@ -39,7 +39,7 @@ export function SideDrawer({
     <div className="fixed inset-0 z-50">
       <div className="anim-fade absolute inset-0 bg-black/55" onClick={onClose} />
 
-      <aside className="anim-drawer absolute inset-y-0 left-0 flex w-[75%] max-w-[380px] flex-col bg-black pt-[calc(env(safe-area-inset-top,0px)+56px)]">
+      <aside className="anim-drawer absolute inset-y-0 left-0 flex w-[75%] max-w-[380px] flex-col bg-black pt-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px)+56px)]">
         <div className="flex items-start justify-between px-[26px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -79,7 +79,7 @@ export function SideDrawer({
           <Item icon={<ClockIcon className="h-[24px] w-[24px]" />} label="History" />
         </nav>
 
-        <div className="mt-auto flex flex-col pb-[34px]">
+        <div className="mt-auto flex flex-col pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+34px)]">
           <Item icon={<GearIcon className="h-[24px] w-[24px]" />} label="Settings" />
           <Item
             icon={<InfoIcon className="h-[24px] w-[24px]" />}

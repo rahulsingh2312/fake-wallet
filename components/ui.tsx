@@ -210,7 +210,7 @@ export function Sheet({
       />
       <div
         className={`anim-sheet absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-t-[28px] bg-ph-bg ${
-          full ? "top-3" : "max-h-[88vh]"
+          full ? "top-[calc(var(--status-h,0px)+12px)]" : "max-h-[88vh]"
         }`}
       >
         <div className="flex shrink-0 justify-center pb-1 pt-2.5">

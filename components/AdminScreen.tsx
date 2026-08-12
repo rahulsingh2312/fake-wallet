@@ -97,7 +97,7 @@ export function AdminScreen({
   return (
     <div className="fixed inset-0 z-[60] flex flex-col bg-[#0b0b0d]">
       {/* header */}
-      <div className="flex shrink-0 items-center gap-3 border-b border-[#1f1f24] px-4 pb-3 pt-[calc(env(safe-area-inset-top,0px)+16px)]">
+      <div className="flex shrink-0 items-center gap-3 border-b border-[#1f1f24] px-4 pb-3 pt-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px)+16px)]">
         <div className="flex-1">
           <div className="text-[19px] font-bold">Portfolio Data</div>
           <div className="text-[13px] text-ph-mute-2">
@@ -128,7 +128,7 @@ export function AdminScreen({
         ))}
       </div>
 
-      <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-16">
+      <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+64px)]">
         {tab === "tokens" && (
           <>
             <button
@@ -356,7 +356,7 @@ function TokenEditor({
 
   return (
     <div className="absolute inset-0 z-10 flex flex-col bg-[#0b0b0d]">
-      <div className="flex shrink-0 items-center gap-3 border-b border-[#1f1f24] px-4 pb-3 pt-[calc(env(safe-area-inset-top,0px)+16px)]">
+      <div className="flex shrink-0 items-center gap-3 border-b border-[#1f1f24] px-4 pb-3 pt-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px)+16px)]">
         <button
           onClick={onCancel}
           className="text-[15px] font-medium text-ph-mute active:opacity-70"
@@ -374,7 +374,7 @@ function TokenEditor({
         </button>
       </div>
 
-      <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-16">
+      <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+64px)]">
         {/* Jupiter autofill */}
         <Field
           label="Autofill from Jupiter"

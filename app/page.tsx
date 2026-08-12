@@ -1,12 +1,5 @@
-import { RegisterSW } from "@/components/RegisterSW";
-import { WalletApp } from "@/components/WalletApp";
-import { WalletProvider } from "@/lib/store";
+import { Landing } from "@/components/LandingShell";
 
 export default function Page() {
-  return (
-    <WalletProvider>
-      <WalletApp />
-      <RegisterSW />
-    </WalletProvider>
-  );
+  return <Landing />;
 }
