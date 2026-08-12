@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useWallet } from "@/lib/store";
 import type { Token } from "@/lib/types";
 import { AccountsSheet } from "./AccountsSheet";
@@ -12,6 +12,7 @@ import { PullToRefresh } from "./PullToRefresh";
 import { SideDrawer } from "./SideDrawer";
 import { TokenDetail } from "./TokenDetail";
 import { TopTabs, type Tab } from "./TopTabs";
+import { Tour } from "./Tour";
 
 export function WalletApp() {
   const { state, account, ready, refreshPrices } = useWallet();
@@ -20,6 +21,7 @@ export function WalletApp() {
   const [accounts, setAccounts] = useState(false);
   const [token, setToken] = useState<Token | null>(null);
   const [admin, setAdmin] = useState(false);
+  const setEditorFromTour = useCallback((open: boolean) => setAdmin(open), []);
 
   // Second secret door: 5 taps on the search bar (works from any tab).
   const taps = useRef<number[]>([]);
@@ -110,6 +112,8 @@ export function WalletApp() {
       />
       <TokenDetail token={liveToken} onClose={() => setToken(null)} />
       <AdminScreen open={admin} onClose={() => setAdmin(false)} />
+
+      <Tour onEditor={setEditorFromTour} />
     </>
   );
 }

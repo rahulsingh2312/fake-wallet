@@ -13,6 +13,7 @@ import type {
   WalletState,
 } from "@/lib/types";
 import { CloseIcon, PlusIcon, TrashIcon } from "./icons";
+import { SavedToast } from "./Toast";
 import { TokenLogo } from "./ui";
 
 const CHAINS: ChainBadge[] = [
@@ -99,7 +100,9 @@ export function AdminScreen({
       {/* header */}
       <div className="flex shrink-0 items-center gap-3 border-b border-[#1f1f24] px-4 pb-3 pt-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px)+16px)]">
         <div className="flex-1">
-          <div className="text-[19px] font-bold">Portfolio Data</div>
+          <div data-tour="editor-title" className="text-[19px] font-bold">
+            Portfolio Data
+          </div>
           <div className="text-[13px] text-ph-mute-2">
             Editing <span className="text-ph-purple">{account.name}</span>
           </div>
@@ -132,6 +135,7 @@ export function AdminScreen({
         {tab === "tokens" && (
           <>
             <button
+              data-tour="add-token"
               onClick={() => setEditing(blankToken())}
               className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-medium text-ph-purple active:opacity-70"
             >
@@ -230,6 +234,8 @@ export function AdminScreen({
           <ProfileTab state={state} setState={setState} onReset={reset} />
         )}
       </div>
+
+      <SavedToast watch={state} />
 
       {editing && (
         <TokenEditor

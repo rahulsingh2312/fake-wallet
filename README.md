@@ -10,7 +10,25 @@ Token prices come live from the Jupiter API, so the portfolio ticks and the 24h 
 
 Frontend only. No wallet connection, no seed phrase, no private keys, no transactions. Just a UI with numbers you control.
 
-![fake-wallet screens](docs/doc-strip.png)
+![fake-wallet on a phone](docs/r-strip.png)
+
+## Screens
+
+The wallet on a phone, the hidden editor, and adding a token straight from
+Jupiter.
+
+| home | the hidden editor | adding a token |
+| --- | --- | --- |
+| ![home](docs/r-home.png) | ![editor](docs/r-editor.png) | ![add token](docs/r-add.png) |
+
+Tapping a token opens the full detail screen, chart and all.
+
+![token detail](docs/r-token.png)
+
+On a desktop browser the wallet moves into a phone and the space around it
+becomes the landing page. On a phone you just get the wallet, fullscreen.
+
+![desktop](docs/r-landing.png)
 
 ## How to change the balances
 

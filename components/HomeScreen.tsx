@@ -62,6 +62,7 @@ export function HomeScreen({
       </button>
 
       <div
+        data-tour="balance"
         onClick={onBalanceTap}
         className="tnum mt-[3px] cursor-default text-[50.8px] font-bold leading-[1.08]"
       >

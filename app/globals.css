@@ -114,6 +114,38 @@ body {
   50% { transform: translate3d(-5vw, -4vh, 0) scale(0.95); }
 }
 
+@keyframes ph-toast-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.94); }
+  60%  { opacity: 1; transform: translateY(-2px) scale(1.01); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes ph-toast-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(10px) scale(0.97); }
+}
+@keyframes ph-toast-check {
+  from { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  to   { stroke-dasharray: 1; stroke-dashoffset: 0; }
+}
+.anim-toast-in { animation: ph-toast-in 420ms cubic-bezier(0.22, 1.4, 0.36, 1) both; }
+.anim-toast-out { animation: ph-toast-out 360ms ease-in both; }
+.anim-toast-check { animation: ph-toast-check 420ms 120ms ease-out both; }
+
+@keyframes ph-tour-underline {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+@keyframes ph-tour-ring {
+  from { opacity: 0; transform: scale(1.06); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.anim-tour-underline {
+  transform-origin: left center;
+  animation: ph-tour-underline 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-tour-ring { animation: ph-tour-ring 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-tour-cap { animation: ph-toast-in 380ms cubic-bezier(0.22, 1.4, 0.36, 1) both; }
+
 /* landing entrance: one shared curve, staggered by class */
 @keyframes ph-reveal {
   from {

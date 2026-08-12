@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { TourButton } from "./Tour";
 
 const REPO = "https://github.com/rahulsingh2312/fake-wallet";
 const URL = "fakewalletz.vercel.app";
@@ -178,6 +179,7 @@ export function LandingTopBar() {
         >
           source
         </a>
+        <TourButton />
         <span className="italic text-white/25">deeply unofficial</span>
       </nav>
     </header>

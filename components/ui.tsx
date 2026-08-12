@@ -88,7 +88,7 @@ function ChainDot({
   const d = Math.round(size * scale);
   return (
     <span
-      className="absolute -bottom-px -right-px grid place-items-center border-[2.5px] border-black bg-white"
+      className="absolute -bottom-[4px] -right-px grid place-items-center border-[2.5px] border-black bg-white"
       style={{ width: d, height: d, borderRadius: d * radius, fontSize: d }}
     >
       {CHAIN_MARKS[chain]}
