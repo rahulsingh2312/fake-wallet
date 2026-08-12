@@ -93,7 +93,7 @@ export function TokenDetail({
       </div>
 
       {/* ------------------------------- scroller ---------------------------- */}
-      <div className="no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+110px)]">
+      <div className="sheet-scroll no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+110px)]">
         <div className="tnum mt-[10px] text-[50.8px] font-bold leading-[1.08]">
           {usdPrice(price)}
         </div>

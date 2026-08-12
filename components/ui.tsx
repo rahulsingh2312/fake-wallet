@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ChainBadge } from "@/lib/types";
 
 /* ------------------------------- token logo ------------------------------- */
@@ -88,7 +88,7 @@ function ChainDot({
   const d = Math.round(size * scale);
   return (
     <span
-      className="absolute -bottom-[4px] -right-px grid place-items-center border-[2.5px] border-black bg-white"
+      className="absolute -bottom-[6px] -right-px grid place-items-center border-[2.5px] border-black bg-white"
       style={{ width: d, height: d, borderRadius: d * radius, fontSize: d }}
     >
       {CHAIN_MARKS[chain]}
@@ -189,6 +189,14 @@ export function Sheet({
   /** Full-height sheet (token detail) vs. content-height (accounts) */
   full?: boolean;
 }) {
+  const panel = useRef<HTMLDivElement | null>(null);
+  const [dragY, setDragY] = useState(0);
+  const [dragging, setDragging] = useState(false);
+
+  const startY = useRef<number | null>(null);
+  const startedAt = useRef(0);
+  const dragRef = useRef(0);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -200,23 +208,120 @@ export function Sheet({
     };
   }, [open, onClose]);
 
+  // Reset between openings, otherwise it reopens mid-drag.
+  useEffect(() => {
+    if (!open) {
+      setDragY(0);
+      setDragging(false);
+      dragRef.current = 0;
+      startY.current = null;
+    }
+  }, [open]);
+
+  /* ------------------------------ drag to close ----------------------------- */
+
+  useEffect(() => {
+    const el = panel.current;
+    if (!open || !el) return;
+
+    const set = (v: number) => {
+      dragRef.current = v;
+      setDragY(v);
+    };
+
+    const onStart = (e: TouchEvent) => {
+      // If the touch begins inside a scroller that is already scrolled, that
+      // scroller owns the gesture, not the sheet.
+      const scroller = (e.target as HTMLElement | null)?.closest<HTMLElement>(
+        ".sheet-scroll"
+      );
+      if (scroller && scroller.scrollTop > 0) {
+        startY.current = null;
+        return;
+      }
+      startY.current = e.touches[0].clientY;
+      startedAt.current = Date.now();
+    };
+
+    const onMove = (e: TouchEvent) => {
+      if (startY.current === null) return;
+      const dy = e.touches[0].clientY - startY.current;
+      if (dy <= 0) {
+        if (dragRef.current !== 0) set(0);
+        return; // upward, let the content scroll
+      }
+      const scroller = (e.target as HTMLElement | null)?.closest<HTMLElement>(
+        ".sheet-scroll"
+      );
+      if (scroller && scroller.scrollTop > 0) {
+        startY.current = null;
+        set(0);
+        return;
+      }
+      e.preventDefault(); // non-passive, so this really stops the rubber band
+      setDragging(true);
+      set(dy * 0.92); // a touch of resistance
+    };
+
+    const onEnd = () => {
+      if (startY.current === null) return;
+      const dy = dragRef.current;
+      const speed = dy / Math.max(1, Date.now() - startedAt.current);
+      startY.current = null;
+      setDragging(false);
+      // Far enough, or flicked hard enough.
+      if (dy > 130 || (speed > 0.55 && dy > 56)) onClose();
+      else set(0);
+    };
+
+    el.addEventListener("touchstart", onStart, { passive: true });
+    el.addEventListener("touchmove", onMove, { passive: false });
+    el.addEventListener("touchend", onEnd, { passive: true });
+    el.addEventListener("touchcancel", onEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchmove", onMove);
+      el.removeEventListener("touchend", onEnd);
+      el.removeEventListener("touchcancel", onEnd);
+    };
+  }, [open, onClose]);
+
   if (!open) return null;
+
+  const scrim = Math.max(0, 0.6 - dragY / 620);
 
   return (
     <div className="fixed inset-0 z-50">
       <div
-        className="anim-fade absolute inset-0 bg-black/60"
+        className="anim-fade absolute inset-0 bg-black"
+        style={{
+          opacity: scrim,
+          transition: dragging ? "none" : "opacity 300ms ease",
+        }}
         onClick={onClose}
       />
       <div
-        className={`anim-sheet absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-t-[28px] bg-ph-bg ${
+        ref={panel}
+        className={`${
+          dragY ? "" : "anim-sheet"
+        } absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-t-[28px] bg-ph-bg ${
           full
             ? "top-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px)+12px)]"
             : "max-h-[88vh]"
         }`}
+        style={{
+          transform: dragY ? `translateY(${dragY}px)` : undefined,
+          transition: dragging
+            ? "none"
+            : "transform 340ms cubic-bezier(0.32, 0.72, 0, 1)",
+        }}
       >
-        <div className="flex shrink-0 justify-center pb-1 pt-2.5">
-          <div className="h-[5px] w-[38px] rounded-full bg-[#4a4a4f]" />
+        <div className="flex shrink-0 cursor-grab justify-center pb-1 pt-2.5 active:cursor-grabbing">
+          <div
+            className={`h-[5px] rounded-full bg-[#4a4a4f] transition-all duration-200 ${
+              dragging ? "w-[52px] bg-[#6a6a70]" : "w-[38px]"
+            }`}
+          />
         </div>
         {children}
       </div>

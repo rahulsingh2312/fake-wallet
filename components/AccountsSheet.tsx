@@ -38,7 +38,7 @@ export function AccountsSheet({
         </button>
       </div>
 
-      <div className="no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+40px)]">
+      <div className="sheet-scroll no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[calc(env(safe-area-inset-bottom,0px)+var(--safe-b,0px)+40px)]">
         <div className="flex flex-col gap-[8.3px]">
           {state.accounts.map((a) => {
             const active = a.id === state.activeAccountId;
