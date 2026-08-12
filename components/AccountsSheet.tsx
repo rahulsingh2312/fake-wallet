@@ -39,7 +39,7 @@ export function AccountsSheet({
       </div>
 
       <div className="no-scrollbar flex-1 overflow-y-auto px-[21px] pb-10">
-        <div className="flex flex-col gap-[18px]">
+        <div className="flex flex-col gap-[9px]">
           {state.accounts.map((a) => {
             const active = a.id === state.activeAccountId;
             return (
@@ -49,7 +49,7 @@ export function AccountsSheet({
                   setActiveAccount(a.id);
                   onClose();
                 }}
-                className="flex cursor-pointer items-center gap-[14px] rounded-[16px] bg-ph-card px-[20px] h-[60px] active:opacity-70"
+                className="flex cursor-pointer items-center gap-[14px] rounded-[16px] bg-ph-card px-[20px] h-[69px] active:opacity-70"
               >
                 <div className="relative">
                   <Avatar emoji={a.emoji} name={a.name} size={40} />
@@ -61,7 +61,7 @@ export function AccountsSheet({
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-[18px] font-semibold leading-[1.2]">
+                  <div className="truncate text-[18px] font-medium leading-[1.2]">
                     {a.name}
                   </div>
                   <div className="tnum text-[17px] leading-[1.25] text-white">

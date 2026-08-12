@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+// Phantom on Android renders in Roboto. Inter sits ~10% wider at the same cap
+// height, which reads as "too bold" next to the real app.
+const roboto = Roboto({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "700"],
+  variable: "--font-roboto",
   display: "swap",
 });
 
@@ -42,7 +45,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={roboto.variable}>
       <body className="bg-ph-bg text-ph-text antialiased no-select">
         {children}
       </body>

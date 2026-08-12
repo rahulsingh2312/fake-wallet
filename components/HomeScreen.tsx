@@ -70,14 +70,14 @@ export function HomeScreen({
 
       <div className="mt-[8px] flex items-center gap-[7px]">
         <span
-          className={`tnum text-[19px] font-semibold leading-[1.2] ${
+          className={`tnum text-[19px] font-medium leading-[1.2] ${
             down ? "text-ph-red" : "text-ph-green"
           }`}
         >
           {usdDelta(change)}
         </span>
         <span
-          className={`tnum rounded-[6px] px-[5px] py-[1px] text-[19px] font-semibold leading-[1.15] text-white ${
+          className={`tnum rounded-[6px] px-[5px] py-[1px] text-[19px] font-medium leading-[1.15] text-white ${
             down ? "bg-ph-red-badge" : "bg-[#17a761]"
           }`}
         >
@@ -87,7 +87,7 @@ export function HomeScreen({
       </div>
 
       {/* -------------------------------- cash ------------------------------- */}
-      <div className="mt-[32px] flex h-[62px] items-center gap-[16px] rounded-[16px] bg-ph-card px-[20px]">
+      <div className="mt-[32px] flex h-[72px] items-center gap-[16px] rounded-[16px] bg-ph-card px-[20px]">
         <CashIcon className="h-[18px] w-[30px]" />
         <span className="text-[18px] font-medium">Cash</span>
         <span className="tnum ml-auto text-[18px] font-medium">
@@ -98,7 +98,7 @@ export function HomeScreen({
       {/* ------------------------------- tokens ------------------------------ */}
       <SectionHeading label="Tokens" />
 
-      <div className="flex flex-col gap-[18px]">
+      <div className="flex flex-col gap-[9px]">
         {tokens.length === 0 && <EmptyRow label="No tokens yet" />}
         {tokens.map((t) => (
           <TokenRow key={t.id} token={t} onClick={() => onToken(t)} />
@@ -118,11 +118,11 @@ export function HomeScreen({
             >
               <div className="flex items-center gap-2">
                 <TokenLogo src={p.image} name={p.name} size={28} />
-                <span className="truncate text-[16px] font-semibold">
+                <span className="truncate text-[16px] font-medium">
                   {p.symbol}
                 </span>
               </div>
-              <div className="mt-[10px] flex items-center gap-2 text-[13px] font-semibold">
+              <div className="mt-[10px] flex items-center gap-2 text-[13px] font-medium">
                 <span
                   className={p.side === "long" ? "text-ph-green" : "text-ph-red"}
                 >
@@ -134,7 +134,7 @@ export function HomeScreen({
                 {usd(p.value)}
               </div>
               <div
-                className={`tnum text-[14px] font-semibold ${
+                className={`tnum text-[14px] font-medium ${
                   p.pnl < 0 ? "text-ph-red" : "text-ph-green"
                 }`}
               >
@@ -163,7 +163,7 @@ function SectionHeading({ label }: { label: string }) {
 
 function EmptyRow({ label }: { label: string }) {
   return (
-    <div className="flex h-[60px] items-center rounded-[16px] bg-ph-card px-[20px] text-[16px] text-ph-mute-2">
+    <div className="flex h-[69px] items-center rounded-[16px] bg-ph-card px-[20px] text-[16px] text-ph-mute-2">
       {label}
     </div>
   );
@@ -178,7 +178,7 @@ function TokenRow({ token, onClick }: { token: Token; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex h-[60px] w-full items-center gap-[14px] rounded-[16px] bg-ph-card px-[20px] text-left transition-opacity active:opacity-70"
+      className="flex h-[69px] w-full items-center gap-[14px] rounded-[16px] bg-ph-card px-[20px] text-left transition-opacity active:opacity-70"
     >
       <TokenLogo
         src={token.image}
@@ -190,7 +190,7 @@ function TokenRow({ token, onClick }: { token: Token; onClick: () => void }) {
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-[5px]">
-          <span className="truncate text-[18px] font-semibold leading-[1.2]">
+          <span className="truncate text-[18px] font-medium leading-[1.2]">
             {token.name}
           </span>
           {token.verified && (
@@ -203,7 +203,7 @@ function TokenRow({ token, onClick }: { token: Token; onClick: () => void }) {
       </div>
 
       <div className="shrink-0 text-right">
-        <div className="tnum text-[18px] font-semibold leading-[1.2]">
+        <div className="tnum text-[18px] font-medium leading-[1.2]">
           {usd(value)}
         </div>
         <div

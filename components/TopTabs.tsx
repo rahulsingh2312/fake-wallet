@@ -36,7 +36,7 @@ export function TopTabs({
           <button
             key={t}
             onClick={() => onChange(t)}
-            className={`h-[41px] shrink-0 rounded-full px-[15px] text-[16px] font-semibold transition-colors active:opacity-70 ${
+            className={`h-[41px] shrink-0 rounded-full px-[15px] text-[16px] font-medium transition-colors active:opacity-70 ${
               on ? "bg-ph-purple text-black" : "bg-[#191919] text-[#8e9296]"
             }`}
           >

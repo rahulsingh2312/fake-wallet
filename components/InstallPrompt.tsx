@@ -111,7 +111,7 @@ export function InstallPrompt() {
           draggable={false}
         />
         <div className="min-w-0 flex-1 leading-tight">
-          <div className="truncate text-[15px] font-semibold">
+          <div className="truncate text-[15px] font-medium">
             Add to Home Screen
           </div>
           <div className="truncate text-[13px] text-ph-mute">
@@ -148,15 +148,15 @@ export function InstallPrompt() {
             {platform === "ios" ? (
               <>
                 <Step n={1} icon={<ShareIcon className="h-[20px] w-[20px]" />}>
-                  Tap the <strong className="font-semibold">Share</strong> button
+                  Tap the <strong className="font-medium">Share</strong> button
                   in Safari&apos;s bottom bar
                 </Step>
                 <Step n={2} icon={<PlusIcon className="h-[20px] w-[20px]" />}>
                   Scroll down and pick{" "}
-                  <strong className="font-semibold">Add to Home Screen</strong>
+                  <strong className="font-medium">Add to Home Screen</strong>
                 </Step>
                 <Step n={3}>
-                  Tap <strong className="font-semibold">Add</strong> — it opens
+                  Tap <strong className="font-medium">Add</strong> — it opens
                   fullscreen, with no browser bars
                 </Step>
               </>
@@ -170,10 +170,10 @@ export function InstallPrompt() {
                 </Step>
                 <Step n={2} icon={<PlusIcon className="h-[20px] w-[20px]" />}>
                   Choose{" "}
-                  <strong className="font-semibold">
+                  <strong className="font-medium">
                     Add to Home screen
                   </strong>{" "}
-                  or <strong className="font-semibold">Install app</strong>
+                  or <strong className="font-medium">Install app</strong>
                 </Step>
                 <Step n={3}>Confirm, and it installs as its own app</Step>
               </>
@@ -189,7 +189,7 @@ export function InstallPrompt() {
 
           <button
             onClick={() => setHelp(false)}
-            className="mt-[22px] w-full rounded-full bg-ph-purple py-[14px] text-[18px] font-semibold text-black active:opacity-80"
+            className="mt-[22px] w-full rounded-full bg-ph-purple py-[14px] text-[18px] font-medium text-black active:opacity-80"
           >
             Got it
           </button>

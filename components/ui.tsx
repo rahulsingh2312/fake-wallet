@@ -133,7 +133,7 @@ export function TokenLogo({
         />
       ) : (
         <div
-          className="grid h-full w-full place-items-center rounded-full bg-ph-card-2 font-semibold text-ph-mute"
+          className="grid h-full w-full place-items-center rounded-full bg-ph-card-2 font-medium text-ph-mute"
           style={{ fontSize: size * 0.4 }}
         >
           {name.slice(0, 1).toUpperCase()}

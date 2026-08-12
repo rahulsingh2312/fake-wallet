@@ -119,7 +119,7 @@ export function AdminScreen({
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-2 text-[14px] font-semibold capitalize ${
+            className={`rounded-full px-4 py-2 text-[14px] font-medium capitalize ${
               tab === t ? "bg-ph-purple text-black" : "bg-[#1b1b1e] text-ph-mute"
             }`}
           >
@@ -133,7 +133,7 @@ export function AdminScreen({
           <>
             <button
               onClick={() => setEditing(blankToken())}
-              className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-semibold text-ph-purple active:opacity-70"
+              className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-medium text-ph-purple active:opacity-70"
             >
               <PlusIcon className="h-5 w-5" /> Add token
             </button>
@@ -152,7 +152,7 @@ export function AdminScreen({
                     symbol={t.symbol}
                   />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-[15px] font-semibold">
+                    <div className="truncate text-[15px] font-medium">
                       {t.name || "Untitled"}{" "}
                       <span className="text-ph-mute-2">{t.symbol}</span>
                     </div>
@@ -166,7 +166,7 @@ export function AdminScreen({
                   </div>
                   <button
                     onClick={() => setEditing(t)}
-                    className="rounded-xl bg-[#1f1f22] px-3 py-2 text-[13px] font-semibold active:opacity-70"
+                    className="rounded-xl bg-[#1f1f22] px-3 py-2 text-[13px] font-medium active:opacity-70"
                   >
                     Edit
                   </button>
@@ -359,7 +359,7 @@ function TokenEditor({
       <div className="flex shrink-0 items-center gap-3 border-b border-[#1f1f24] px-4 pb-3 pt-[calc(env(safe-area-inset-top,0px)+16px)]">
         <button
           onClick={onCancel}
-          className="text-[15px] font-semibold text-ph-mute active:opacity-70"
+          className="text-[15px] font-medium text-ph-mute active:opacity-70"
         >
           Cancel
         </button>
@@ -401,7 +401,7 @@ function TokenEditor({
               >
                 <TokenLogo src={r.icon ?? ""} name={r.name} size={32} />
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-[14px] font-semibold">
+                  <div className="truncate text-[14px] font-medium">
                     {r.name}{" "}
                     <span className="text-ph-mute-2">{r.symbol}</span>
                   </div>
@@ -423,7 +423,7 @@ function TokenEditor({
             symbol={t.symbol}
           />
           <div className="min-w-0">
-            <div className="truncate text-[15px] font-semibold">
+            <div className="truncate text-[15px] font-medium">
               {t.name || "Untitled"}
             </div>
             <div className="tnum text-[13px] text-ph-mute-2">
@@ -529,7 +529,7 @@ function TokenEditor({
               <button
                 key={c}
                 onClick={() => set("chain", c)}
-                className={`rounded-full px-3.5 py-2 text-[13px] font-semibold capitalize ${
+                className={`rounded-full px-3.5 py-2 text-[13px] font-medium capitalize ${
                   t.chain === c
                     ? "bg-ph-purple text-black"
                     : "bg-[#1b1b1e] text-ph-mute"
@@ -588,7 +588,7 @@ function PerpsTab({
     <>
       <button
         onClick={add}
-        className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-semibold text-ph-purple active:opacity-70"
+        className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-medium text-ph-purple active:opacity-70"
       >
         <PlusIcon className="h-5 w-5" /> Add position
       </button>
@@ -602,7 +602,7 @@ function PerpsTab({
                 value={p.symbol}
                 onChange={(e) => patch(p.id, { symbol: e.target.value })}
                 placeholder="SOL"
-                className="w-20 rounded-xl bg-[#1f1f22] px-3 py-2.5 text-[15px] font-semibold outline-none"
+                className="w-20 rounded-xl bg-[#1f1f22] px-3 py-2.5 text-[15px] font-medium outline-none"
               />
               <input
                 value={p.name}
@@ -631,7 +631,7 @@ function PerpsTab({
                 onClick={() =>
                   patch(p.id, { side: p.side === "long" ? "short" : "long" })
                 }
-                className={`rounded-xl px-3.5 py-2.5 text-[14px] font-semibold ${
+                className={`rounded-xl px-3.5 py-2.5 text-[14px] font-medium ${
                   p.side === "long"
                     ? "bg-[#12301f] text-ph-green"
                     : "bg-[#2a1416] text-ph-red"
@@ -739,7 +739,7 @@ function AccountsTab({
     <>
       <button
         onClick={addAccount}
-        className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-semibold text-ph-purple active:opacity-70"
+        className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-medium text-ph-purple active:opacity-70"
       >
         <PlusIcon className="h-5 w-5" /> Add account
       </button>
@@ -757,7 +757,7 @@ function AccountsTab({
               <input
                 value={a.name}
                 onChange={(e) => patch(a.id, { name: e.target.value })}
-                className="min-w-0 flex-1 rounded-xl bg-[#1f1f22] px-3 py-2.5 text-[15px] font-semibold outline-none"
+                className="min-w-0 flex-1 rounded-xl bg-[#1f1f22] px-3 py-2.5 text-[15px] font-medium outline-none"
               />
               <button
                 onClick={() => remove(a.id)}
@@ -773,7 +773,7 @@ function AccountsTab({
               </span>
               <button
                 onClick={() => setActiveAccount(a.id)}
-                className={`rounded-full px-3 py-1.5 text-[13px] font-semibold ${
+                className={`rounded-full px-3 py-1.5 text-[13px] font-medium ${
                   state.activeAccountId === a.id
                     ? "bg-ph-purple text-black"
                     : "bg-[#1f1f22] text-ph-mute"
@@ -837,7 +837,7 @@ function ProfileTab({
       <div className="mt-3 grid grid-cols-2 gap-2">
         <button
           onClick={() => setIo(JSON.stringify(state, null, 2))}
-          className="rounded-xl bg-[#1f1f22] py-3 text-[14px] font-semibold active:opacity-70"
+          className="rounded-xl bg-[#1f1f22] py-3 text-[14px] font-medium active:opacity-70"
         >
           Export
         </button>
@@ -850,7 +850,7 @@ function ProfileTab({
               alert("That isn't valid JSON.");
             }
           }}
-          className="rounded-xl bg-ph-purple py-3 text-[14px] font-semibold text-black active:opacity-80"
+          className="rounded-xl bg-ph-purple py-3 text-[14px] font-medium text-black active:opacity-80"
         >
           Import
         </button>
@@ -860,7 +860,7 @@ function ProfileTab({
         onClick={() => {
           if (confirm("Reset everything back to the demo data?")) onReset();
         }}
-        className="mt-6 w-full rounded-xl bg-[#2a1416] py-3 text-[14px] font-semibold text-ph-red active:opacity-70"
+        className="mt-6 w-full rounded-xl bg-[#2a1416] py-3 text-[14px] font-medium text-ph-red active:opacity-70"
       >
         Reset to demo data
       </button>

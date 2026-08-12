@@ -78,7 +78,7 @@ export function TokenDetail({
 
         <button
           onClick={() => setFollowing((f) => !f)}
-          className={`h-[41px] shrink-0 rounded-full px-[15px] text-[16px] font-semibold active:opacity-70 ${
+          className={`h-[41px] shrink-0 rounded-full px-[15px] text-[16px] font-medium active:opacity-70 ${
             following ? "bg-ph-purple text-black" : "bg-[#191919] text-white"
           }`}
         >
@@ -99,14 +99,14 @@ export function TokenDetail({
         </div>
         <div className="mt-[4px] flex items-center gap-[7px]">
           <span
-            className={`tnum text-[19px] font-semibold leading-[1.2] ${
+            className={`tnum text-[19px] font-medium leading-[1.2] ${
               down ? "text-ph-red" : "text-ph-green"
             }`}
           >
             {usdDeltaPrecise(priceDelta)}
           </span>
           <span
-            className={`tnum rounded-[6px] px-[5px] py-[1px] text-[19px] font-semibold leading-[1.15] text-white ${
+            className={`tnum rounded-[6px] px-[5px] py-[1px] text-[19px] font-medium leading-[1.15] text-white ${
               down ? "bg-ph-red-badge" : "bg-[#17a761]"
             }`}
           >
@@ -128,7 +128,7 @@ export function TokenDetail({
             <button
               key={r}
               onClick={() => setRange(r)}
-              className={`rounded-[10px] px-[11px] py-[6px] text-[16px] font-semibold transition-colors ${
+              className={`rounded-[10px] px-[11px] py-[6px] text-[16px] font-medium transition-colors ${
                 r === range
                   ? "bg-[#191919] text-ph-purple"
                   : "text-[#8e9296] active:opacity-60"
@@ -146,7 +146,7 @@ export function TokenDetail({
         </div>
 
         {/* -------------------------------- chat ------------------------------ */}
-        <div className="mt-[22px] flex h-[62px] items-center gap-[11px] rounded-[16px] bg-ph-card px-[16px]">
+        <div className="mt-[22px] flex h-[72px] items-center gap-[11px] rounded-[16px] bg-ph-card px-[16px]">
           <div className="flex -space-x-3">
             {["#6ee7b7", "#c4b5fd", "#fb923c"].map((c, i) => (
               <span
@@ -161,7 +161,7 @@ export function TokenDetail({
           <span className="text-[17px] font-medium text-white">
             {3 + (people % 5)} chatting...
           </span>
-          <button className="ml-auto shrink-0 rounded-full bg-[#232323] px-[15px] py-[9px] text-[16px] font-semibold active:opacity-70">
+          <button className="ml-auto shrink-0 rounded-full bg-[#232323] px-[15px] py-[9px] text-[16px] font-medium active:opacity-70">
             Join Chat
           </button>
         </div>
@@ -229,10 +229,10 @@ export function TokenDetail({
           </svg>
 
           <div className="mt-4 grid grid-cols-2 gap-[13px]">
-            <button className="rounded-full bg-[#232323] py-[13px] text-[16px] font-semibold active:opacity-70">
+            <button className="rounded-full bg-[#232323] py-[13px] text-[16px] font-medium active:opacity-70">
               Learn More
             </button>
-            <button className="rounded-full bg-[#3ee98a] py-[13px] text-[16px] font-semibold text-black active:opacity-80">
+            <button className="rounded-full bg-[#3ee98a] py-[13px] text-[16px] font-medium text-black active:opacity-80">
               Start Earning
             </button>
           </div>
@@ -242,10 +242,10 @@ export function TokenDetail({
       {/* ------------------------------ buy / sell --------------------------- */}
       <div className="safe-b pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/95 to-transparent pb-[14px] pt-8">
         <div className="pointer-events-auto grid grid-cols-2 gap-[13px] px-4">
-          <button className="rounded-full bg-ph-purple py-[14px] text-[18px] font-semibold text-black active:opacity-80">
+          <button className="rounded-full bg-ph-purple py-[14px] text-[18px] font-medium text-black active:opacity-80">
             Buy
           </button>
-          <button className="rounded-full bg-ph-purple py-[14px] text-[18px] font-semibold text-black active:opacity-80">
+          <button className="rounded-full bg-ph-purple py-[14px] text-[18px] font-medium text-black active:opacity-80">
             Sell
           </button>
         </div>
@@ -281,7 +281,7 @@ function Stat({
   return (
     <div className="rounded-[16px] bg-ph-card px-[16px] py-[13px]">
       <div className="text-[16px] text-ph-mute">{label}</div>
-      <div className={`tnum mt-[3px] text-[19px] font-semibold ${color}`}>
+      <div className={`tnum mt-[3px] text-[19px] font-medium ${color}`}>
         {value}
       </div>
     </div>
