@@ -53,7 +53,7 @@ export function LandingLeft() {
       </span>
 
       <h1 className="reveal reveal-2 mt-[26px] font-display text-[78px] font-bold leading-[0.86] tracking-[-0.048em] text-white">
-        fake
+        larp
         <br />
         wallet<span className="text-ph-purple">.</span>
       </h1>
@@ -168,7 +168,7 @@ export function LandingTopBar() {
   return (
     <header className="pointer-events-none absolute inset-x-0 top-0 z-20 hidden items-center justify-between px-[38px] py-[26px] lg:flex">
       <span className="pointer-events-auto font-display text-[17px] font-bold tracking-[-0.03em] text-white">
-        fakewallet<span className="text-ph-purple">.</span>
+        larpwallet<span className="text-ph-purple">.</span>
       </span>
       <nav className="pointer-events-auto flex items-center gap-[22px] text-[14px] text-white/45">
         <a
