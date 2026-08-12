@@ -14,6 +14,7 @@ import type {
 } from "@/lib/types";
 import { CloseIcon, PlusIcon, TrashIcon } from "./icons";
 import { SavedToast } from "./Toast";
+import { ADD_TOKEN_EVENT, SAVED_EVENT } from "./Tour";
 import { TokenLogo } from "./ui";
 
 const CHAINS: ChainBadge[] = [
@@ -138,7 +139,10 @@ export function AdminScreen({
           <>
             <button
               data-tour="add-token"
-              onClick={() => setEditing(blankToken())}
+              onClick={() => {
+                setEditing(blankToken());
+                window.dispatchEvent(new Event(ADD_TOKEN_EVENT));
+              }}
               className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3a3a42] py-4 text-[15px] font-medium text-ph-purple active:opacity-70"
             >
               <PlusIcon className="h-5 w-5" /> Add token
@@ -377,7 +381,11 @@ function TokenEditor({
           {token.name ? "Edit token" : "New token"}
         </div>
         <button
-          onClick={() => onSave(t)}
+          data-tour="save"
+          onClick={() => {
+            onSave(t);
+            window.dispatchEvent(new Event(SAVED_EVENT));
+          }}
           className="rounded-full bg-ph-purple px-4 py-2 text-[14px] font-bold text-black active:opacity-80"
         >
           Save
