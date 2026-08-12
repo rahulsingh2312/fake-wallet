@@ -192,6 +192,8 @@ export function Sheet({
   const panel = useRef<HTMLDivElement | null>(null);
   const [dragY, setDragY] = useState(0);
   const [dragging, setDragging] = useState(false);
+  // The entrance keyframe must play exactly once, never again on spring-back.
+  const [entering, setEntering] = useState(true);
 
   const startY = useRef<number | null>(null);
   const startedAt = useRef(0);
@@ -215,7 +217,11 @@ export function Sheet({
       setDragging(false);
       dragRef.current = 0;
       startY.current = null;
+      setEntering(true);
+      return;
     }
+    const id = window.setTimeout(() => setEntering(false), 360);
+    return () => window.clearTimeout(id);
   }, [open]);
 
   /* ------------------------------ drag to close ----------------------------- */
@@ -303,7 +309,7 @@ export function Sheet({
       <div
         ref={panel}
         className={`${
-          dragY ? "" : "anim-sheet"
+          entering ? "anim-sheet" : ""
         } absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-t-[28px] bg-ph-bg ${
           full
             ? "top-[calc(env(safe-area-inset-top,0px)+var(--status-h,0px)+12px)]"

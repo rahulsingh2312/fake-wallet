@@ -61,7 +61,9 @@ export function PullToRefresh({
     // element does. Pull only when whichever one it is sits at the top.
     const scrollTop = () => {
       const el = hostRef.current?.closest<HTMLElement>(".ptr-scroll");
-      return el ? el.scrollTop : window.scrollY;
+      // Only trust it when it genuinely scrolls, otherwise the document does.
+      if (el && el.scrollHeight > el.clientHeight + 1) return el.scrollTop;
+      return window.scrollY;
     };
     const canPull = () =>
       scrollTop() <= 0 &&
