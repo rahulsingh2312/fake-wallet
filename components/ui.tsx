@@ -269,11 +269,20 @@ export function Sparkline({
   const up = changePct >= 0;
   const color = up ? "#21de7f" : "#ff3b46";
 
+  // Phantom's line holds flat for long stretches, then jumps. A plain random
+  // walk reads as a comb, so most ticks hold and a few move hard.
   const rand = mulberry(hash(seed + points));
   const raw: number[] = [];
   let v = 0;
   for (let i = 0; i < points; i++) {
-    v += (rand() - 0.5) * 2;
+    const r = rand();
+    if (r < 0.34) {
+      /* hold */
+    } else if (r > 0.93) {
+      v += (rand() - 0.5) * 6.5;
+    } else {
+      v += (rand() - 0.5) * 1.5;
+    }
     raw.push(v);
   }
   // Detrend, then re-apply the true drift so the endpoints tell the truth.

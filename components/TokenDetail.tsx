@@ -118,7 +118,7 @@ export function TokenDetail({
         <Sparkline
           seed={token.id + range}
           changePct={changePct}
-          points={range === "1H" ? 34 : range === "1D" ? 64 : 90}
+          points={range === "1H" ? 20 : range === "1D" ? 30 : 42}
           rightInset={33}
           className="-mx-[21px] mt-[18px] h-[190px] w-[calc(100%+42px)]"
         />
