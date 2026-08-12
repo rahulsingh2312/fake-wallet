@@ -55,11 +55,11 @@ function plainAccount(
 export const SEED: WalletState = {
   username: "@anon",
   avatar: "/avatar.png",
-  activeAccountId: "main",
+  activeAccountId: "fakewallet",
   accounts: [
     {
-      id: "main",
-      name: "main",
+      id: "fakewallet",
+      name: "fakewallet",
       emoji: "😎",
       cash: 0,
       perps: [],

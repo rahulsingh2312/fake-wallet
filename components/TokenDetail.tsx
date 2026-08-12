@@ -94,7 +94,7 @@ export function TokenDetail({
 
       {/* ------------------------------- scroller ---------------------------- */}
       <div className="no-scrollbar flex-1 overflow-y-auto px-[21px] pb-[110px]">
-        <div className="tnum mt-[10px] text-[45px] font-bold leading-[1.08] tracking-[-0.025em]">
+        <div className="tnum mt-[10px] text-[50.8px] font-bold leading-[1.08]">
           {usdPrice(price)}
         </div>
         <div className="mt-[4px] flex items-center gap-[7px]">
@@ -168,7 +168,7 @@ export function TokenDetail({
 
         {/* ------------------------------ position ---------------------------- */}
         <div className="mb-[14px] mt-[32px] flex items-center gap-[5px]">
-          <h3 className="text-[24px] font-bold leading-[1.2] tracking-[-0.015em]">Position</h3>
+          <h3 className="text-[23.19px] font-bold leading-[1.2]">Position</h3>
           <svg viewBox="0 0 24 24" fill="none" className="mt-[2px] h-[17px] w-[17px]">
             <path
               d="M9 5l7 7-7 7"

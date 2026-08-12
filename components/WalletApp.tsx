@@ -79,7 +79,7 @@ export function WalletApp() {
             className="flex h-[46px] flex-1 items-center gap-[10px] rounded-full bg-[#1e1e1e]/95 px-[18px] backdrop-blur"
           >
             <SearchIcon className="h-[19px] w-[19px] text-[#8e9296]" />
-            <span className="text-[17px] text-[#8e9296]">Search Phantom</span>
+            <span className="text-[16.8px] text-[#8e9296]">Search Phantom</span>
           </div>
           <button
             aria-label="New"

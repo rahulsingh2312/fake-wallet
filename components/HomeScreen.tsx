@@ -55,7 +55,7 @@ export function HomeScreen({
       {/* ------------------------------ balance ------------------------------ */}
       <button
         onClick={onAccounts}
-        className="mt-[21px] flex items-center gap-1 text-[18px] font-medium leading-[1.2] text-ph-mute active:opacity-60"
+        className="mt-[21px] flex items-center gap-1 text-[17px] font-medium leading-[1.2] text-ph-mute active:opacity-60"
       >
         {account.name}
         <ChevronDown className="h-[17px] w-[17px]" />
@@ -63,21 +63,21 @@ export function HomeScreen({
 
       <div
         onClick={onBalanceTap}
-        className="tnum mt-[3px] cursor-default text-[45px] font-bold leading-[1.08] tracking-[-0.025em]"
+        className="tnum mt-[3px] cursor-default text-[50.8px] font-bold leading-[1.08]"
       >
         {usd(total, { dust: false })}
       </div>
 
       <div className="mt-[8px] flex items-center gap-[7px]">
         <span
-          className={`tnum text-[19px] font-medium leading-[1.2] ${
+          className={`tnum text-[17.5px] font-medium leading-[1.2] ${
             down ? "text-ph-red" : "text-ph-green"
           }`}
         >
           {usdDelta(change)}
         </span>
         <span
-          className={`tnum rounded-[6px] px-[5px] py-[1px] text-[19px] font-medium leading-[1.15] text-white ${
+          className={`tnum rounded-[6px] px-[5px] py-[1px] text-[17.5px] font-medium leading-[1.15] text-white ${
             down ? "bg-ph-red-badge" : "bg-[#17a761]"
           }`}
         >
@@ -87,10 +87,10 @@ export function HomeScreen({
       </div>
 
       {/* -------------------------------- cash ------------------------------- */}
-      <div className="mt-[32px] flex h-[72px] items-center gap-[16px] rounded-[16px] bg-ph-card px-[20px]">
+      <div className="mt-[32px] flex h-[70.2px] items-center gap-[16px] rounded-[16px] bg-ph-card px-[20px]">
         <CashIcon className="h-[18px] w-[30px]" />
-        <span className="text-[18px] font-medium">Cash</span>
-        <span className="tnum ml-auto text-[18px] font-medium">
+        <span className="text-[17px] font-medium">Cash</span>
+        <span className="tnum ml-auto text-[17px] font-medium">
           {usd(account.cash, { dust: false })}
         </span>
       </div>
@@ -98,7 +98,7 @@ export function HomeScreen({
       {/* ------------------------------- tokens ------------------------------ */}
       <SectionHeading label="Tokens" />
 
-      <div className="flex flex-col gap-[9px]">
+      <div className="flex flex-col gap-[8.3px]">
         {tokens.length === 0 && <EmptyRow label="No tokens yet" />}
         {tokens.map((t) => (
           <TokenRow key={t.id} token={t} onClick={() => onToken(t)} />
@@ -153,7 +153,7 @@ export function HomeScreen({
 function SectionHeading({ label }: { label: string }) {
   return (
     <div className="mb-[19px] mt-[32px] flex items-center gap-[5px]">
-      <h2 className="text-[24px] font-bold leading-[1.2] tracking-[-0.015em]">
+      <h2 className="text-[23.19px] font-bold leading-[1.2]">
         {label}
       </h2>
       <ChevronRight className="mt-[2px] h-[17px] w-[17px] text-white" />
@@ -163,7 +163,7 @@ function SectionHeading({ label }: { label: string }) {
 
 function EmptyRow({ label }: { label: string }) {
   return (
-    <div className="flex h-[69px] items-center rounded-[16px] bg-ph-card px-[20px] text-[16px] text-ph-mute-2">
+    <div className="flex h-[67.8px] items-center rounded-[16px] bg-ph-card px-[20px] text-[16px] text-ph-mute-2">
       {label}
     </div>
   );
@@ -178,7 +178,7 @@ function TokenRow({ token, onClick }: { token: Token; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex h-[69px] w-full items-center gap-[14px] rounded-[16px] bg-ph-card px-[20px] text-left transition-opacity active:opacity-70"
+      className="flex h-[67.8px] w-full items-center gap-[14px] rounded-[16px] bg-ph-card px-[20px] text-left transition-opacity active:opacity-70"
     >
       <TokenLogo
         src={token.image}
@@ -190,24 +190,24 @@ function TokenRow({ token, onClick }: { token: Token; onClick: () => void }) {
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-[5px]">
-          <span className="truncate text-[18px] font-medium leading-[1.2]">
+          <span className="truncate text-[17px] font-medium leading-[1.2]">
             {token.name}
           </span>
           {token.verified && (
             <VerifiedBadge className="h-[14px] w-[14px] shrink-0" />
           )}
         </div>
-        <div className="tnum truncate text-[17px] leading-[1.25] text-ph-mute">
+        <div className="tnum truncate text-[16.7px] leading-[1.25] text-ph-mute">
           {qty(token.quantity, token.symbol)}
         </div>
       </div>
 
       <div className="shrink-0 text-right">
-        <div className="tnum text-[18px] font-medium leading-[1.2]">
+        <div className="tnum text-[17px] font-medium leading-[1.2]">
           {usd(value)}
         </div>
         <div
-          className={`tnum text-[17px] font-medium leading-[1.25] ${
+          className={`tnum text-[16.7px] font-medium leading-[1.25] ${
             down ? "text-ph-red" : "text-ph-green"
           }`}
         >
