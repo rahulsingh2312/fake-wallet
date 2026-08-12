@@ -59,6 +59,7 @@ export function AdminScreen({
     refreshPrices,
   } = useWallet();
   const [editing, setEditing] = useState<Token | null>(null);
+  // "perps" is parked for now, see the commented tab + panel below
   const [tab, setTab] = useState<
     "tokens" | "perps" | "accounts" | "profile"
   >("tokens");
@@ -118,7 +119,8 @@ export function AdminScreen({
 
       {/* tabs */}
       <div className="flex shrink-0 gap-2 px-4 py-3">
-        {(["tokens", "perps", "accounts", "profile"] as const).map((t) => (
+        {/* "perps" temporarily removed from this list */}
+        {(["tokens", "accounts", "profile"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -215,12 +217,14 @@ export function AdminScreen({
           </>
         )}
 
+        {/* Parked: the Perps editor still works, just not surfaced.
         {tab === "perps" && (
           <PerpsTab
             perps={account.perps}
             onChange={(perps) => patchAccount(account.id, { perps })}
           />
         )}
+        */}
 
         {tab === "accounts" && (
           <AccountsTab
