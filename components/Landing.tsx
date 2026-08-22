@@ -67,11 +67,11 @@ export function LandingLeft() {
       <h1 className="reveal reveal-2 mt-[26px] font-display text-[78px] font-bold leading-[0.86] tracking-[-0.048em] text-fw-ink">
         fake
         <br />
-        wallet<span className="text-fw-violet">.</span>
+        wallet<span className="fw-grad-text">.</span>
       </h1>
 
       <p className="reveal reveal-3 mt-[26px] font-display text-[27px] leading-[1.22] tracking-[-0.022em] text-fw-ink">
-        your portfolio, <em className="not-italic text-fw-violet">exactly</em>{" "}
+        your portfolio, <em className="fw-grad-text not-italic">exactly</em>{" "}
         <em className="italic">as big as you say it is.</em>
       </p>
 
@@ -84,10 +84,10 @@ export function LandingLeft() {
       <div className="reveal reveal-5 mt-[32px] flex flex-wrap items-center gap-[10px]">
         <button
           onClick={copy}
-          className="group inline-flex items-center gap-[10px] rounded-full bg-fw-violet px-[19px] py-[12px] text-[15px] font-medium text-white shadow-[0_10px_30px_-8px_rgba(124,58,237,0.55)] transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
+          className="fw-btn-grad group inline-flex items-center gap-[10px] rounded-full px-[19px] py-[12px] text-[15px] font-medium transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
         >
           <span className="font-mono">{copied ? "copied, go" : URL}</span>
-          <span className="text-white/60">{copied ? "✓" : "copy"}</span>
+          <span className="text-[#16161c]/45">{copied ? "✓" : "copy"}</span>
         </button>
         <a
           href={REPO}
@@ -193,7 +193,7 @@ export function LandingTopBar() {
     <header className="pointer-events-none absolute inset-x-0 top-0 z-20 hidden items-center justify-between px-[38px] py-[26px] lg:flex">
       <span className="pointer-events-auto flex items-center gap-[9px] font-display text-[17px] font-bold tracking-[-0.03em] text-fw-ink">
         <CatMark size={26} />
-        fakewallet<span className="-ml-[7px] text-fw-violet">.</span>
+        fakewallet<span className="fw-grad-text -ml-[7px]">.</span>
       </span>
       <nav className="pointer-events-auto flex items-center gap-[22px] text-[14px] text-fw-mute">
         <a

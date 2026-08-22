@@ -19,9 +19,13 @@
   --color-fw-ink-2: #423a52;
   --color-fw-mute: #6b6478;
   --color-fw-line: #e7e2f5;
-  --color-fw-violet: #7c3aed;
-  --color-fw-violet-2: #8b5cf6;
-  --color-fw-teal: #0d9488;
+  /* Solana OG stops. Branding only — the wallet keeps Phantom's purple. */
+  --color-fw-grad-a: #00ffa3;
+  --color-fw-grad-b: #dc1fff;
+  /* darkened twins, for gradient text and icons that sit on white */
+  --color-fw-violet: #a812c4;
+  --color-fw-violet-2: #dc1fff;
+  --color-fw-teal: #00b374;
   --color-ph-red: #ff4d4d;
   --color-ph-red-badge: #ea3336;
 
@@ -50,10 +54,15 @@ body {
   :root {
     color-scheme: light;
   }
+  /*
+   * Background only. Never set `color` here: this rule is unlayered, so it
+   * beats every Tailwind utility, and the wallet has text that relies on
+   * inheriting white (the balance in HomeScreen carries no colour class).
+   * Landing text sets its own colour, element by element.
+   */
   html,
   body {
     background: #ffffff;
-    color: #141019;
   }
 }
 
@@ -213,4 +222,59 @@ body {
 }
 .anim-drawer {
   animation: ph-drawer-in 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ── brand gradient ───────────────────────────────────────────────────────
+ * Lifted from the "Run it up" button in autopilot-solana. Landing only:
+ * none of these classes are used inside the wallet, which stays on
+ * Phantom's palette so the screenshots keep matching the real app.
+ */
+@keyframes fw-flow {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Primary button. The exact pastel stops, so it matches sol.copycat.my. */
+.fw-btn-grad {
+  color: #16161c;
+  background-image: linear-gradient(
+    100deg,
+    #b6f2d8 0%,
+    #cfe6fb 17%,
+    #ded0fa 34%,
+    #f8cfe9 50%,
+    #ded0fa 66%,
+    #cfe6fb 83%,
+    #b6f2d8 100%
+  );
+  background-size: 200% auto;
+  animation: fw-flow 9s linear infinite;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.65),
+    0 1px 2px rgb(10 10 10 / 0.05),
+    0 12px 28px -16px rgb(150 110 230 / 0.55);
+}
+.fw-btn-grad:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.65),
+    0 1px 2px rgb(10 10 10 / 0.05),
+    0 16px 34px -14px rgb(150 110 230 / 0.7);
+}
+
+/* Gradient numerals and emphasis. Darkened stops stay legible on paper. */
+.fw-grad-text {
+  background-image: linear-gradient(93deg, #00b374, #a812c4, #00b374);
+  background-size: 200% auto;
+  animation: fw-flow 5s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fw-btn-grad,
+  .fw-grad-text {
+    animation: none !important;
+  }
 }

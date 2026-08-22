@@ -33,7 +33,7 @@ export default function BrandPage() {
           <div className="mark-art"><img src="/brand/cat-mark.svg" alt="Pixelcat" /></div>
           <div>
             <h3>Pixelcat<span className="badge">picked</span></h3>
-            <p>A cat whose right side decays into pixels. The animal makes it memorable at avatar size; the decay keeps the point — the balance is not real.</p>
+            <p>A cat whose right side decays into pixels, running the Solana gradient green to magenta. The animal makes it memorable at avatar size; the decay keeps the point — the balance is not real.</p>
             <p className="note">Shipped: it is the favicon, the app icon, the avatar and the mark in the top bar.</p>
             <div className="scale"><span className="slabel">at real size</span>
               <img src="/brand/cat-mark.svg" width={48} height={48} alt="" />
@@ -110,16 +110,18 @@ export default function BrandPage() {
 
         <section>
           <h2><span className="num">04</span>Palette</h2>
-          <p className="sub">Violet keeps this in the wallet-app world the clone lives in, shifted off
-          Phantom&rsquo;s exact #AB9FF2. Mint is the only accent — use it sparingly or it stops meaning anything.</p>
+          <p className="sub">The gradient is the Solana OG pair, taken from the &ldquo;Run it up&rdquo; button on
+          sol.copycat.my. It runs green to magenta on fills, and switches to the darkened twins for anything
+          that has to stay readable as text on paper. It never appears inside the wallet — that screen keeps
+          Phantom&rsquo;s purple, because the screenshots have to match the real app.</p>
           <hr className="rule" />
         <div className="sw"><div className="chip" style={{background:"#FFFFFF"}} /><div><b>paper</b><span className="dm">#FFFFFF</span><span className="mu">landing ground</span></div></div>
         <div className="sw"><div className="chip" style={{background:"#141019"}} /><div><b>ink</b><span className="dm">#141019</span><span className="mu">headings and body</span></div></div>
         <div className="sw"><div className="chip" style={{background:"#6B6478"}} /><div><b>mute</b><span className="dm">#6B6478</span><span className="mu">secondary type</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#C4B5FD"}} /><div><b>violet 200</b><span className="dm">#C4B5FD</span><span className="mu">gradient top, emphasis type</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#8B5CF6"}} /><div><b>violet 500</b><span className="dm">#8B5CF6</span><span className="mu">core brand, pixel shards</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#6D28D9"}} /><div><b>violet 700</b><span className="dm">#6D28D9</span><span className="mu">gradient bottom</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#0D9488"}} /><div><b>teal 600</b><span className="dm">#0D9488</span><span className="mu">the single accent — links, ticks, domain</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#00FFA3"}} /><div><b>grad a</b><span className="dm">#00FFA3</span><span className="mu">Solana green — gradient start</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#DC1FFF"}} /><div><b>grad b</b><span className="dm">#DC1FFF</span><span className="mu">Solana magenta — gradient end</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#00B374"}} /><div><b>grad a ink</b><span className="dm">#00B374</span><span className="mu">darkened green, for text on paper</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#A812C4"}} /><div><b>grad b ink</b><span className="dm">#A812C4</span><span className="mu">darkened magenta, for text on paper</span></div></div>
         <div className="sw"><div className="chip" style={{background:"#000000"}} /><div><b>black</b><span className="dm">#000000</span><span className="mu">the wallet screen only, never the landing</span></div></div>
         </section>
 
