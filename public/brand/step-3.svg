@@ -1,31 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><defs>
 <linearGradient id="face" x1="0.2" y1="0" x2="0.8" y2="1">
-  <stop offset="0" stop-color="#7CFFCE"/><stop offset="1" stop-color="#DC1FFF"/></linearGradient>
+  <stop offset="0" stop-color="#b6f2d8"/><stop offset="1" stop-color="#cfe6fb"/></linearGradient>
 <linearGradient id="side" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#C016E0"/><stop offset="1" stop-color="#5B0A6B"/></linearGradient>
+  <stop offset="0" stop-color="#9db6d8"/><stop offset="1" stop-color="#2A2038"/></linearGradient>
 <linearGradient id="top" x1="0.1" y1="0" x2="0.9" y2="1">
-  <stop offset="0" stop-color="#EAFBF3"/><stop offset="1" stop-color="#C9A8FF"/></linearGradient>
+  <stop offset="0" stop-color="#eafaf3"/><stop offset="1" stop-color="#ded0fa"/></linearGradient>
 <linearGradient id="screen" x1="0.2" y1="0" x2="0.8" y2="1">
-  <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAFBF3"/></linearGradient>
+  <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#eafaf3"/></linearGradient>
 <linearGradient id="sheen" x1="0" y1="0" x2="0.3" y2="1">
   <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
   <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.06"/>
   <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
 <linearGradient id="mint" x1="0" y1="0" x2="0.6" y2="1">
-  <stop offset="0" stop-color="#00FFA3"/><stop offset="1" stop-color="#00B374"/></linearGradient>
+  <stop offset="0" stop-color="#b6f2d8"/><stop offset="1" stop-color="#86d8b6"/></linearGradient>
+<radialGradient id="tile" cx="0.5" cy="0.38" r="0.72">
+  <stop offset="0" stop-color="#ded0fa" stop-opacity="0.14"/>
+  <stop offset="1" stop-color="#ded0fa" stop-opacity="0"/></radialGradient>
 <radialGradient id="ground" cx="0.5" cy="0.5" r="0.5">
-  <stop offset="0" stop-color="#A812C4" stop-opacity="0.30"/>
-  <stop offset="1" stop-color="#A812C4" stop-opacity="0"/></radialGradient>
+  <stop offset="0" stop-color="#000000" stop-opacity="0.38"/>
+  <stop offset="1" stop-color="#000000" stop-opacity="0"/></radialGradient>
 <filter id="drop" x="-45%" y="-45%" width="190%" height="200%">
-  <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#5B0A6B" flood-opacity="0.28"/></filter>
+  <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#000000" flood-opacity="0.45"/></filter>
 <filter id="dropS" x="-60%" y="-60%" width="220%" height="220%">
-  <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#5B0A6B" flood-opacity="0.32"/></filter>
-</defs><ellipse cx="256" cy="430" rx="170" ry="40" fill="url(#ground)"/>
+  <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000000" flood-opacity="0.5"/></filter>
+</defs><rect width="512" height="512" rx="116" fill="#171320"/><rect width="512" height="512" rx="116" fill="url(#tile)"/><ellipse cx="256" cy="430" rx="170" ry="40" fill="url(#ground)"/>
   <g filter="url(#drop)">
     <path d="M134 300 L134 334 A122 46 0 0 0 378 334 L378 300 Z" fill="url(#side)"/><ellipse cx="256" cy="300" rx="122" ry="46" fill="url(#top)"/><ellipse cx="256" cy="300" rx="122" ry="46" fill="url(#sheen)"/>
     <path d="M134 240 L134 274 A122 46 0 0 0 378 274 L378 240 Z" fill="url(#side)"/><ellipse cx="256" cy="240" rx="122" ry="46" fill="url(#top)"/><ellipse cx="256" cy="240" rx="122" ry="46" fill="url(#sheen)"/>
     <path d="M134 180 L134 214 A122 46 0 0 0 378 214 L378 180 Z" fill="url(#side)"/><ellipse cx="256" cy="180" rx="122" ry="46" fill="url(#top)"/><ellipse cx="256" cy="180" rx="122" ry="46" fill="url(#sheen)"/>
-    <g transform="translate(256,166) scale(0.62)"><path d="M-52 -10 L-40 -74 Q-38 -84 -28 -78 L0 -50 Z" fill="#A812C4"/><path d="M52 -10 L40 -74 Q38 -84 28 -78 L0 -50 Z" fill="#A812C4"/><rect x="-54" y="-52" width="108" height="96" rx="40" fill="#DC1FFF"/><rect x="-30" y="-22" width="16" height="24" rx="8" fill="#00FFA3"/><rect x="14" y="-22" width="16" height="24" rx="8" fill="#00FFA3"/><path d="M-10 14 L10 14 Q0 28 -10 14 Z" fill="#5B0A6B" opacity="0.7"/></g>
+    <g transform="translate(256,166) scale(0.62)"><path d="M-52 -10 L-40 -74 Q-38 -84 -28 -78 L0 -50 Z" fill="#7d6ea8"/><path d="M52 -10 L40 -74 Q38 -84 28 -78 L0 -50 Z" fill="#7d6ea8"/><rect x="-54" y="-52" width="108" height="96" rx="40" fill="#cfe6fb"/><rect x="-30" y="-22" width="16" height="24" rx="8" fill="#b6f2d8"/><rect x="14" y="-22" width="16" height="24" rx="8" fill="#b6f2d8"/><path d="M-10 14 L10 14 Q0 28 -10 14 Z" fill="#2A2038" opacity="0.7"/></g>
   </g>
-  <rect x="372" y="128" width="30" height="30" rx="8" fill="#DC1FFF" opacity="0.9"/><rect x="416" y="186" width="22" height="22" rx="6" fill="#DC1FFF" opacity="0.65"/><rect x="352" y="74" width="20" height="20" rx="5" fill="#DC1FFF" opacity="0.5"/><rect x="424" y="108" width="16" height="16" rx="4" fill="#DC1FFF" opacity="0.38"/><rect x="92" y="156" width="24" height="24" rx="6" fill="#DC1FFF" opacity="0.55"/><rect x="64" y="210" width="17" height="17" rx="4" fill="#DC1FFF" opacity="0.35"/>
+  <rect x="372" y="128" width="30" height="30" rx="8" fill="#cfe6fb" opacity="0.9"/><rect x="416" y="186" width="22" height="22" rx="6" fill="#cfe6fb" opacity="0.65"/><rect x="352" y="74" width="20" height="20" rx="5" fill="#cfe6fb" opacity="0.5"/><rect x="424" y="108" width="16" height="16" rx="4" fill="#cfe6fb" opacity="0.38"/><rect x="92" y="156" width="24" height="24" rx="6" fill="#cfe6fb" opacity="0.55"/><rect x="64" y="210" width="17" height="17" rx="4" fill="#cfe6fb" opacity="0.35"/>
   <path d="M150 118 l9 22 22 9 -22 9 -9 22 -9-22 -22-9 22-9 Z" fill="url(#mint)" opacity="0.95"/></svg>

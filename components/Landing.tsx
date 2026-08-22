@@ -33,11 +33,11 @@ export function CatMark({
 }) {
   return (
     <img
-      src="/brand/cat-mark.svg"
+      src="/brand/cat-badge.svg"
       alt=""
       width={size}
       height={size}
-      className={className}
+      className={`rounded-[7px] ${className}`}
       style={{ width: size, height: size }}
     />
   );
