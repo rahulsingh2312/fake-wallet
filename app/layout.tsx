@@ -21,15 +21,30 @@ const display = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Phantom",
+  metadataBase: new URL("https://fakewallet.fun"),
+  title: "fakewallet — fake crypto wallet screenshot generator",
   description:
-    "your portfolio, exactly as big as you say it is. a pixel-matched phantom wallet you fill in yourself, with live jupiter prices.",
+    "your portfolio, exactly as big as you say it is. type any balance into a pixel-matched wallet ui, with live jupiter prices. no signup, no keys, no wallet connection.",
   manifest: "/manifest.webmanifest",
-  applicationName: "Phantom",
+  applicationName: "fakewallet",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Phantom",
+    title: "fakewallet",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://fakewallet.fun",
+    siteName: "fakewallet",
+    title: "fakewallet",
+    description: "your portfolio, exactly as big as you say it is.",
+    images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "fakewallet" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "fakewallet",
+    description: "your portfolio, exactly as big as you say it is.",
+    images: ["/brand/og.png"],
   },
   icons: {
     icon: [

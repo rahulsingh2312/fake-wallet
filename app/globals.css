@@ -11,6 +11,17 @@
   --color-ph-purple: #ab9ff2;
   --color-ph-purple-dark: #8a7ee0;
   --color-ph-green: #21de7f;
+
+  /* landing (light) — the wallet above stays dark, this is the page around it */
+  --color-fw-paper: #ffffff;
+  --color-fw-paper-2: #f6f4ff;
+  --color-fw-ink: #141019;
+  --color-fw-ink-2: #423a52;
+  --color-fw-mute: #6b6478;
+  --color-fw-line: #e7e2f5;
+  --color-fw-violet: #7c3aed;
+  --color-fw-violet-2: #8b5cf6;
+  --color-fw-teal: #0d9488;
   --color-ph-red: #ff4d4d;
   --color-ph-red-badge: #ea3336;
 
@@ -29,6 +40,21 @@ body {
   background: #000;
   color: #fff;
   overscroll-behavior-y: none;
+}
+
+/*
+ * Phones get the wallet full-bleed and nothing else, so they stay black.
+ * The landing only exists from lg up — that is the surface that turns white.
+ */
+@media (min-width: 1024px) {
+  :root {
+    color-scheme: light;
+  }
+  html,
+  body {
+    background: #ffffff;
+    color: #141019;
+  }
 }
 
 body {
