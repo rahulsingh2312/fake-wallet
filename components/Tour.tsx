@@ -244,7 +244,7 @@ export function TourButton() {
   return (
     <button
       onClick={() => window.dispatchEvent(new Event(TOUR_EVENT))}
-      className="pointer-events-auto transition-colors hover:text-white"
+      className="pointer-events-auto transition-colors hover:text-fw-ink"
     >
       how it works
     </button>

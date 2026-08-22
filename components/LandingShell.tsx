@@ -20,7 +20,7 @@ import { WalletApp } from "./WalletApp";
 export function Landing() {
   return (
     <WalletProvider>
-      <div className="relative min-h-dvh bg-black lg:grid lg:min-h-dvh lg:place-items-center lg:overflow-hidden">
+      <div className="relative min-h-dvh bg-black lg:grid lg:bg-fw-paper lg:min-h-dvh lg:place-items-center lg:overflow-hidden">
         <Scene />
         <LandingTopBar />
 
