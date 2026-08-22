@@ -14,17 +14,17 @@
 
   /* landing (light) — the wallet above stays dark, this is the page around it */
   --color-fw-paper: #ffffff;
-  --color-fw-paper-2: #f6f4ff;
+  --color-fw-paper-2: #f2f6f4;
   --color-fw-ink: #141019;
-  --color-fw-ink-2: #423a52;
-  --color-fw-mute: #6b6478;
-  --color-fw-line: #e7e2f5;
+  --color-fw-ink-2: #384341;
+  --color-fw-mute: #64726f;
+  --color-fw-line: #e2e8e6;
   /* Solana OG stops. Branding only — the wallet keeps Phantom's purple. */
   --color-fw-grad-a: #b6f2d8;
   --color-fw-grad-b: #f8cfe9;
   /* darkened twins, for gradient text and icons that sit on white */
-  --color-fw-violet: #7a5cd6;
-  --color-fw-violet-2: #d1499f;
+  --color-fw-violet: #17a06b;
+  --color-fw-violet-2: #c2408f;
   --color-fw-teal: #17a06b;
   --color-ph-red: #ff4d4d;
   --color-ph-red-badge: #ea3336;
@@ -270,9 +270,9 @@ body {
     93deg,
     #17a06b 0%,
     #2f7fc4 17%,
-    #7a5cd6 34%,
-    #d1499f 50%,
-    #7a5cd6 66%,
+    #5f74cf 34%,
+    #c2408f 50%,
+    #5f74cf 66%,
     #2f7fc4 83%,
     #17a06b 100%
   );

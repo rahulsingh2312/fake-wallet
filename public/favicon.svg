@@ -12,7 +12,7 @@
   <feDropShadow dx="0" dy="20" stdDeviation="20" flood-color="#3B2F4A" flood-opacity="0.20"/></filter>
 <filter id="softS" x="-60%" y="-60%" width="220%" height="220%">
   <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#3B2F4A" flood-opacity="0.24"/></filter>
-<radialGradient id="tileGlow" cx="0.5" cy="0.4" r="0.7"><stop offset="0" stop-color="#ded0fa" stop-opacity="0.13"/><stop offset="1" stop-color="#ded0fa" stop-opacity="0"/></radialGradient></defs><rect width="1024" height="1024" rx="232" fill="#171320"/><rect width="1024" height="1024" rx="232" fill="url(#tileGlow)"/><g transform="translate(479,522) scale(1.481) translate(-512,-512)">
+<radialGradient id="tileGlow" cx="0.5" cy="0.4" r="0.7"><stop offset="0" stop-color="#ded0fa" stop-opacity="0.13"/><stop offset="1" stop-color="#ded0fa" stop-opacity="0"/></radialGradient></defs><rect width="1024" height="1024" rx="232" fill="#121719"/><rect width="1024" height="1024" rx="232" fill="url(#tileGlow)"/><g transform="translate(479,522) scale(1.481) translate(-512,-512)">
 <g filter="url(#soft)">
   <!-- ears -->
   <path d="M296 452 L338 218 Q346 186 376 206 L508 322 Z" fill="url(#coatDeep)"/>
