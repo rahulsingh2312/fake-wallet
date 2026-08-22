@@ -25,59 +25,20 @@ export default function BrandPage() {
 
         <section>
           <h2><span className="num">01</span>The mark</h2>
-          <p className="sub">Three directions. All three drop the ghost — that shape belongs to
-          Phantom, and it&rsquo;s the one asset that shouldn&rsquo;t follow this onto its own domain.</p>
+          <p className="sub">He drops the ghost — that shape belongs to Phantom, and it is the one asset that
+          shouldn&rsquo;t follow this onto its own domain.</p>
           <hr className="rule" />
           <div className="marks">
         <article className="mark picked">
-          <div className="mark-art"><img src="/brand/cat-mark.svg" alt="Pixelcat" /></div>
+          <div className="mark-art"><img src="/brand/cat-badge.svg" alt="Pixelcat" /></div>
           <div>
             <h3>Pixelcat<span className="badge">picked</span></h3>
-            <p>A cat whose right side decays into pixels, running the Solana gradient green to magenta. The animal makes it memorable at avatar size; the decay keeps the point — the balance is not real.</p>
-            <p className="note">Shipped: it is the favicon, the app icon, the avatar and the mark in the top bar.</p>
+            <p>He is holding a card he has no intention of giving back. Iridescent coat, bright eyes, and a few pixels still coming loose behind his ear — the balance is not real, and he knows it.</p>
+            <p className="note">Shipped: favicon, app icon, avatar and the mark in the top bar.</p>
             <div className="scale"><span className="slabel">at real size</span>
-              <img src="/brand/cat-mark.svg" width={48} height={48} alt="" />
-              <img src="/brand/cat-mark.svg" width={32} height={32} alt="" />
-              <img src="/brand/cat-mark.svg" width={16} height={16} alt="" />
-            </div>
-          </div>
-        </article>
-        <article className="mark">
-          <div className="mark-art"><img src="/brand/mark-card.svg" alt="The Dissolving Card" /></div>
-          <div>
-            <h3>The Dissolving Card</h3>
-            <p>A wallet card coming apart into pixels. It says wallet and not real in one glyph — no explanation needed.</p>
-            <p className="note">Reads at 32px. Nothing to confuse with Phantom’s ghost.</p>
-            <div className="scale"><span className="slabel">at real size</span>
-              <img src="/brand/mark-card.svg" width={48} height={48} alt="" />
-              <img src="/brand/mark-card.svg" width={32} height={32} alt="" />
-              <img src="/brand/mark-card.svg" width={16} height={16} alt="" />
-            </div>
-          </div>
-        </article>
-        <article className="mark">
-          <div className="mark-art"><img src="/brand/mark-mirror.svg" alt="Mirror Gains" /></div>
-          <div>
-            <h3>Mirror Gains</h3>
-            <p>Ascending bars with a reflection that breaks into pixels. The chart is solid; what sits under it isn’t.</p>
-            <p className="note">Elegant, but bars are the most-used shape in fintech.</p>
-            <div className="scale"><span className="slabel">at real size</span>
-              <img src="/brand/mark-mirror.svg" width={48} height={48} alt="" />
-              <img src="/brand/mark-mirror.svg" width={32} height={32} alt="" />
-              <img src="/brand/mark-mirror.svg" width={16} height={16} alt="" />
-            </div>
-          </div>
-        </article>
-        <article className="mark">
-          <div className="mark-art"><img src="/brand/mark-coin.svg" alt="Glitch Coin" /></div>
-          <div>
-            <h3>Glitch Coin</h3>
-            <p>A coin sliced by a horizontal displacement, like a corrupted screenshot.</p>
-            <p className="note">Strong when large, muddier as a 32px favicon.</p>
-            <div className="scale"><span className="slabel">at real size</span>
-              <img src="/brand/mark-coin.svg" width={48} height={48} alt="" />
-              <img src="/brand/mark-coin.svg" width={32} height={32} alt="" />
-              <img src="/brand/mark-coin.svg" width={16} height={16} alt="" />
+              <img src="/brand/cat-badge.svg" width={48} height={48} alt="" />
+              <img src="/brand/cat-badge.svg" width={32} height={32} alt="" />
+              <img src="/brand/cat-badge.svg" width={16} height={16} alt="" />
             </div>
           </div>
         </article>
@@ -110,53 +71,28 @@ export default function BrandPage() {
 
         <section>
           <h2><span className="num">04</span>Palette</h2>
-          <p className="sub">The gradient is the Solana OG pair, taken from the &ldquo;Run it up&rdquo; button on
-          sol.copycat.my. It runs green to magenta on fills, and switches to the darkened twins for anything
-          that has to stay readable as text on paper. It never appears inside the wallet — that screen keeps
-          Phantom&rsquo;s purple, because the screenshots have to match the real app.</p>
+          <p className="sub">One gradient, the exact stops from the &ldquo;Run it up&rdquo; button on sol.copycat.my.
+          It is pastel by design, so it needs a dark ground to read — which is why every mark and icon sits on a
+          #171320 tile. On white it is deepened along the same hue sequence rather than swapped for other colours.
+          It never appears inside the wallet: that screen keeps Phantom&rsquo;s purple so the screenshots still match.</p>
           <hr className="rule" />
-        <div className="sw"><div className="chip" style={{background:"#FFFFFF"}} /><div><b>paper</b><span className="dm">#FFFFFF</span><span className="mu">landing ground</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#141019"}} /><div><b>ink</b><span className="dm">#141019</span><span className="mu">headings and body</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#6B6478"}} /><div><b>mute</b><span className="dm">#6B6478</span><span className="mu">secondary type</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#00FFA3"}} /><div><b>grad a</b><span className="dm">#00FFA3</span><span className="mu">Solana green — gradient start</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#DC1FFF"}} /><div><b>grad b</b><span className="dm">#DC1FFF</span><span className="mu">Solana magenta — gradient end</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#00B374"}} /><div><b>grad a ink</b><span className="dm">#00B374</span><span className="mu">darkened green, for text on paper</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#A812C4"}} /><div><b>grad b ink</b><span className="dm">#A812C4</span><span className="mu">darkened magenta, for text on paper</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#000000"}} /><div><b>black</b><span className="dm">#000000</span><span className="mu">the wallet screen only, never the landing</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#b6f2d8"}} /><div><b>stop 1</b><span className="dm">#b6f2d8</span><span className="mu">mint — 0% and 100%</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#cfe6fb"}} /><div><b>stop 2</b><span className="dm">#cfe6fb</span><span className="mu">ice blue — 17% / 83%</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#ded0fa"}} /><div><b>stop 3</b><span className="dm">#ded0fa</span><span className="mu">lilac — 34% / 66%</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#f8cfe9"}} /><div><b>stop 4</b><span className="dm">#f8cfe9</span><span className="mu">rose — 50%, the centre</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#171320"}} /><div><b>tile</b><span className="dm">#171320</span><span className="mu">the dark ground every mark sits on</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#141019"}} /><div><b>ink</b><span className="dm">#141019</span><span className="mu">headings and body on paper</span></div></div>
         </section>
 
-        <section>
-          <h2><span className="num">05</span>The domain</h2>
-          <p className="sub">Checked live against each registry.</p>
-          <hr className="rule" />
-          <table>
-            <tbody>
-              <tr><th>domain</th><th>status</th><th>note</th></tr>
-            <tr><td className="dm">fakewallet.fun</td><td><span className="pill open">available</span></td><td className="mu">the pick — confirmed unregistered, not yet purchased</td></tr>
-            <tr><td className="dm">fakewallet.app</td><td><span className="pill open">available</span></td><td className="mu">worth grabbing as a redirect; .app forces HTTPS</td></tr>
-            <tr><td className="dm">fakewallet.io</td><td><span className="pill open">available</span></td><td className="mu">steep renewal, skip unless flush</td></tr>
-            <tr><td className="dm">getfakewallet.com</td><td><span className="pill open">available</span></td><td className="mu">the .com fallback, if you want one</td></tr>
-            <tr><td className="dm">fakewallet.com</td><td><span className="pill taken">taken</span></td><td className="mu">registered</td></tr>
-            <tr><td className="dm">fakewallet.xyz</td><td><span className="pill taken">taken</span></td><td className="mu">registered</td></tr>
-            <tr><td className="dm">larpwallet.com</td><td><span className="pill taken">taken</span></td><td className="mu">registered</td></tr>
-            </tbody>
-          </table>
-          <div className="callout">
-            <p style={{ margin: 0 }}><b>On the name.</b> &ldquo;fakewallet&rdquo; is what beginners
-            actually search for, which is exactly why it works — but it&rsquo;s also the phrase used for
-            wallet-draining malware. Two cheap moves keep it on the right side of that line: keep the
-            &ldquo;no seed phrase, no keys, no wallet connection&rdquo; note above the fold, and never ask a
-            visitor for anything. That&rsquo;s the whole difference between a parody tool and a phishing report.</p>
-          </div>
-        </section>
 
         <section>
-          <h2><span className="num">06</span>Files</h2>
+          <h2><span className="num">05</span>Files</h2>
           <p className="sub">Every asset is live at these paths — right-click to save.</p>
           <hr className="rule" />
           <table>
             <tbody>
               <tr><th>file</th><th>size</th><th>use</th></tr>
+            <tr><td className="dm"><a href="/brand/cat-badge.svg">cat-badge.svg</a></td><td className="mu dm">vector</td><td className="mu">the logo on its tile</td></tr>
             <tr><td className="dm"><a href="/brand/cat-mark.svg">cat-mark.svg</a></td><td className="mu dm">vector</td><td className="mu">the logo, transparent</td></tr>
             <tr><td className="dm"><a href="/brand/pfp.png">pfp.png</a></td><td className="mu dm">400x400</td><td className="mu">profile picture — X, Discord, Telegram</td></tr>
             <tr><td className="dm"><a href="/brand/step-1.svg">step-1.svg</a></td><td className="mu dm">vector</td><td className="mu">3D step art — install</td></tr>
@@ -171,28 +107,6 @@ export default function BrandPage() {
           </table>
         </section>
 
-        <section>
-          <h2><span className="num">07</span>Ship it</h2>
-          <hr className="rule" />
-          <ol className="steps">
-            <li>Register <span className="dm">fakewallet.fun</span> at Porkbun or Cloudflare — check the
-            renewal price before committing, .fun renewals jump after year one.</li>
-            <li>Vercel &rarr; project &rarr; Settings &rarr; Domains &rarr; add <span className="dm">fakewallet.fun</span>,
-            then point the nameservers or the record it hands back.</li>
-            <li><s>Swap the Phantom ghost icons for the cat</s> — done, across favicon, app icon and avatar.</li>
-            <li><s>Retitle the app and add Open Graph tags</s> — done in <span className="dm">app/layout.tsx</span>.</li>
-            <li>The wallet screen itself still reads &ldquo;Search Phantom&rdquo; and &ldquo;Stake with Phantom&rdquo;. That is
-            deliberate — it is the clone, and changing it would break the screenshots this exists to make.</li>
-          </ol>
-          <pre>&lt;title&gt;fakewallet — fake crypto wallet screenshot generator&lt;/title&gt;
-&lt;meta name="description" content="Build a fake crypto wallet screenshot in seconds. Any token, any balance, live prices. No signup, no keys, no wallet connection."&gt;
-&lt;link rel="icon" href="/favicon.svg" type="image/svg+xml"&gt;
-&lt;meta property="og:title" content="fakewallet"&gt;
-&lt;meta property="og:description" content="your portfolio, exactly as big as you say it is."&gt;
-&lt;meta property="og:image" content="https://fakewallet.fun/og.png"&gt;
-&lt;meta property="og:url" content="https://fakewallet.fun"&gt;
-&lt;meta name="twitter:card" content="summary_large_image"&gt;</pre>
-        </section>
       </div>
     </div>
   );

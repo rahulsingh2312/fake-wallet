@@ -20,12 +20,12 @@
   --color-fw-mute: #6b6478;
   --color-fw-line: #e7e2f5;
   /* Solana OG stops. Branding only — the wallet keeps Phantom's purple. */
-  --color-fw-grad-a: #00ffa3;
-  --color-fw-grad-b: #dc1fff;
+  --color-fw-grad-a: #b6f2d8;
+  --color-fw-grad-b: #f8cfe9;
   /* darkened twins, for gradient text and icons that sit on white */
-  --color-fw-violet: #a812c4;
-  --color-fw-violet-2: #dc1fff;
-  --color-fw-teal: #00b374;
+  --color-fw-violet: #7a5cd6;
+  --color-fw-violet-2: #d1499f;
+  --color-fw-teal: #17a06b;
   --color-ph-red: #ff4d4d;
   --color-ph-red-badge: #ea3336;
 
@@ -264,7 +264,18 @@ body {
 
 /* Gradient numerals and emphasis. Darkened stops stay legible on paper. */
 .fw-grad-text {
-  background-image: linear-gradient(93deg, #00b374, #a812c4, #00b374);
+  /* The same stop order as the button, pushed down in lightness. The pastel
+     itself is invisible on paper — this keeps the hues and buys contrast. */
+  background-image: linear-gradient(
+    93deg,
+    #17a06b 0%,
+    #2f7fc4 17%,
+    #7a5cd6 34%,
+    #d1499f 50%,
+    #7a5cd6 66%,
+    #2f7fc4 83%,
+    #17a06b 100%
+  );
   background-size: 200% auto;
   animation: fw-flow 5s linear infinite;
   -webkit-background-clip: text;
