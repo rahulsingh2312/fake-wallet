@@ -132,3 +132,11 @@ Screens included: home, the side drawer, the Your Accounts sheet, and the full t
 Unofficial and not affiliated with Phantom. This is a UI clone built for practice, mockups, demos and content. It cannot hold, send or receive anything, and it never asks for a seed phrase, because there is nothing for it to do with one.
 
 Icons are Phantom's own, used to make the clone accurate.
+
+<!-- hypertribe:sponsors:start -->
+## Sponsors
+
+[![fake-wallet Sponsors](https://api.tribe.run/tokens/4hafnaHPkwC989WvLkYs3atoMxrwQTVXxYS8LpuGSHMM/sponsors.svg)](https://tribe.run/token/4hafnaHPkwC989WvLkYs3atoMxrwQTVXxYS8LpuGSHMM)
+
+Become a sponsor on [Tribe.run](https://tribe.run/token/4hafnaHPkwC989WvLkYs3atoMxrwQTVXxYS8LpuGSHMM).
+<!-- hypertribe:sponsors:end -->
