@@ -1,6 +1,6 @@
 {
-  "name": "fakewallet",
-  "short_name": "fakewallet",
+  "name": "larp wallet",
+  "short_name": "larpwallet",
   "description": "your portfolio, exactly as big as you say it is.",
   "start_url": "/",
   "scope": "/",

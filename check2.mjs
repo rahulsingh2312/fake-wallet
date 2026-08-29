@@ -9,7 +9,7 @@ for (const h of [950, 800, 1120]) {
   const r = await p.evaluate(() => {
     const dev = [...document.querySelectorAll('div')].find(e => e.className.includes?.('lg:h-[892px]'))?.getBoundingClientRect();
     const main = document.querySelector('main');
-    const acct = main ? [...main.querySelectorAll('button')].find(e => e.textContent.trim().startsWith('fakewallet')) : null;
+    const acct = main ? [...main.querySelectorAll('button')].find(e => e.textContent.trim().startsWith('larpwallet')) : null;
     const ar = acct?.getBoundingClientRect();
     return {
       deviceTop: dev && Math.round(dev.top), deviceBottom: dev && Math.round(dev.bottom),

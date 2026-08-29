@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * Ambient backdrop for the desktop landing: two slow blooms and a faint grid,
- * tuned for the white page so the paper does not read as dead space. The
- * wallet keeps its own black screen, so nothing here touches it.
- * Desktop only, and it never takes pointer events.
+ * Ambient backdrop for the desktop landing: two slow blooms and a faint grid.
+ * Colours come from CSS vars (--scene-*, in globals.css) so ThemeToggle's
+ * dark mode repaints this for free. The wallet keeps its own black screen,
+ * so nothing here touches it. Desktop only, and it never takes pointer events.
  */
 export function Scene() {
   return (
@@ -14,26 +14,24 @@ export function Scene() {
     >
       {/* blooms */}
       <div
-        className="absolute -left-[14vw] top-[-18vh] h-[62vw] w-[62vw] rounded-full opacity-[0.75] blur-[100px] [animation:ph-float-a_26s_ease-in-out_infinite]"
+        className="absolute -left-[14vw] top-[-18vh] h-[62vw] w-[62vw] rounded-full opacity-[0.8] blur-[100px] [animation:ph-float-a_26s_ease-in-out_infinite]"
         style={{
-          background:
-            "radial-gradient(closest-side, rgba(139,92,246,0.20), transparent 70%)",
+          background: "radial-gradient(closest-side, var(--scene-bloom-a), transparent 70%)",
         }}
       />
       <div
         className="absolute -right-[16vw] bottom-[-24vh] h-[58vw] w-[58vw] rounded-full opacity-[0.7] blur-[110px] [animation:ph-float-b_32s_ease-in-out_infinite]"
         style={{
-          background:
-            "radial-gradient(closest-side, rgba(45,212,191,0.16), transparent 70%)",
+          background: "radial-gradient(closest-side, var(--scene-bloom-b), transparent 70%)",
         }}
       />
 
       {/* grid */}
       <div
-        className="absolute inset-0 opacity-[0.5]"
+        className="absolute inset-0 opacity-[0.6]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(20,16,25,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(20,16,25,0.045) 1px, transparent 1px)",
+            "linear-gradient(var(--scene-grid) 1px, transparent 1px), linear-gradient(90deg, var(--scene-grid) 1px, transparent 1px)",
           backgroundSize: "74px 74px",
           maskImage:
             "radial-gradient(ellipse 100% 72% at 50% 42%, #000 35%, transparent 78%)",
@@ -42,12 +40,12 @@ export function Scene() {
         }}
       />
 
-      {/* paper warmth at the edges, so pure white never meets the viewport edge */}
+      {/* edge treatment: warm falloff on white, deepening vignette in dark mode */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 82% 68% at 50% 45%, transparent 45%, rgba(124,58,237,0.07) 100%)",
+            "radial-gradient(ellipse 82% 68% at 50% 45%, transparent 40%, var(--scene-edge) 100%)",
         }}
       />
     </div>

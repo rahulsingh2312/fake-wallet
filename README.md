@@ -1,8 +1,10 @@
-# fake-wallet
+# larp wallet
 
-A fake Phantom wallet you can install on your phone.
+A fake Phantom wallet you can install on your phone. Gold ghost, violet ground, `$LARP` on Tribe.
 
-**Live: https://fakewalletz.vercel.app**
+**Live: https://fakewalletz.vercel.app** &nbsp;·&nbsp; intended domain: larpwallet.fun
+
+`$LARP`. Contract address: coming soon.
 
 This is a pixel matched clone of the Phantom wallet UI, measured screenshot by screenshot against the real app, running as an installable PWA. You open a hidden editor, type in whatever tokens and balances you want, and the home screen renders them exactly like the real thing. Same fonts, same spacing, same purple.
 
@@ -10,7 +12,9 @@ Token prices come live from the Jupiter API, so the portfolio ticks and the 24h 
 
 Frontend only. No wallet connection, no seed phrase, no private keys, no transactions. Just a UI with numbers you control.
 
-![fake-wallet on a phone](docs/r-strip.png)
+The wallet screen stays on Phantom's exact palette so the screenshots keep matching. The rebrand (name, gold-ghost mark, gold/violet landing) lives on the marketing surface only: the landing page, `/brand`, the favicon and icons, the OG and header cards.
+
+![larp wallet on a phone](docs/r-strip.png)
 
 ## Screens
 

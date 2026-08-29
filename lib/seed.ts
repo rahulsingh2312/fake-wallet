@@ -59,7 +59,7 @@ export const SEED: WalletState = {
   accounts: [
     {
       id: "fakewallet",
-      name: "fakewallet",
+      name: "larpwallet",
       emoji: "😎",
       cash: 0,
       perps: [],

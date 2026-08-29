@@ -12,20 +12,23 @@
   --color-ph-purple-dark: #8a7ee0;
   --color-ph-green: #21de7f;
 
-  /* landing (light) — the wallet above stays dark, this is the page around it */
+  /* landing (larp wallet) — white ground, gold + violet marks, phantom.com-style
+     type. The wallet above stays on Phantom's dark palette so the screenshots
+     keep matching. */
   --color-fw-paper: #ffffff;
-  --color-fw-paper-2: #f2f6f4;
-  --color-fw-ink: #141019;
-  --color-fw-ink-2: #384341;
-  --color-fw-mute: #64726f;
-  --color-fw-line: #e2e8e6;
-  /* Solana OG stops. Branding only — the wallet keeps Phantom's purple. */
-  --color-fw-grad-a: #b6f2d8;
-  --color-fw-grad-b: #f8cfe9;
-  /* darkened twins, for gradient text and icons that sit on white */
-  --color-fw-violet: #17a06b;
-  --color-fw-violet-2: #c2408f;
-  --color-fw-teal: #17a06b;
+  --color-fw-paper-2: #f6f3ff;
+  --color-fw-ink: #15101f;
+  --color-fw-ink-2: #4a4160;
+  --color-fw-mute: #7d7593;
+  --color-fw-line: #e7e2f5;
+  /* brand gradient stops: gold ↔ violet, darkened enough to read on white. */
+  --color-fw-grad-a: #c9962b;
+  --color-fw-grad-b: #7c5cf0;
+  /* accents: fw-violet is the primary (rich violet, good contrast on white),
+     fw-violet-2 the deep gold, off the mark. */
+  --color-fw-violet: #7c5cf0;
+  --color-fw-violet-2: #c9962b;
+  --color-fw-teal: #7c5cf0;
   --color-ph-red: #ff4d4d;
   --color-ph-red-badge: #ea3336;
 
@@ -37,6 +40,34 @@
 
 :root {
   color-scheme: dark;
+  /* Scene.tsx ambient colours — light-mode defaults, overridden below for dark. */
+  --scene-bloom-a: rgba(139, 92, 246, 0.14);
+  --scene-bloom-b: rgba(244, 198, 78, 0.16);
+  --scene-grid: rgba(20, 16, 31, 0.045);
+  --scene-edge: rgba(124, 58, 237, 0.06);
+}
+
+/*
+ * Dark mode for the landing, toggled by ThemeToggle (sets data-theme on
+ * <html>, persisted to localStorage). The wallet is unaffected either way —
+ * it's a separate sibling tree that never reads these fw-* tokens.
+ */
+[data-theme="dark"] {
+  --color-fw-paper: #150a2e;
+  --color-fw-paper-2: #1e1140;
+  --color-fw-ink: #f7f3ff;
+  --color-fw-ink-2: #cdbdf2;
+  --color-fw-mute: #9a87c8;
+  --color-fw-line: #33265f;
+  --color-fw-grad-a: #ffe4a0;
+  --color-fw-grad-b: #a78bfa;
+  --color-fw-violet: #f4c64e;
+  --color-fw-violet-2: #a78bfa;
+  --color-fw-teal: #f4c64e;
+  --scene-bloom-a: rgba(139, 92, 246, 0.3);
+  --scene-bloom-b: rgba(244, 198, 78, 0.16);
+  --scene-grid: rgba(199, 181, 255, 0.05);
+  --scene-edge: rgba(10, 4, 26, 0.55);
 }
 
 html,
@@ -48,11 +79,16 @@ body {
 
 /*
  * Phones get the wallet full-bleed and nothing else, so they stay black.
- * The landing only exists from lg up — that is the surface that turns white.
+ * The landing only exists from lg up — that surface turns white, phantom.com
+ * style, with the gold-ghost mark and violet accents carrying the brand
+ * (or the dark variant above, when toggled).
  */
 @media (min-width: 1024px) {
   :root {
     color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
   }
   /*
    * Background only. Never set `color` here: this rule is unlayered, so it
@@ -63,6 +99,10 @@ body {
   html,
   body {
     background: #ffffff;
+  }
+  html[data-theme="dark"],
+  html[data-theme="dark"] body {
+    background: #150a2e;
   }
 }
 
@@ -185,7 +225,7 @@ body {
 @keyframes ph-reveal {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(14px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -225,9 +265,9 @@ body {
 }
 
 /* ── brand gradient ───────────────────────────────────────────────────────
- * Lifted from the "Run it up" button in autopilot-solana. Landing only:
- * none of these classes are used inside the wallet, which stays on
- * Phantom's palette so the screenshots keep matching the real app.
+ * Gold ↔ violet, pulled off the gold-ghost mark. Landing only: none of these
+ * classes are used inside the wallet, which stays on Phantom's palette so the
+ * screenshots keep matching the real app.
  */
 @keyframes fw-flow {
   to {
@@ -235,52 +275,71 @@ body {
   }
 }
 
-/* Primary button. The exact pastel stops, so it matches sol.copycat.my. */
+/* Primary button — brushed gold, slowly flowing. */
 .fw-btn-grad {
-  color: #16161c;
+  color: #2a1c05;
   background-image: linear-gradient(
     100deg,
-    #b6f2d8 0%,
-    #cfe6fb 17%,
-    #ded0fa 34%,
-    #f8cfe9 50%,
-    #ded0fa 66%,
-    #cfe6fb 83%,
-    #b6f2d8 100%
+    #ffe6a6 0%,
+    #f7cf76 20%,
+    #eeb63f 40%,
+    #f7cf76 60%,
+    #ffe6a6 80%,
+    #f7cf76 100%
   );
   background-size: 200% auto;
   animation: fw-flow 9s linear infinite;
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.65),
-    0 1px 2px rgb(10 10 10 / 0.05),
-    0 12px 28px -16px rgb(150 110 230 / 0.55);
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 1px 2px rgb(20 16 31 / 0.06),
+    0 12px 26px -14px rgb(201 150 43 / 0.55);
 }
 .fw-btn-grad:hover {
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.65),
-    0 1px 2px rgb(10 10 10 / 0.05),
-    0 16px 34px -14px rgb(150 110 230 / 0.7);
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 1px 2px rgb(20 16 31 / 0.06),
+    0 16px 32px -12px rgb(201 150 43 / 0.7);
 }
 
-/* Gradient numerals and emphasis. Darkened stops stay legible on paper. */
+/* Gradient numerals and emphasis. Darkened stops so they read on white. */
 .fw-grad-text {
-  /* The same stop order as the button, pushed down in lightness. The pastel
-     itself is invisible on paper — this keeps the hues and buys contrast. */
   background-image: linear-gradient(
     93deg,
-    #17a06b 0%,
-    #2f7fc4 17%,
-    #5f74cf 34%,
-    #c2408f 50%,
-    #5f74cf 66%,
-    #2f7fc4 83%,
-    #17a06b 100%
+    #c9962b 0%,
+    #a8702f 22%,
+    #7c5cf0 50%,
+    #a8702f 78%,
+    #c9962b 100%
   );
   background-size: 200% auto;
   animation: fw-flow 5s linear infinite;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Dark mode: brighter stops for both, since the ground goes to deep violet. */
+[data-theme="dark"] .fw-btn-grad {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.28),
+    0 12px 30px -14px rgb(244 198 78 / 0.55);
+}
+[data-theme="dark"] .fw-btn-grad:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.28),
+    0 16px 38px -12px rgb(244 198 78 / 0.72);
+}
+[data-theme="dark"] .fw-grad-text {
+  background-image: linear-gradient(
+    93deg,
+    #ffe4a0 0%,
+    #f4c64e 22%,
+    #c9a2ff 50%,
+    #f4c64e 78%,
+    #ffe4a0 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
