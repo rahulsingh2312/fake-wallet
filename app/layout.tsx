@@ -21,8 +21,13 @@ const display = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+// larpwallet.fun is the intended domain but isn't pointed at this deploy yet
+// (it resolves to a parked page, so /brand/og.png 404s there). metadataBase
+// resolves every relative asset URL (OG image included) against this host,
+// so it has to be wherever the site actually lives right now, or link
+// previews on X/Discord/iMessage show no image at all.
 export const metadata: Metadata = {
-  metadataBase: new URL("https://larpwallet.fun"),
+  metadataBase: new URL("https://fakewalletz.vercel.app"),
   title: "larp wallet: fake crypto wallet screenshot generator",
   description:
     "your portfolio, exactly as big as you say it is. type any balance into a pixel-matched wallet ui, with live jupiter prices. no signup, no keys, no wallet connection.",
@@ -35,7 +40,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://larpwallet.fun",
+    url: "https://fakewalletz.vercel.app",
     siteName: "larp wallet",
     title: "larp wallet",
     description: "your portfolio, exactly as big as you say it is.",
