@@ -411,9 +411,7 @@ export function LandingTopBar() {
             The wrappers do the switching — Pill sets its own `inline-flex`,
             which would fight a `hidden` on the button itself. */}
         <span className="lg:hidden">
-          <Pill tone="violet" onClick={enterApp} className="!px-[18px] !py-[10px]">
-            Enter app
-          </Pill>
+          <MobileMenu />
         </span>
         <span className="hidden lg:block">
           <Pill tone="violet" onClick={() => goTo("get-started")} className="!px-[24px] !py-[12px]">
@@ -422,6 +420,105 @@ export function LandingTopBar() {
         </span>
       </span>
     </header>
+  );
+}
+
+/**
+ * phantom.com collapses its whole nav behind a hamburger on phones, so this
+ * does the same: the same four sections, plus the socials and the one button
+ * that matters. Locks the page behind it while open, and Escape closes it.
+ */
+function MobileMenu() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    // The sheet scrolls on its own; the page behind it should not.
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const jump = (id: string) => {
+    setOpen(false);
+    // Let the sheet close and the scroll lock lift before moving the page.
+    window.setTimeout(() => goTo(id), 60);
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Open navigation menu"
+        aria-expanded={open}
+        className="grid h-[42px] w-[42px] place-items-center rounded-full bg-fw-paper text-fw-ink"
+      >
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <path d="M3.5 7h17M3.5 12h17M3.5 17h17" />
+        </svg>
+      </button>
+
+      <div
+        // `invisible`, not just opacity-0: a transparent-but-present overlay
+        // keeps its buttons in the tab order and in hit-testing, so the closed
+        // menu was still reachable by keyboard and still swallowed taps.
+        className={`fixed inset-0 z-50 bg-fw-ground transition-opacity duration-200 ${
+          open ? "opacity-100" : "invisible pointer-events-none opacity-0"
+        }`}
+      >
+        <div className="flex items-center justify-between px-[14px] py-[12px]">
+          <span className="flex items-center gap-[8px] text-[17px] font-bold tracking-[-0.03em] text-fw-ink">
+            <GhostMark size={27} />
+            larpwallet<span className="fw-grad-text -ml-[7px]">.</span>
+          </span>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Close navigation menu"
+            className="grid h-[42px] w-[42px] place-items-center rounded-full bg-fw-paper text-fw-ink"
+          >
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+
+        <nav className="flex flex-col px-[20px] pt-[18px]">
+          {NAV.map((n) => (
+            <button
+              key={n.label}
+              onClick={() => jump(n.to)}
+              className="border-b border-fw-line py-[18px] text-left ph-h4 text-fw-ink"
+            >
+              {n.label}
+            </button>
+          ))}
+          <span className="border-b border-fw-line py-[18px] ph-h4 text-fw-ink">
+            <TourButton label="Support" className="ph-h4" />
+          </span>
+        </nav>
+
+        <div className="px-[20px] pt-[26px]">
+          <button
+            onClick={() => {
+              setOpen(false);
+              enterApp();
+            }}
+            className="w-full rounded-full bg-fw-violet px-[24px] py-[16px] text-[16px] font-medium text-[#241450] active:scale-[0.985]"
+          >
+            Enter app
+          </button>
+          <div className="mt-[22px] flex items-center justify-between">
+            <SocialIcons />
+            <span className="ph-sm italic text-fw-mute">deeply unofficial</span>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -446,11 +543,11 @@ export function LandingHero({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="hidden font-display lg:flex lg:min-w-0 lg:flex-col lg:items-start">
-          <span className="reveal reveal-1 ph-lead text-[#e9e4ff]/70">
+          <span className="reveal reveal-1 ph-lead text-[#e9e4ff]/80 [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
             the money app that&rsquo;ll take you screenshots
           </span>
 
-          <h1 className="reveal reveal-2 ph-h2 mt-[18px] text-fw-cream">
+          <h1 className="reveal reveal-2 ph-h2 mt-[18px] text-fw-cream [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
             Your home for larping,
             <br />
             to crack, to charge KOL fee,
@@ -468,7 +565,7 @@ export function LandingHero({ children }: { children: React.ReactNode }) {
             <CopyDomain />
           </div>
 
-          <p className="reveal reveal-5 ph-body mt-[26px] max-w-[440px] text-[#e9e4ff]/70">
+          <p className="reveal reveal-5 ph-body mt-[26px] max-w-[440px] text-[#e9e4ff]/80 [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
             pixel-perfect wallet ui. live jupiter prices. the gains are fake,
             the screenshot isn&rsquo;t.
           </p>
@@ -495,10 +592,10 @@ function MobileHero() {
       <div className="relative isolate flex min-h-[74dvh] flex-col justify-end overflow-hidden rounded-[26px] bg-fw-night px-[22px] pb-[26px] pt-[46px]">
         <HeroVideo on="mobile" />
 
-        <span className="ph-sm text-[#e9e4ff]/75">
+        <span className="ph-sm text-[#e9e4ff]/85 [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
           the money app that&rsquo;ll take you screenshots
         </span>
-        <h1 className="ph-h2 mt-[10px] text-fw-cream">
+        <h1 className="ph-h2 mt-[10px] text-fw-cream [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
           Your home for larping, to crack, to charge KOL fee, and sell courses
         </h1>
 
@@ -524,7 +621,7 @@ function MobileHero() {
           )}
         </div>
 
-        <p className="ph-sm mt-[16px] text-[#e9e4ff]/55">
+        <p className="ph-sm mt-[16px] text-[#e9e4ff]/70 [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
           pixel-perfect wallet ui. live jupiter prices. the gains are fake, the
           screenshot isn&rsquo;t.
         </p>
@@ -592,7 +689,7 @@ function HeroVideo({
               whatever was left. So it plays at its own aspect, and a blurred,
               oversized copy fills the rest of the card behind it — the frame
               stays whole and the colour still reaches the edges. */}
-          <video {...film} className="absolute inset-0 h-full w-full scale-125 object-cover blur-[64px] brightness-[1.5] saturate-[1.4]" />
+          <video {...film} className="absolute inset-0 h-full w-full scale-125 object-cover blur-[32px] brightness-[1.5] saturate-[1.4]" />
           <video
             {...film}
             className="absolute inset-y-0 right-[3%] h-full w-auto max-w-none brightness-[1.35] saturate-[1.25]"
@@ -612,8 +709,8 @@ function HeroVideo({
       <div
         className={
           on === "desktop"
-            ? "absolute inset-0 bg-gradient-to-r from-fw-night via-fw-night/60 to-transparent"
-            : "absolute inset-0 bg-gradient-to-t from-fw-night via-fw-night/45 to-transparent"
+            ? "absolute inset-0 bg-gradient-to-r from-fw-night/80 via-fw-night/35 to-transparent"
+            : "absolute inset-0 bg-gradient-to-t from-fw-night/85 via-fw-night/35 to-transparent"
         }
       />
       <div
@@ -640,6 +737,58 @@ function PanelArt() {
       <div className="absolute -right-[10%] -top-[40%] h-[150%] w-[34%] rounded-full bg-[#c9962b]/12" />
       <div className="absolute inset-0 bg-fw-night/55" />
     </div>
+  );
+}
+
+/**
+ * Desktop puts the live wallet in the hero as its art. On a phone that same
+ * wallet IS the screen once you tap through, so it can't also sit in the
+ * landing — this is a still of it in a device instead, which is on-brand for
+ * a thing whose entire output is a screenshot.
+ */
+function PhonePreview() {
+  return (
+    <section data-landing-view className="px-[20px] pt-[86px] font-display lg:hidden">
+      <Reveal>
+        <span className="ph-xs font-mono uppercase tracking-[0.2em] text-fw-mute">
+          the whole product
+        </span>
+        <h2 className="ph-h2 mt-[10px] max-w-[15ch] text-fw-ink">
+          It is just a <span className="text-fw-violet">wallet</span>.
+        </h2>
+        <p className="ph-body mt-[12px] text-fw-mute">
+          except the balance is whatever you type, and the prices are real.
+        </p>
+      </Reveal>
+
+      <Reveal delay={90}>
+        <div className="mx-auto mt-[30px] w-[258px]">
+          {/* Same titanium rail and 60/50px radii as the real device frame on
+              desktop, at the size a phone can actually show. */}
+          <div className="rounded-[38px] bg-[linear-gradient(158deg,#8e8e96_0%,#4a4a51_9%,#26262b_26%,#1c1c20_52%,#26262b_74%,#54545c_92%,#9a9aa2_100%)] p-[6px] shadow-[0_30px_60px_-24px_rgba(60,49,91,0.55)]">
+            <div className="relative overflow-hidden rounded-[32px] bg-black">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/brand/app-preview.jpg"
+                alt="the larp wallet home screen, showing a portfolio balance"
+                width={824}
+                height={1783}
+                className="block h-auto w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={140}>
+        <button
+          onClick={enterApp}
+          className="mx-auto mt-[24px] block rounded-full bg-fw-lilac px-[26px] py-[14px] ph-sm font-medium text-[#3c315b] active:scale-[0.985]"
+        >
+          Open the real thing
+        </button>
+      </Reveal>
+    </section>
   );
 }
 
@@ -767,6 +916,8 @@ const SECURITY: { t: string; d: string }[] = [
 export function LandingSections() {
   return (
     <div data-landing-view className="font-display">
+      <PhonePreview />
+
       {/* ── tools ── */}
       <section id="tools" className="scroll-mt-[80px] px-[20px] pt-[86px] md:px-[clamp(32px,5vw,84px)] lg:scroll-mt-[96px] lg:pt-[140px]">
         <SectionHead eyebrow="larping">
