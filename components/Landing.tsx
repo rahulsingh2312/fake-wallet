@@ -410,7 +410,10 @@ export function LandingTopBar() {
             wallet on screen, so its button just scrolls to the install steps.
             The wrappers do the switching — Pill sets its own `inline-flex`,
             which would fight a `hidden` on the button itself. */}
-        <span className="lg:hidden">
+        <span className="flex items-center gap-[8px] lg:hidden">
+          <Pill tone="violet" onClick={enterApp} className="!px-[16px] !py-[10px]">
+            Enter app
+          </Pill>
           <MobileMenu />
         </span>
         <span className="hidden lg:block">
@@ -765,8 +768,13 @@ function PhonePreview() {
         <div className="mx-auto mt-[30px] w-[258px]">
           {/* Same titanium rail and 60/50px radii as the real device frame on
               desktop, at the size a phone can actually show. */}
-          <div className="rounded-[38px] bg-[linear-gradient(158deg,#8e8e96_0%,#4a4a51_9%,#26262b_26%,#1c1c20_52%,#26262b_74%,#54545c_92%,#9a9aa2_100%)] p-[6px] shadow-[0_30px_60px_-24px_rgba(60,49,91,0.55)]">
-            <div className="relative overflow-hidden rounded-[32px] bg-black">
+          {/* The rail's gradient runs light at top-left to near-black at
+              bottom-right, which against a black screenshot made the right and
+              bottom edges vanish — it read as the app spilling out of the
+              frame. The screen carries a light hairline of its own now, so the
+              boundary is drawn on all four sides regardless of the gradient. */}
+          <div className="rounded-[38px] bg-[linear-gradient(158deg,#9a9aa2_0%,#54545c_9%,#33333a_26%,#26262b_52%,#33333a_74%,#5c5c64_92%,#a2a2aa_100%)] p-[7px] shadow-[0_0_0_1px_rgba(255,255,255,0.10)_inset,0_1px_1px_rgba(255,255,255,0.22)_inset,0_30px_60px_-24px_rgba(60,49,91,0.55)]">
+            <div className="relative overflow-hidden rounded-[32px] bg-black shadow-[0_0_0_1px_rgba(255,255,255,0.16)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/brand/app-preview.jpg"
