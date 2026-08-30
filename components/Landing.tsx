@@ -654,8 +654,26 @@ function HeroVideo({
   on: "mobile" | "desktop";
 }) {
   const wrap = useRef<HTMLDivElement>(null);
+  const lead = useRef<HTMLVideoElement>(null);
+  const echo = useRef<HTMLVideoElement>(null);
   const [live, setLive] = useState(false);
   const [still, setStill] = useState(false);
+
+  // Push the right-hand copy half a loop ahead, so the two sides are never
+  // showing the same moment and the overlap reads as one continuous field
+  // rather than a reflection. Drift between them is harmless here — that is
+  // the point of offsetting rather than mirroring.
+  useEffect(() => {
+    if (on !== "desktop" || !live) return;
+    const b = echo.current;
+    if (!b) return;
+    const offset = () => {
+      if (b.duration && Number.isFinite(b.duration)) b.currentTime = b.duration / 2;
+    };
+    if (b.readyState >= 1) offset();
+    else b.addEventListener("loadedmetadata", offset, { once: true });
+    return () => b.removeEventListener("loadedmetadata", offset);
+  }, [on, live]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -686,21 +704,31 @@ function HeroVideo({
       className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
     >
       {on === "desktop" ? (
+        // Two overlapping copies, each cover-cropped over about 58% of the
+        // card. The film is 360x550 portrait and the card is nearly twice as
+        // wide as it is tall, so one copy stretched across the whole thing
+        // would crop away about two thirds of the frame; split like this it
+        // loses roughly a fifth. The second copy runs half a loop behind the
+        // first and the two are feathered into each other, so there is no seam
+        // and none of the mirror symmetry that reads as a mistake. All film,
+        // no blurred stand-in.
         <>
-          {/* The film is 360x550 portrait and the card is three times as wide,
-              so it plays at its own aspect rather than being cover-cropped to
-              fit. What fills the rest is a plain ground, not a blurred copy of
-              the film — two different crops of the same thing playing at once
-              read as a mistake, and the blur muddied the card. */}
-          <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_78%_50%,#2a1b55_0%,#1b1236_45%,#141026_100%)]" />
           <video
+            ref={lead}
             {...film}
-            className="absolute inset-y-0 right-[2%] h-full w-auto max-w-none brightness-[1.3] saturate-[1.2]"
-            // Feathered on the left, or the sharp copy meets the blurred fill
-            // on a hard vertical seam.
+            className="absolute inset-y-0 left-0 h-full w-[58%] object-cover brightness-[1.3] saturate-[1.2]"
             style={{
-              maskImage: "linear-gradient(to right, transparent, #000 26%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, #000 26%)",
+              maskImage: "linear-gradient(to right, #000 62%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, #000 62%, transparent 100%)",
+            }}
+          />
+          <video
+            ref={echo}
+            {...film}
+            className="absolute inset-y-0 right-0 h-full w-[58%] object-cover brightness-[1.3] saturate-[1.2]"
+            style={{
+              maskImage: "linear-gradient(to left, #000 62%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to left, #000 62%, transparent 100%)",
             }}
           />
         </>
