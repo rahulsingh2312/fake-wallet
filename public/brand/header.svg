@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
-  <rect width="1500" height="500" fill="#ab9ff2"/>
-  <image href="ghost-mark.png" x="312" y="136" width="228" height="228"/>
-  <text x="584" y="288" font-family="'DejaVu Sans','Liberation Sans',sans-serif" font-weight="bold" font-size="108" fill="#fffdf8" letter-spacing="-4">larp wallet</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500"><rect width="1500" height="500" fill="#ab9ff2"/><image width="228" height="228" x="312" y="136" href="ghost-mark.png"/><text x="584" y="288" fill="#fffdf8" font-family="'DejaVu Sans','Liberation Sans',sans-serif" font-size="108" font-weight="bold" letter-spacing="-4">larp wallet</text></svg>
