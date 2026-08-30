@@ -731,7 +731,10 @@ function HeroVideo({
     muted: true,
     loop: true,
     playsInline: true,
-    preload: "metadata" as const,
+    // "auto", not "metadata": WebKit will happily sit on a metadata-only load
+    // and never start, and this file is the hero — if it is not playing it is
+    // not doing its job.
+    preload: "auto" as const,
   };
 
   return (
