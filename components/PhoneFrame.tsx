@@ -66,7 +66,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
             "relative isolate bg-black",
             "lg:h-full lg:overflow-hidden lg:rounded-[50px] lg:shadow-[0_0_0_1px_rgba(255,255,255,0.14),0_0_0_3px_#000]",
             "lg:[transform:translateZ(0)]",
-            "lg:[--status-h:44px] lg:[--safe-b:22px]",
+            "lg:[--status-h:57px] lg:[--safe-b:22px]",
           ].join(" ")}
         >
           <StatusBar />
@@ -83,7 +83,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
           {/* Dynamic Island */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-[11px] z-40 hidden h-[34px] w-[118px] -translate-x-1/2 rounded-full bg-black lg:block"
+            className="pointer-events-none absolute left-1/2 top-[11px] z-40 hidden h-[39px] w-[131px] -translate-x-1/2 rounded-full bg-black lg:block"
           >
             <span className="absolute right-[11px] top-1/2 h-[9px] w-[9px] -translate-y-1/2 rounded-full bg-[#0d0d12]" />
           </div>
@@ -111,8 +111,8 @@ function StatusBar() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 z-40 hidden h-[44px] items-center justify-between px-[26px] text-white lg:flex">
-      <span className="text-[15px] font-medium tabular-nums">
+    <div className="pointer-events-none absolute inset-x-0 top-0 z-40 hidden h-[57px] items-center justify-between px-[34px] pt-[4px] text-white lg:flex">
+      <span className="text-[16px] font-semibold tabular-nums">
         {time || " "}
       </span>
       <span className="flex items-center gap-[6px]">
