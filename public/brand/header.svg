@@ -1,18 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f8f6ff"/>
-      <stop offset="0.55" stop-color="#f2eeff"/>
-      <stop offset="1" stop-color="#ece6ff"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="0.5" cy="0.3" r="0.6">
-      <stop offset="0" stop-color="#ab9ff2" stop-opacity="0.28"/>
-      <stop offset="1" stop-color="#ab9ff2" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="1500" height="500" fill="url(#bg)"/>
-  <rect width="1500" height="500" fill="url(#glow)"/>
-  <image href="ghost-mark.png" x="376" y="140" width="220" height="220"/>
-  <text x="624" y="270" font-family="'DejaVu Sans','Liberation Sans',sans-serif" font-weight="bold" font-size="94" fill="#3c315b" letter-spacing="-4">larp wallet</text>
-  <text x="628" y="316" font-family="'DejaVu Sans','Liberation Sans',sans-serif" font-size="25" fill="#7a6f9c">your portfolio, exactly as big as you say it is.</text>
+  <rect width="1500" height="500" fill="#ab9ff2"/>
+  <image href="ghost-mark.png" x="312" y="136" width="228" height="228"/>
+  <text x="584" y="288" font-family="'DejaVu Sans','Liberation Sans',sans-serif" font-weight="bold" font-size="108" fill="#fffdf8" letter-spacing="-4">larp wallet</text>
 </svg>

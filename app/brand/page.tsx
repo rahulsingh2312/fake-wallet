@@ -48,7 +48,7 @@ export default function BrandPage() {
 
         <section>
           <h2><span className="num">02</span>Header &amp; share card</h2>
-          <p className="sub">Link previews and the profile banner, both on the lavender ground with the
+          <p className="sub">Link previews and the profile banner. Solid brand violet, mark and wordmark, nothing else &mdash; the same shape phantom.com uses, with the lockup
           gold lockup centred so the avatar never covers it.</p>
           <hr className="rule" />
           <figure><img src="/brand/header.png" alt="X header" />
