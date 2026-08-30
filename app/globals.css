@@ -12,21 +12,27 @@
   --color-ph-purple-dark: #8a7ee0;
   --color-ph-green: #21de7f;
 
-  /* landing (larp wallet) — white ground, gold + violet marks, phantom.com-style
-     type. The wallet above stays on Phantom's dark palette so the screenshots
-     keep matching. */
+  /* landing (larp wallet) — a phantom.com pastiche: lavender ground, cream
+     cards, deep-violet ink, all sampled off phantom.com itself. The gold ghost
+     and the gold CTA stay ours, so the page reads as phantom-shaped without
+     wearing phantom's mark. The wallet above stays on Phantom's dark app
+     palette so the screenshots keep matching. */
+  --color-fw-ground: #f5f2ff;
   --color-fw-paper: #ffffff;
   --color-fw-paper-2: #f6f3ff;
-  --color-fw-ink: #15101f;
-  --color-fw-ink-2: #4a4160;
-  --color-fw-mute: #7d7593;
-  --color-fw-line: #e7e2f5;
+  --color-fw-cream: #fffdf8;
+  --color-fw-lilac: #e2dffe;
+  --color-fw-night: #181622;
+  --color-fw-ink: #3c315b;
+  --color-fw-ink-2: #574a7d;
+  --color-fw-mute: #8b80ad;
+  --color-fw-line: #e6e0fb;
   /* brand gradient stops: gold ↔ violet, darkened enough to read on white. */
   --color-fw-grad-a: #c9962b;
   --color-fw-grad-b: #7c5cf0;
-  /* accents: fw-violet is the primary (rich violet, good contrast on white),
-     fw-violet-2 the deep gold, off the mark. */
-  --color-fw-violet: #7c5cf0;
+  /* accents: fw-violet is phantom's own purple, fw-violet-2 the deep gold
+     off our mark. */
+  --color-fw-violet: #ab9ff2;
   --color-fw-violet-2: #c9962b;
   --color-fw-teal: #7c5cf0;
   --color-ph-red: #ff4d4d;
@@ -53,8 +59,12 @@
  * it's a separate sibling tree that never reads these fw-* tokens.
  */
 [data-theme="dark"] {
-  --color-fw-paper: #150a2e;
-  --color-fw-paper-2: #1e1140;
+  --color-fw-ground: #120727;
+  --color-fw-paper: #1c0f3c;
+  --color-fw-paper-2: #241450;
+  --color-fw-cream: #1c0f3c;
+  --color-fw-lilac: #3c2f6e;
+  --color-fw-night: #0d0620;
   --color-fw-ink: #f7f3ff;
   --color-fw-ink-2: #cdbdf2;
   --color-fw-mute: #9a87c8;
@@ -98,11 +108,11 @@ body {
    */
   html,
   body {
-    background: #ffffff;
+    background: #f5f2ff;
   }
   html[data-theme="dark"],
   html[data-theme="dark"] body {
-    background: #150a2e;
+    background: #120727;
   }
 }
 
@@ -346,5 +356,59 @@ body {
   .fw-btn-grad,
   .fw-grad-text {
     animation: none !important;
+  }
+}
+
+/* ── phantom.com type scale ───────────────────────────────────────────────
+ * Sizes, weights, leading, tracking and both breakpoints are transcribed
+ * from phantom.com's own stylesheet so the landing sets type on exactly
+ * their rhythm. Two things carry most of the look: headings run at weight
+ * 400 (never bold) with -0.025em tracking, and body copy runs at 350 —
+ * which is why the display face has to be the variable cut.
+ */
+.ph-display { font-size: 150px; line-height: 0.9; font-weight: 400; letter-spacing: -0.025em; }
+.ph-h1      { font-size: 96px;  line-height: 1.1; font-weight: 400; letter-spacing: -0.025em; }
+.ph-h2      { font-size: 64px;  line-height: 1;   font-weight: 400; letter-spacing: -0.025em; }
+.ph-h3      { font-size: 40px;  line-height: 1.2; font-weight: 400; letter-spacing: normal; }
+.ph-h4      { font-size: 32px;  line-height: 1.2; font-weight: 400; letter-spacing: -0.025em; }
+.ph-h5      { font-size: 24px;  line-height: 1.35; font-weight: 400; letter-spacing: -0.025em; }
+.ph-lead    { font-size: 20px;  line-height: 1.4; font-weight: 350; }
+.ph-body    { font-size: 18px;  line-height: 1.4; font-weight: 350; }
+.ph-sm      { font-size: 15px;  line-height: 1.21; font-weight: 400; }
+.ph-xs      { font-size: 13px;  line-height: 16px; font-weight: 400; }
+
+@media screen and (max-width: 1279px) {
+  .ph-display { font-size: 110px; line-height: 0.9; }
+  .ph-h1      { font-size: 72px;  line-height: 1.1; }
+  .ph-h3      { font-size: 36px;  line-height: 1.2; }
+  .ph-h4      { font-size: 30px;  line-height: 1.2; }
+  .ph-h5      { font-size: 20px;  line-height: 1.2; }
+  .ph-lead    { font-size: 18px;  line-height: 1.4; }
+  .ph-sm      { font-size: 16px;  line-height: 1.4; }
+}
+
+/* ── scroll reveal ────────────────────────────────────────────────────────
+ * The old landing was one fixed screen, so everything could animate on load.
+ * The page scrolls now, so sections below the fold wait for the observer in
+ * Reveal() to add .is-in. Same curve as the hero's .reveal so the whole page
+ * moves with one voice.
+ */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-up.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

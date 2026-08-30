@@ -20,7 +20,7 @@ const STEPS: Step[] = [
   {
     target: "balance",
     caption: "tap this five times, fast",
-    hint: "there is no settings button, this is the way in",
+    hint: "or hit + at the bottom right. this way is cooler",
     underline: true,
   },
   {
@@ -240,13 +240,19 @@ export function Tour({ onEditor }: { onEditor: (open: boolean) => void }) {
 }
 
 /** Desktop replay link. */
-export function TourButton() {
+export function TourButton({
+  label = "how it works",
+  className = "transition-colors hover:text-fw-ink",
+}: {
+  label?: string;
+  className?: string;
+} = {}) {
   return (
     <button
       onClick={() => window.dispatchEvent(new Event(TOUR_EVENT))}
-      className="pointer-events-auto transition-colors hover:text-fw-ink"
+      className={`pointer-events-auto ${className}`}
     >
-      how it works
+      {label}
     </button>
   );
 }

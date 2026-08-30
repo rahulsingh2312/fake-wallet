@@ -2,7 +2,7 @@
 
 A fake Phantom wallet you can install on your phone. Gold ghost, violet ground, `$LARP` on Tribe.
 
-**Live: https://fakewalletz.vercel.app** &nbsp;·&nbsp; intended domain: larpwallet.fun
+**Live: https://fakewalletz.vercel.app** &nbsp;·&nbsp; intended domain: larpwallet.online
 
 `$LARP`. Contract address: coming soon.
 

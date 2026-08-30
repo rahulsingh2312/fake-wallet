@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto, Plus_Jakarta_Sans } from "next/font/google";
+import { Roboto, Figtree } from "next/font/google";
 import "./globals.css";
 
 // Phantom on Android renders in Roboto. Inter sits ~10% wider at the same cap
@@ -11,17 +11,19 @@ const roboto = Roboto({
   display: "swap",
 });
 
-// Landing-only display face, a rounded, bold grotesk in the spirit of
-// phantom.com's own type. The wallet itself stays on Roboto so it keeps
-// matching the real app.
-const display = Plus_Jakarta_Sans({
+// Landing-only display face. phantom.com sets everything in "Phantom", a
+// proprietary grotesk we can't ship; Figtree is the closest thing on Google
+// Fonts — same single-storey `g`, straight-tailed `y` and near-identical
+// widths at the same optical size. Loaded as the variable font on purpose:
+// phantom's body copy sits at weight 350, which a static set can't hit.
+// The wallet itself stays on Roboto so it keeps matching the real app.
+const display = Figtree({
   subsets: ["latin"],
-  weight: ["500", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });
 
-// larpwallet.fun is the intended domain but isn't pointed at this deploy yet
+// larpwallet.online is the intended domain but isn't pointed at this deploy yet
 // (it resolves to a parked page, so /brand/og.png 404s there). metadataBase
 // resolves every relative asset URL (OG image included) against this host,
 // so it has to be wherever the site actually lives right now, or link
@@ -75,7 +77,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${roboto.variable} ${display.variable}`}>
+    // suppressHydrationWarning: the pre-paint script below stamps data-theme
+    // on this element before React hydrates, so the server HTML and the client
+    // DOM never match here by design.
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${roboto.variable} ${display.variable}`}
+    >
       <body className="bg-ph-bg text-ph-text antialiased no-select">
         {/* Applies a saved dark-mode choice before paint, so the landing
             doesn't flash light then repaint dark. Only ThemeToggle writes

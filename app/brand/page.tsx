@@ -18,7 +18,7 @@ export default function BrandPage() {
     <div className={`bk ${display.variable} ${body.variable} ${mono.variable}`}>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="wrap">
-        <p className="eyebrow">brand kit &middot; larpwallet.fun</p>
+        <p className="eyebrow">brand kit &middot; larpwallet.online</p>
         <h1>Everything <em>fake</em> needs to look real.</h1>
         <p className="lede">A gold ghost on a violet ground. Mark, header, share card and favicon
         for larp wallet, matched to the app that&rsquo;s already shipped.</p>

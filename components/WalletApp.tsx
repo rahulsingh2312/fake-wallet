@@ -87,7 +87,8 @@ export function WalletApp() {
             <span className="text-[16.8px] text-[#8e9296]">Search Phantom</span>
           </div>
           <button
-            aria-label="New"
+            aria-label="Add tokens and balances"
+            onClick={() => setAdmin(true)}
             className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-ph-purple active:opacity-80"
           >
             <PlusIcon className="h-[22px] w-[22px] text-black" />

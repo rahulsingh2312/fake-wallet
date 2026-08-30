@@ -3,8 +3,8 @@
 import { WalletProvider } from "@/lib/store";
 import {
   LandingFooter,
-  LandingLeft,
-  LandingRight,
+  LandingHero,
+  LandingSections,
   LandingTopBar,
 } from "./Landing";
 import { PhoneFrame } from "./PhoneFrame";
@@ -13,31 +13,30 @@ import { RegisterSW } from "./RegisterSW";
 import { WalletApp } from "./WalletApp";
 
 /**
- * One route, two experiences. Phones get nothing but the wallet. From `lg` up
- * the wallet moves into a device frame and the space either side becomes the
- * landing page.
+ * One route, two experiences. Phones get nothing but the wallet — every
+ * landing piece below is `hidden lg:…`, and LandingHero collapses to
+ * `display: contents` so the phone frame still fills the screen.
+ *
+ * From `lg` up this is a phantom.com-shaped marketing page: sticky nav, one
+ * big rounded hero card with the live wallet sitting in it as the art, then
+ * the sections and a column footer underneath. It scrolls now — it used to be
+ * a single locked viewport — so Scene is fixed rather than absolute, and the
+ * top bar is sticky rather than pinned.
  */
 export function Landing() {
   return (
     <WalletProvider>
-      <div className="relative min-h-dvh bg-black lg:grid lg:bg-fw-paper lg:min-h-dvh lg:place-items-center lg:overflow-hidden">
+      <div className="relative min-h-dvh bg-black lg:bg-fw-ground">
         <Scene />
         <LandingTopBar />
 
-        <div className="lg:flex lg:items-center lg:gap-[clamp(28px,4.4vw,84px)] lg:px-[38px] lg:py-[66px]">
-          <div className="hidden lg:block">
-            <LandingLeft />
-          </div>
-
+        <LandingHero>
           <PhoneFrame>
             <WalletApp />
           </PhoneFrame>
+        </LandingHero>
 
-          <div className="hidden lg:block">
-            <LandingRight />
-          </div>
-        </div>
-
+        <LandingSections />
         <LandingFooter />
       </div>
       <RegisterSW />

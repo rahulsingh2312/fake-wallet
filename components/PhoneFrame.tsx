@@ -16,12 +16,13 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
   // The device is authored at a fixed 432x892 so the wallet inside always
   // renders at exactly 412 css px, which is what every metric was matched to.
   // Short desktop windows scale the whole device instead of squashing it.
+  // The 212px budget is the sticky nav plus the hero card's vertical padding.
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const fit = () => {
       if (!window.matchMedia("(min-width: 1024px)").matches) return setScale(1);
-      setScale(Math.min(1, (window.innerHeight - 132) / 892));
+      setScale(Math.min(1, (window.innerHeight - 212) / 892));
     };
     fit();
     window.addEventListener("resize", fit);
