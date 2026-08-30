@@ -728,6 +728,60 @@ function HeroVideo({
     return () => starts.forEach((off) => off());
   }, [live, still]);
 
+  /** Whether the film is actually running, as opposed to asked to. */
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    const v = lead.current;
+    if (!v) return;
+    const sync = () => setPlaying(!v.paused && !v.ended && v.readyState > 2);
+    sync();
+    for (const e of ["play", "playing", "pause", "ended", "stalled", "waiting"]) {
+      v.addEventListener(e, sync);
+    }
+    return () => {
+      for (const e of ["play", "playing", "pause", "ended", "stalled", "waiting"]) {
+        v.removeEventListener(e, sync);
+      }
+    };
+  }, [live]);
+
+  /** Explicit start, for the button. Overrides a reduced-motion hold, because
+   *  at that point playing it is what the person just asked for. */
+  const start = () => {
+    setStill(false);
+    wrap.current?.querySelectorAll("video").forEach((v) => {
+      v.muted = true;
+      void v.play().catch(() => {});
+    });
+  };
+
+  /**
+   * If autoplay was refused, take the first gesture anywhere as permission.
+   * iOS Low Power Mode refuses every autoplay, and that is the single most
+   * likely reason a phone shows the poster and nothing else. Not wired up
+   * under reduced motion — there the still is the correct outcome, and the
+   * button is the way to override it deliberately.
+   */
+  useEffect(() => {
+    if (!live || still || playing) return;
+    const kick = () => {
+      wrap.current?.querySelectorAll("video").forEach((v) => {
+        v.muted = true;
+        void v.play().catch(() => {});
+      });
+    };
+    const opts = { passive: true } as const;
+    window.addEventListener("pointerdown", kick, opts);
+    window.addEventListener("touchend", kick, opts);
+    window.addEventListener("scroll", kick, opts);
+    return () => {
+      window.removeEventListener("pointerdown", kick);
+      window.removeEventListener("touchend", kick);
+      window.removeEventListener("scroll", kick);
+    };
+  }, [live, still, playing]);
+
   const film = {
     src: live ? "/brand/hero.mp4" : undefined,
     poster: "/brand/hero-poster.jpg",
@@ -742,6 +796,7 @@ function HeroVideo({
   };
 
   return (
+    <>
     <div
       ref={wrap}
       aria-hidden
@@ -784,7 +839,11 @@ function HeroVideo({
         </>
       ) : (
         // A phone card is nearly the film's own shape, so cover barely crops.
-        <video {...film} className="h-full w-full object-cover brightness-[1.3] saturate-[1.2]" />
+        // `lead` matters here beyond the desktop offset: the playing/stalled
+        // detection watches it, and without the ref the phone would decide the
+        // film was never running and sit a play button on top of a film that
+        // very much was.
+        <video ref={lead} {...film} className="h-full w-full object-cover brightness-[1.3] saturate-[1.2]" />
       )}
 
       <div
@@ -805,6 +864,22 @@ function HeroVideo({
         }}
       />
     </div>
+
+    {/* Shown only when the film is loaded but not running — a blocked
+        autoplay, or a reduced-motion hold. Without it a phone in Low Power
+        Mode just shows a still with no way to know it was ever a film. */}
+    {live && !playing && (
+      <button
+        onClick={start}
+        className="absolute bottom-[14px] right-[14px] z-20 flex items-center gap-[7px] rounded-full bg-black/50 px-[13px] py-[8px] text-[13px] font-medium text-white/90 backdrop-blur-sm transition-colors hover:bg-black/65"
+      >
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden>
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        play
+      </button>
+    )}
+    </>
   );
 }
 
