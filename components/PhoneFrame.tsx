@@ -50,8 +50,8 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
           // device shell
           "lg:absolute lg:left-0 lg:top-0 lg:h-[892px] lg:w-[432px] lg:origin-top-left lg:rounded-[60px] lg:p-[10px]",
           "lg:[transform:scale(var(--s))]",
-          "lg:bg-[linear-gradient(158deg,#8e8e96_0%,#4a4a51_9%,#26262b_26%,#1c1c20_52%,#26262b_74%,#54545c_92%,#9a9aa2_100%)]",
-          "lg:shadow-[0_0_0_1px_rgba(255,255,255,0.10)_inset,0_1px_1px_rgba(255,255,255,0.22)_inset,0_50px_110px_-28px_rgba(0,0,0,0.95),0_0_90px_-30px_rgba(171,159,242,0.45)]",
+          "lg:bg-[linear-gradient(158deg,#b4b4bd_0%,#6b6b74_8%,#3a3a42_24%,#2a2a31_50%,#3a3a42_74%,#74747e_92%,#bcbcc6_100%)]",
+          "lg:shadow-[0_0_0_1px_rgba(255,255,255,0.16)_inset,0_1.5px_1px_rgba(255,255,255,0.30)_inset,0_-1px_1px_rgba(0,0,0,0.5)_inset,0_50px_110px_-28px_rgba(0,0,0,0.95),0_0_90px_-30px_rgba(171,159,242,0.45)]",
         ].join(" ")}
       >
         {/* side buttons */}
@@ -64,7 +64,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
         <div
           className={[
             "relative isolate bg-black",
-            "lg:h-full lg:overflow-hidden lg:rounded-[50px] lg:shadow-[0_0_0_2px_#000]",
+            "lg:h-full lg:overflow-hidden lg:rounded-[50px] lg:shadow-[0_0_0_1px_rgba(255,255,255,0.14),0_0_0_3px_#000]",
             "lg:[transform:translateZ(0)]",
             "lg:[--status-h:44px] lg:[--safe-b:22px]",
           ].join(" ")}

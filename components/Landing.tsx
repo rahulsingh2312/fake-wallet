@@ -687,20 +687,20 @@ function HeroVideo({
     >
       {on === "desktop" ? (
         <>
-          {/* The film is 360x550 portrait. Cover-cropping it into a card three
-              times as wide threw away most of the frame and left a hard zoom on
-              whatever was left. So it plays at its own aspect, and a blurred,
-              oversized copy fills the rest of the card behind it — the frame
-              stays whole and the colour still reaches the edges. */}
-          <video {...film} className="absolute inset-0 h-full w-full scale-125 object-cover blur-[32px] brightness-[1.5] saturate-[1.4]" />
+          {/* The film is 360x550 portrait and the card is three times as wide,
+              so it plays at its own aspect rather than being cover-cropped to
+              fit. What fills the rest is a plain ground, not a blurred copy of
+              the film — two different crops of the same thing playing at once
+              read as a mistake, and the blur muddied the card. */}
+          <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_78%_50%,#2a1b55_0%,#1b1236_45%,#141026_100%)]" />
           <video
             {...film}
-            className="absolute inset-y-0 right-[3%] h-full w-auto max-w-none brightness-[1.35] saturate-[1.25]"
+            className="absolute inset-y-0 right-[2%] h-full w-auto max-w-none brightness-[1.3] saturate-[1.2]"
             // Feathered on the left, or the sharp copy meets the blurred fill
             // on a hard vertical seam.
             style={{
-              maskImage: "linear-gradient(to right, transparent, #000 22%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, #000 22%)",
+              maskImage: "linear-gradient(to right, transparent, #000 26%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, #000 26%)",
             }}
           />
         </>
@@ -773,14 +773,14 @@ function PhonePreview() {
               bottom edges vanish — it read as the app spilling out of the
               frame. The screen carries a light hairline of its own now, so the
               boundary is drawn on all four sides regardless of the gradient. */}
-          <div className="rounded-[38px] bg-[linear-gradient(158deg,#9a9aa2_0%,#54545c_9%,#33333a_26%,#26262b_52%,#33333a_74%,#5c5c64_92%,#a2a2aa_100%)] p-[7px] shadow-[0_0_0_1px_rgba(255,255,255,0.10)_inset,0_1px_1px_rgba(255,255,255,0.22)_inset,0_30px_60px_-24px_rgba(60,49,91,0.55)]">
-            <div className="relative overflow-hidden rounded-[32px] bg-black shadow-[0_0_0_1px_rgba(255,255,255,0.16)]">
+          <div className="rounded-[40px] bg-[linear-gradient(158deg,#b4b4bd_0%,#6b6b74_8%,#3a3a42_24%,#2a2a31_50%,#3a3a42_74%,#74747e_92%,#bcbcc6_100%)] p-[7px] shadow-[0_0_0_1px_rgba(255,255,255,0.16)_inset,0_1.5px_1px_rgba(255,255,255,0.30)_inset,0_-1px_1px_rgba(0,0,0,0.5)_inset,0_26px_50px_-20px_rgba(60,49,91,0.5)]">
+            <div className="relative overflow-hidden rounded-[34px] bg-black shadow-[0_0_0_1px_rgba(255,255,255,0.14)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/brand/app-preview.jpg"
                 alt="the larp wallet home screen, showing a portfolio balance"
                 width={824}
-                height={1783}
+                height={1742}
                 className="block h-auto w-full"
               />
             </div>
