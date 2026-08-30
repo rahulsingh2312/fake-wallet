@@ -101,7 +101,10 @@ function Reveal({
         el.classList.add("is-in");
         io.unobserve(el);
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.05 }
+      // A fixed inset, not a percentage. The one-line footer is short enough
+      // that a -12% bottom margin sat below it even with the page scrolled all
+      // the way down, so it never crossed the threshold and never appeared.
+      { rootMargin: "0px 0px -60px 0px", threshold: 0.05 }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -136,22 +139,40 @@ function Card({
   );
 }
 
-/** X and Telegram — icons only, no accounts exist yet so they don't link
- * anywhere. Muted and non-navigating on purpose, same "not live yet" language
- * as the $LARP contract-address row. */
+/** X and Telegram. Both are live accounts now, so these actually go
+ * somewhere — they used to be muted "coming soon" placeholders. */
+const SOCIALS = [
+  {
+    name: "X",
+    href: "https://x.com/LarpWalletSol",
+    path: "M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4H5.6l12.1 16Z",
+    size: 16,
+  },
+  {
+    name: "Telegram",
+    href: "https://t.me/larpwalletfun",
+    path: "M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.9.9l-5.2-3.9-2.5 2.4c-.3.3-.5.5-1 .5l.3-5.1L18 5.9c.5-.4-.1-.6-.7-.3L6.3 12.5 1.2 11c-1.1-.3-1.1-1.1.2-1.6L20.5 2.6c.9-.3 1.7.2 1.4 1.7Z",
+    size: 17,
+  },
+];
+
 function SocialIcons({ className = "" }: { className?: string }) {
   return (
     <span className={`flex items-center gap-[14px] text-fw-mute ${className}`}>
-      <span title="coming soon" className="cursor-default opacity-60 transition-opacity hover:opacity-90">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4H5.6l12.1 16Z" />
-        </svg>
-      </span>
-      <span title="coming soon" className="cursor-default opacity-60 transition-opacity hover:opacity-90">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor">
-          <path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.9.9l-5.2-3.9-2.5 2.4c-.3.3-.5.5-1 .5l.3-5.1L18 5.9c.5-.4-.1-.6-.7-.3L6.3 12.5 1.2 11c-1.1-.3-1.1-1.1.2-1.6L20.5 2.6c.9-.3 1.7.2 1.4 1.7Z" />
-        </svg>
-      </span>
+      {SOCIALS.map((s) => (
+        <a
+          key={s.name}
+          href={s.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={s.name}
+          className="transition-colors hover:text-fw-violet"
+        >
+          <svg viewBox="0 0 24 24" width={s.size} height={s.size} fill="currentColor">
+            <path d={s.path} />
+          </svg>
+        </a>
+      ))}
     </span>
   );
 }
@@ -216,12 +237,130 @@ function CopyDomain({ className = "" }: { className?: string }) {
 
 /* ---------------------------------- nav ---------------------------------- */
 
-const NAV = [
-  { label: "Features", to: "tools", chev: true },
-  { label: "Cope", to: "security", chev: true },
-  { label: "Explore", to: "money", chev: false },
-  { label: "Company", to: "get-started", chev: true },
+type NavItem = {
+  label: string;
+  to: string;
+  menu?: { t: string; d: string; to?: string; href?: string }[];
+};
+
+const NAV: NavItem[] = [
+  {
+    label: "Features",
+    to: "tools",
+    menu: [
+      { t: "Balances", d: "any number you like", to: "tools" },
+      { t: "Cope Markets", d: "bet on your own comeback", to: "tools" },
+      { t: "Perps", d: "losses you never took", to: "tools" },
+      { t: "Group chat terminal", d: "one screenshot, straight there", to: "tools" },
+    ],
+  },
+  {
+    label: "Cope",
+    to: "security",
+    menu: [
+      { t: "Self-larped", d: "nothing here to drain", to: "security" },
+      { t: "0/7 support", d: "nobody is coming", to: "security" },
+      { t: "Scam detection", d: "detects one (1) scam", to: "security" },
+    ],
+  },
+  { label: "Explore", to: "money" },
+  {
+    label: "Company",
+    to: "get-started",
+    menu: [
+      { t: "Brand kit", d: "the mark, the card, the palette", href: "/brand" },
+      { t: "Careers", d: "there are no jobs" },
+      { t: "Press", d: "nobody has called" },
+    ],
+  },
 ];
+
+/**
+ * phantom.com's nav items open a floating panel on hover. Ours do the same —
+ * there is nothing real to put behind them, so they carry the joke instead,
+ * and every row still lands you somewhere on the page.
+ *
+ * Hover opens it; focus does too, so it is reachable without a mouse.
+ */
+function NavMenu({ item }: { item: NavItem }) {
+  const [open, setOpen] = useState(false);
+  const close = useRef<number | undefined>(undefined);
+
+  const show = () => {
+    window.clearTimeout(close.current);
+    setOpen(true);
+  };
+  // A grace period, or the panel vanishes while the pointer travels to it.
+  const hide = () => {
+    window.clearTimeout(close.current);
+    close.current = window.setTimeout(() => setOpen(false), 130);
+  };
+
+  useEffect(() => () => window.clearTimeout(close.current), []);
+
+  if (!item.menu) {
+    return (
+      <button
+        onClick={() => goTo(item.to)}
+        className="flex items-center gap-[5px] rounded-full px-[16px] py-[9px] transition-colors hover:bg-fw-ground"
+      >
+        {item.label}
+      </button>
+    );
+  }
+
+  return (
+    <div className="relative" onMouseEnter={show} onMouseLeave={hide}>
+      <button
+        onClick={() => goTo(item.to)}
+        onFocus={show}
+        onBlur={hide}
+        aria-expanded={open}
+        className={`flex items-center gap-[5px] rounded-full px-[16px] py-[9px] transition-colors ${
+          open ? "bg-fw-ground" : "hover:bg-fw-ground"
+        }`}
+      >
+        {item.label}
+        <span className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>
+          <Chev />
+        </span>
+      </button>
+
+      <div
+        className={`absolute left-1/2 top-[calc(100%+10px)] w-[290px] -translate-x-1/2 origin-top rounded-[20px] border border-fw-line bg-fw-paper p-[8px] shadow-[0_20px_50px_-20px_rgba(60,49,91,0.4)] transition-all duration-200 ${
+          open
+            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none -translate-y-[6px] scale-[0.97] opacity-0"
+        }`}
+      >
+        {item.menu.map((m) =>
+          m.href ? (
+            <a
+              key={m.t}
+              href={m.href}
+              className="block rounded-[14px] px-[14px] py-[11px] text-left transition-colors hover:bg-fw-ground"
+            >
+              <span className="block ph-sm font-medium text-fw-ink">{m.t}</span>
+              <span className="mt-[2px] block ph-xs text-fw-mute">{m.d}</span>
+            </a>
+          ) : (
+            <button
+              key={m.t}
+              onClick={() => {
+                setOpen(false);
+                if (m.to) goTo(m.to);
+              }}
+              className="block w-full rounded-[14px] px-[14px] py-[11px] text-left transition-colors hover:bg-fw-ground"
+            >
+              <span className="block ph-sm font-medium text-fw-ink">{m.t}</span>
+              <span className="mt-[2px] block ph-xs text-fw-mute">{m.d}</span>
+            </button>
+          )
+        )}
+      </div>
+    </div>
+  );
+}
 
 /**
  * phantom.com's nav: wordmark hard left, a floating white pill of links dead
@@ -229,10 +368,24 @@ const NAV = [
  * scrolls under it.
  */
 export function LandingTopBar() {
+  // Transparent over the lavender ground at rest, but the dark hero and
+  // get-started panels scroll underneath it — and the wordmark is dark ink, so
+  // without a ground of its own it disappears against them.
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header
       data-landing-view
-      className="pointer-events-none sticky top-0 z-30 flex items-center justify-between gap-[20px] px-[14px] py-[12px] font-display lg:px-[20px] lg:py-[16px]"
+      className={`pointer-events-none sticky top-0 z-30 flex items-center justify-between gap-[20px] px-[14px] py-[12px] font-display transition-colors duration-200 lg:px-[20px] lg:py-[16px] ${
+        scrolled ? "bg-fw-ground/85 backdrop-blur-xl" : ""
+      }`}
     >
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -242,16 +395,9 @@ export function LandingTopBar() {
         larpwallet<span className="fw-grad-text -ml-[7px]">.</span>
       </button>
 
-      <nav className="pointer-events-auto hidden items-center gap-[4px] rounded-full bg-fw-paper px-[10px] py-[7px] ph-sm text-fw-ink lg:flex">
+      <nav className="pointer-events-auto relative z-10 hidden items-center gap-[4px] rounded-full bg-fw-paper px-[10px] py-[7px] ph-sm text-fw-ink lg:flex">
         {NAV.map((n) => (
-          <button
-            key={n.label}
-            onClick={() => goTo(n.to)}
-            className="flex items-center gap-[5px] rounded-full px-[16px] py-[9px] transition-colors hover:bg-fw-ground"
-          >
-            {n.label}
-            {n.chev && <Chev />}
-          </button>
+          <NavMenu key={n.label} item={n} />
         ))}
         <TourButton className="rounded-full px-[16px] py-[9px] transition-colors hover:bg-fw-ground" label="Support" />
       </nav>
@@ -347,7 +493,7 @@ function MobileHero() {
   return (
     <section data-landing-view className="px-[14px] pb-[8px] font-display lg:hidden">
       <div className="relative isolate flex min-h-[74dvh] flex-col justify-end overflow-hidden rounded-[26px] bg-fw-night px-[22px] pb-[26px] pt-[46px]">
-        <HeroVideo on="mobile" scrim="bg-fw-night/20" />
+        <HeroVideo on="mobile" />
 
         <span className="ph-sm text-[#e9e4ff]/75">
           the money app that&rsquo;ll take you screenshots
@@ -400,31 +546,21 @@ function MobileHero() {
  */
 function HeroVideo({
   on,
-  scrim = "bg-fw-night/25",
 }: {
   /** Which hero this instance belongs to. Both heroes are in the DOM at all
    * times and CSS hides the wrong one — but a display:none <video> still
    * downloads, so the file would land twice, and on phones one of those is
    * 1.1MB spent on a card nobody can see. Only the live one gets a src. */
   on: "mobile" | "desktop";
-  scrim?: string;
 }) {
-  // The film is 360x550 portrait. Cover-cropping that into a wide desktop card
-  // keeps only a narrow middle band, and a flat scrim on top of that left the
-  // whole hero reading as plain black. So the scrim is directional instead:
-  // heavy where the type sits, barely there where the film should show.
-  const wash =
-    on === "desktop"
-      ? "bg-gradient-to-r from-fw-night via-fw-night/70 to-fw-night/5"
-      : "bg-gradient-to-t from-fw-night via-fw-night/55 to-fw-night/10";
-  const ref = useRef<HTMLVideoElement>(null);
-  const [still, setStill] = useState(false);
+  const wrap = useRef<HTMLDivElement>(null);
   const [live, setLive] = useState(false);
+  const [still, setStill] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setStill(true);
-      ref.current?.pause();
+      wrap.current?.querySelectorAll("video").forEach((v) => v.pause());
     }
     const mq = window.matchMedia("(min-width: 1024px)");
     const sync = () => setLive(on === "desktop" ? mq.matches : !mq.matches);
@@ -433,23 +569,55 @@ function HeroVideo({
     return () => mq.removeEventListener("change", sync);
   }, [on]);
 
+  const film = {
+    src: live ? "/brand/hero.mp4" : undefined,
+    poster: "/brand/hero-poster.jpg",
+    autoPlay: live && !still,
+    muted: true,
+    loop: true,
+    playsInline: true,
+    preload: "metadata" as const,
+  };
+
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <video
-        ref={ref}
-        className="h-full w-full scale-[1.02] object-cover"
-        src={live ? "/brand/hero.mp4" : undefined}
-        poster="/brand/hero-poster.jpg"
-        autoPlay={live && !still}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      />
-      <div className={`absolute inset-0 ${scrim}`} />
-      <div className={`absolute inset-0 ${wash}`} />
+    <div
+      ref={wrap}
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+    >
+      {on === "desktop" ? (
+        <>
+          {/* The film is 360x550 portrait. Cover-cropping it into a card three
+              times as wide threw away most of the frame and left a hard zoom on
+              whatever was left. So it plays at its own aspect, and a blurred,
+              oversized copy fills the rest of the card behind it — the frame
+              stays whole and the colour still reaches the edges. */}
+          <video {...film} className="absolute inset-0 h-full w-full scale-125 object-cover blur-[64px] brightness-[1.5] saturate-[1.4]" />
+          <video
+            {...film}
+            className="absolute inset-y-0 right-[3%] h-full w-auto max-w-none brightness-[1.35] saturate-[1.25]"
+            // Feathered on the left, or the sharp copy meets the blurred fill
+            // on a hard vertical seam.
+            style={{
+              maskImage: "linear-gradient(to right, transparent, #000 22%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, #000 22%)",
+            }}
+          />
+        </>
+      ) : (
+        // A phone card is nearly the film's own shape, so cover barely crops.
+        <video {...film} className="h-full w-full object-cover brightness-[1.3] saturate-[1.2]" />
+      )}
+
       <div
-        className="absolute inset-0 opacity-[0.45]"
+        className={
+          on === "desktop"
+            ? "absolute inset-0 bg-gradient-to-r from-fw-night via-fw-night/60 to-transparent"
+            : "absolute inset-0 bg-gradient-to-t from-fw-night via-fw-night/45 to-transparent"
+        }
+      />
+      <div
+        className="absolute inset-0 opacity-[0.4]"
         style={{
           backgroundImage:
             "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
@@ -742,90 +910,55 @@ const STEPS: { n: string; icon: IconKind; t: string; d: string }[] = [
 
 /* --------------------------------- footer -------------------------------- */
 
-const FOOTER: { head: string; items: { t: string; href?: string; onClick?: string }[] }[] = [
-  {
-    head: "Product",
-    items: [
-      { t: "Download", onClick: "get-started" },
-      { t: "Brand kit", href: "/brand" },
-      { t: "How it works", onClick: "tools" },
-      { t: "Feature requests" },
-    ],
-  },
-  {
-    head: "Resources",
-    items: [
-      { t: "Explore", onClick: "money" },
-      { t: "Cope", onClick: "security" },
-      { t: "Blog" },
-      { t: "Docs" },
-      { t: "Taxes" },
-    ],
-  },
-  {
-    head: "Company",
-    items: [{ t: "About" }, { t: "Careers" }, { t: "Press kit", href: "/brand" }, { t: "Merch" }],
-  },
+/** One line of links. The four-column version was a lot of scaffolding for a
+ * site with three real destinations. */
+const FOOTER_LINKS: { t: string; to?: string; href?: string }[] = [
+  { t: "Features", to: "tools" },
+  { t: "Explore", to: "money" },
+  { t: "Cope", to: "security" },
+  { t: "Download", to: "get-started" },
+  { t: "Brand kit", href: "/brand" },
 ];
 
 export function LandingFooter() {
   return (
-    <footer data-landing-view className="px-[20px] pb-[40px] pt-[96px] font-display md:px-[clamp(32px,5vw,84px)] lg:pb-[56px] lg:pt-[150px]">
+    <footer
+      data-landing-view
+      className="px-[20px] pb-[34px] pt-[86px] font-display md:px-[clamp(32px,5vw,84px)] lg:pt-[130px]"
+    >
       <Reveal>
-        <div className="grid grid-cols-2 gap-[28px] border-t border-fw-line pt-[32px] md:grid-cols-[1.4fr_repeat(3,1fr)_auto] md:gap-[24px] md:pt-[44px]">
-          <div className="col-span-2 md:col-span-1">
-            <span className="flex items-center gap-[9px] text-[19px] font-bold tracking-[-0.03em] text-fw-ink">
-              <GhostMark size={28} />
-              larpwallet<span className="fw-grad-text -ml-[7px]">.</span>
-            </span>
-            <p className="ph-body mt-[14px] max-w-[30ch] text-fw-mute">
-              a ui clone. not affiliated with any wallet, and definitely not
-              with the one it looks like.
-            </p>
-          </div>
+        <div className="flex flex-col gap-[18px] border-t border-fw-line pt-[24px] md:flex-row md:items-center md:gap-[26px]">
+          <span className="flex shrink-0 items-center gap-[8px] text-[17px] font-bold tracking-[-0.03em] text-fw-ink">
+            <GhostMark size={24} />
+            larpwallet<span className="fw-grad-text -ml-[6px]">.</span>
+          </span>
 
-          {FOOTER.map((col) => (
-            <div key={col.head}>
-              <span className="ph-xs font-mono uppercase tracking-[0.16em] text-fw-mute">
-                {col.head}
-              </span>
-              <ul className="mt-[16px] flex flex-col gap-[10px] ph-sm text-fw-ink-2">
-                {col.items.map((it) => (
-                  <li key={it.t}>
-                    {it.href ? (
-                      <a href={it.href} className="transition-colors hover:text-fw-violet">
-                        {it.t}
-                      </a>
-                    ) : it.onClick ? (
-                      <button
-                        onClick={() => goTo(it.onClick!)}
-                        className="transition-colors hover:text-fw-violet"
-                      >
-                        {it.t}
-                      </button>
-                    ) : (
-                      <span title="coming soon" className="cursor-default text-fw-mute/60">
-                        {it.t}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <nav className="flex flex-wrap items-center gap-x-[20px] gap-y-[8px] ph-sm text-fw-ink-2">
+            {FOOTER_LINKS.map((l) =>
+              l.href ? (
+                <a key={l.t} href={l.href} className="transition-colors hover:text-fw-violet">
+                  {l.t}
+                </a>
+              ) : (
+                <button
+                  key={l.t}
+                  onClick={() => goTo(l.to!)}
+                  className="transition-colors hover:text-fw-violet"
+                >
+                  {l.t}
+                </button>
+              )
+            )}
+          </nav>
 
-          <div>
-            <span className="ph-xs font-mono uppercase tracking-[0.16em] text-fw-mute">
-              Socials
-            </span>
-            <SocialIcons className="mt-[16px]" />
-          </div>
+          <SocialIcons className="md:ml-auto" />
         </div>
 
-        <div className="mt-[32px] flex flex-col gap-[8px] border-t border-fw-line pt-[22px] ph-xs text-fw-mute md:mt-[44px] md:flex-row md:items-center md:justify-between md:gap-0">
-          <span>© larp wallet 2026 · no keys, no wallet connect, no real money.</span>
+        <p className="mt-[18px] ph-xs text-fw-mute">
+          a ui clone. not affiliated with any wallet. no keys, no wallet
+          connect, no real money. © larp wallet 2026 &middot;{" "}
           <span className="font-mono italic">larp it till u make it</span>
-        </div>
+        </p>
       </Reveal>
     </footer>
   );

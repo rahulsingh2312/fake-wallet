@@ -1,4 +1,9 @@
-const CACHE = "larp-phantom-v1";
+// Bump CACHE on any change here: the activate handler drops every cache whose
+// key doesn't match, which is the only thing that clears assets stored by an
+// older build. v1 kept serving pre-landing files to phones that had visited
+// before, which is why the mobile landing didn't appear for people who had
+// been on the site already.
+const CACHE = "larp-phantom-v3";
 const SHELL = ["/", "/manifest.webmanifest", "/avatar.png", "/icon-192.png"];
 
 self.addEventListener("install", (e) => {
@@ -41,20 +46,22 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // Everything else: cache first, then network (and remember it).
+  // Everything else: serve the cached copy for speed, but always refetch in
+  // the background so the next load has the current file. The old version was
+  // cache-first with no revalidation, so anything it stored was frozen for
+  // good — a deploy could never reach a phone that had the file already.
   e.respondWith(
-    caches.match(req).then(
-      (hit) =>
-        hit ||
-        fetch(req)
-          .then((res) => {
-            if (res.ok && (url.origin === self.location.origin || res.type === "basic")) {
-              const copy = res.clone();
-              caches.open(CACHE).then((c) => c.put(req, copy));
-            }
-            return res;
-          })
-          .catch(() => hit)
-    )
+    caches.match(req).then((hit) => {
+      const fresh = fetch(req)
+        .then((res) => {
+          if (res.ok && (url.origin === self.location.origin || res.type === "basic")) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => hit);
+      return hit || fresh;
+    })
   );
 });

@@ -89,11 +89,13 @@ export default function RootLayout({
         {/* Launched from the home screen? Skip the landing and open straight
             into the wallet. Runs before paint so installed users never see the
             marketing page flash past. LandingShell sets the same attribute
-            when you tap "Enter app". */}
+            when you tap "Enter app".
+            `?site` overrides it — the way back to the landing from an
+            installed app without having to uninstall it. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true)document.documentElement.setAttribute('data-view','app');}catch(e){}",
+              "try{if(location.search.indexOf('site')===-1&&(matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true))document.documentElement.setAttribute('data-view','app');}catch(e){}",
           }}
         />
         {children}
