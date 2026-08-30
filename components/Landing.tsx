@@ -311,7 +311,7 @@ export function LandingHero({ children }: { children: React.ReactNode }) {
       <div className="contents lg:relative lg:isolate lg:grid lg:min-h-[calc(100dvh-96px)] lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-[clamp(24px,3.5vw,72px)] lg:overflow-hidden lg:rounded-[32px] lg:bg-fw-night lg:px-[clamp(32px,4.4vw,76px)] lg:py-[44px]">
         <HeroArt />
 
-        <div className="hidden lg:flex lg:min-w-0 lg:flex-col lg:items-start">
+        <div className="hidden font-display lg:flex lg:min-w-0 lg:flex-col lg:items-start">
           <span className="reveal reveal-1 ph-lead text-[#e9e4ff]/70">
             the money app that&rsquo;ll take you screenshots
           </span>
