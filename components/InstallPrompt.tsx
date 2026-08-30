@@ -36,7 +36,13 @@ function runningStandalone(): boolean {
   );
 }
 
-export function InstallPrompt() {
+/**
+ * The add-to-home-screen flow, shared by the wallet's banner and the landing's
+ * button. Chrome hands us a real `beforeinstallprompt` we can fire; everything
+ * else (iOS Safari especially) only gets manual steps, so `help` opens the
+ * sheet instead.
+ */
+export function useInstall() {
   const [standalone, setStandalone] = useState(true); // assume installed until checked
   const [dismissed, setDismissed] = useState(true);
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(
@@ -98,6 +104,14 @@ export function InstallPrompt() {
     setHelp(true);
   }, [deferred]);
 
+  return { standalone, dismissed, dismiss, install, help, setHelp, platform };
+}
+
+/** The dark banner that sits above the wallet's bottom bar. */
+export function InstallPrompt() {
+  const { standalone, dismissed, dismiss, install, help, setHelp, platform } =
+    useInstall();
+
   if (standalone || dismissed) return null;
 
   return (
@@ -133,7 +147,24 @@ export function InstallPrompt() {
         </button>
       </div>
 
-      <Sheet open={help} onClose={() => setHelp(false)}>
+      <InstallHelpSheet open={help} onClose={() => setHelp(false)} platform={platform} />
+    </>
+  );
+}
+
+/** The manual "here's how" steps, for browsers with no install prompt. */
+export function InstallHelpSheet({
+  open,
+  onClose,
+  platform,
+}: {
+  open: boolean;
+  onClose: () => void;
+  platform: Platform;
+}) {
+  return (
+    <>
+      <Sheet open={open} onClose={onClose}>
         <div className="px-[21px] pb-10 pt-2">
           <h2 className="text-[24px] font-bold tracking-[-0.015em]">
             Add to Home Screen
@@ -188,7 +219,7 @@ export function InstallPrompt() {
           )}
 
           <button
-            onClick={() => setHelp(false)}
+            onClick={onClose}
             className="mt-[22px] w-full rounded-full bg-ph-purple py-[14px] text-[18px] font-medium text-black active:opacity-80"
           >
             Got it

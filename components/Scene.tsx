@@ -2,8 +2,7 @@
 
 /**
  * Ambient backdrop for the desktop landing: two slow blooms and a faint grid.
- * Colours come from CSS vars (--scene-*, in globals.css) so ThemeToggle's
- * dark mode repaints this for free. The wallet keeps its own black screen,
+ * Colours come from CSS vars (--scene-*, in globals.css). The wallet keeps its own black screen,
  * so nothing here touches it. Desktop only, and it never takes pointer events.
  */
 export function Scene() {

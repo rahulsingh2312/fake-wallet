@@ -77,7 +77,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    // suppressHydrationWarning: the pre-paint script below stamps data-theme
+    // suppressHydrationWarning: the pre-paint script below stamps data-view
     // on this element before React hydrates, so the server HTML and the client
     // DOM never match here by design.
     <html
@@ -86,13 +86,14 @@ export default function RootLayout({
       className={`${roboto.variable} ${display.variable}`}
     >
       <body className="bg-ph-bg text-ph-text antialiased no-select">
-        {/* Applies a saved dark-mode choice before paint, so the landing
-            doesn't flash light then repaint dark. Only ThemeToggle writes
-            this key; the wallet ignores it entirely. */}
+        {/* Launched from the home screen? Skip the landing and open straight
+            into the wallet. Runs before paint so installed users never see the
+            marketing page flash past. LandingShell sets the same attribute
+            when you tap "Enter app". */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(localStorage.getItem('larp-phantom:theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}",
+              "try{if(matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true)document.documentElement.setAttribute('data-view','app');}catch(e){}",
           }}
         />
         {children}

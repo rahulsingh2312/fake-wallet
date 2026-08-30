@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { InstallHelpSheet, useInstall } from "./InstallPrompt";
 import { TourButton } from "./Tour";
-
-const THEME_KEY = "larp-phantom:theme";
 
 const URL = "larpwallet.online";
 
@@ -38,6 +37,20 @@ async function copyText(text: string) {
 /** Smooth-scroll to one of the section anchors, for the nav and the CTAs. */
 function goTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/** Phones open on the landing and step into the wallet from here.
+ *
+ * The attribute goes on <html> rather than into React state because the
+ * pre-paint script in layout.tsx sets the very same one for home-screen
+ * launches — one switch, whoever throws it. The event is what tells
+ * LandingShell to mount the wallet full-screen. */
+export const ENTER_APP_EVENT = "larp:enter-app";
+
+function enterApp() {
+  document.documentElement.setAttribute("data-view", "app");
+  window.dispatchEvent(new Event(ENTER_APP_EVENT));
+  window.scrollTo(0, 0);
 }
 
 /* ------------------------------- primitives ------------------------------ */
@@ -120,50 +133,6 @@ function Card({
     >
       {children}
     </div>
-  );
-}
-
-/** Sun/moon toggle for the landing's light/dark theme. Writes data-theme on
- * <html> and localStorage; the inline script in layout.tsx applies a saved
- * choice before paint so there's no light-then-dark flash. Sits where
- * phantom.com puts its search button. */
-function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    setDark(document.documentElement.getAttribute("data-theme") === "dark");
-  }, []);
-
-  const toggle = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
-    try {
-      window.localStorage.setItem(THEME_KEY, next ? "dark" : "light");
-    } catch {
-      /* the toggle still works for this visit */
-    }
-  };
-
-  return (
-    <button
-      onClick={toggle}
-      aria-label={dark ? "switch to light mode" : "switch to dark mode"}
-      className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-fw-paper text-fw-ink transition-colors hover:text-fw-violet"
-    >
-      {dark ? (
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor">
-          <circle cx="12" cy="12" r="4.5" />
-          <g stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-            <path d="M12 2.5v2.4M12 19.1v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" />
-          </g>
-        </svg>
-      ) : (
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" />
-        </svg>
-      )}
-    </button>
   );
 }
 
@@ -261,16 +230,19 @@ const NAV = [
  */
 export function LandingTopBar() {
   return (
-    <header className="pointer-events-none sticky top-0 z-30 hidden items-center justify-between gap-[20px] px-[20px] py-[16px] font-display lg:flex">
+    <header
+      data-landing-view
+      className="pointer-events-none sticky top-0 z-30 flex items-center justify-between gap-[20px] px-[14px] py-[12px] font-display lg:px-[20px] lg:py-[16px]"
+    >
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="pointer-events-auto flex shrink-0 items-center gap-[9px] text-[19px] font-bold tracking-[-0.03em] text-fw-ink"
+        className="pointer-events-auto flex shrink-0 items-center gap-[8px] text-[17px] font-bold tracking-[-0.03em] text-fw-ink lg:gap-[9px] lg:text-[19px]"
       >
-        <GhostMark size={28} />
+        <GhostMark size={27} />
         larpwallet<span className="fw-grad-text -ml-[7px]">.</span>
       </button>
 
-      <nav className="pointer-events-auto flex items-center gap-[4px] rounded-full bg-fw-paper px-[10px] py-[7px] ph-sm text-fw-ink">
+      <nav className="pointer-events-auto hidden items-center gap-[4px] rounded-full bg-fw-paper px-[10px] py-[7px] ph-sm text-fw-ink lg:flex">
         {NAV.map((n) => (
           <button
             key={n.label}
@@ -285,11 +257,23 @@ export function LandingTopBar() {
       </nav>
 
       <span className="pointer-events-auto flex shrink-0 items-center gap-[10px]">
-        <span className="ph-sm italic text-fw-mute">deeply unofficial</span>
-        <ThemeToggle />
-        <Pill tone="violet" onClick={() => goTo("get-started")} className="!px-[24px] !py-[12px]">
-          Download
-        </Pill>
+        <span className="hidden ph-sm italic text-fw-mute lg:inline">
+          deeply unofficial
+        </span>
+        {/* phones get the one action that matters; desktop already has the
+            wallet on screen, so its button just scrolls to the install steps.
+            The wrappers do the switching — Pill sets its own `inline-flex`,
+            which would fight a `hidden` on the button itself. */}
+        <span className="lg:hidden">
+          <Pill tone="violet" onClick={enterApp} className="!px-[18px] !py-[10px]">
+            Enter app
+          </Pill>
+        </span>
+        <span className="hidden lg:block">
+          <Pill tone="violet" onClick={() => goTo("get-started")} className="!px-[24px] !py-[12px]">
+            Download
+          </Pill>
+        </span>
       </span>
     </header>
   );
@@ -308,8 +292,12 @@ export function LandingTopBar() {
 export function LandingHero({ children }: { children: React.ReactNode }) {
   return (
     <section className="contents lg:block lg:px-[20px]">
+      <MobileHero />
+
       <div className="contents lg:relative lg:isolate lg:grid lg:min-h-[calc(100dvh-96px)] lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-[clamp(24px,3.5vw,72px)] lg:overflow-hidden lg:rounded-[32px] lg:bg-fw-night lg:px-[clamp(32px,4.4vw,76px)] lg:py-[44px]">
-        <HeroArt />
+        <div className="hidden lg:contents">
+          <HeroVideo on="desktop" />
+        </div>
 
         <div className="hidden font-display lg:flex lg:min-w-0 lg:flex-col lg:items-start">
           <span className="reveal reveal-1 ph-lead text-[#e9e4ff]/70">
@@ -346,22 +334,125 @@ export function LandingHero({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Flat overlapping circles, phantom's hero-art vocabulary, in our palette.
- * Hard-edged on purpose — the old landing's blurred blooms read as generic
- * SaaS gradient; these read as phantom. */
-function HeroArt() {
+/**
+ * The phone version of the hero. phantom.com on mobile is a single column: a
+ * tall rounded card carrying the film, the headline sitting on it, and the one
+ * button that matters underneath. Same here — except the button enters the
+ * wallet rather than sending you to an app store, and the only other thing
+ * offered is the home-screen install, because that IS the product on a phone.
+ */
+function MobileHero() {
+  const { standalone, install, help, setHelp, platform } = useInstall();
+
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden lg:block">
-      <div className="absolute -left-[18vw] -top-[26vh] h-[78vh] w-[78vh] rounded-full bg-[#3a2472]" />
-      <div className="absolute -bottom-[52vh] left-[4vw] h-[72vh] w-[72vh] rounded-full bg-[#5b3fd0]/85" />
-      <div className="absolute -right-[6vw] -top-[22vh] h-[64vh] w-[64vh] rounded-full bg-[#2b1b58]" />
-      <div className="absolute -bottom-[30vh] -right-[10vw] h-[58vh] w-[58vh] rounded-full bg-[#c9962b]/25" />
-      <div className="absolute right-[30vw] bottom-[-14vh] h-[34vh] w-[34vh] rounded-full bg-[#1f7a5a]/35" />
+    <section data-landing-view className="px-[14px] pb-[8px] font-display lg:hidden">
+      <div className="relative isolate flex min-h-[74dvh] flex-col justify-end overflow-hidden rounded-[26px] bg-fw-night px-[22px] pb-[26px] pt-[46px]">
+        <HeroVideo on="mobile" scrim="bg-fw-night/20" />
+
+        <span className="ph-sm text-[#e9e4ff]/75">
+          the money app that&rsquo;ll take you screenshots
+        </span>
+        <h1 className="ph-h2 mt-[10px] text-fw-cream">
+          Your home for larping, to crack, to charge KOL fee, and sell courses
+        </h1>
+
+        <div className="mt-[24px] flex flex-col gap-[10px]">
+          <button
+            onClick={enterApp}
+            className="w-full rounded-full bg-fw-lilac px-[24px] py-[16px] text-[16px] font-medium text-[#3c315b] transition-transform duration-200 active:scale-[0.985]"
+          >
+            Enter app
+          </button>
+
+          {!standalone && (
+            <button
+              onClick={install}
+              className="flex w-full items-center justify-center gap-[9px] rounded-full border border-white/20 px-[24px] py-[16px] text-[16px] font-medium text-fw-cream transition-colors active:bg-white/10"
+            >
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 15V3M8 7l4-4 4 4" />
+                <path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" />
+              </svg>
+              Add to home screen
+            </button>
+          )}
+        </div>
+
+        <p className="ph-sm mt-[16px] text-[#e9e4ff]/55">
+          pixel-perfect wallet ui. live jupiter prices. the gains are fake, the
+          screenshot isn&rsquo;t.
+        </p>
+      </div>
+
+      <InstallHelpSheet open={help} onClose={() => setHelp(false)} platform={platform} />
+    </section>
+  );
+}
+
+/**
+ * phantom.com's own hero film, self-hosted rather than hotlinked off their
+ * CDN. It is 360x550, so it upscales soft — which is fine, it is abstract
+ * gradient work and it reads as ambient wash behind the type, not as detail.
+ * Held down by a scrim so the headline always clears it.
+ *
+ * Honours prefers-reduced-motion by falling back to the poster frame: an
+ * autoplaying 16s loop is exactly what that setting is asking us not to do.
+ */
+function HeroVideo({
+  on,
+  scrim = "bg-fw-night/25",
+}: {
+  /** Which hero this instance belongs to. Both heroes are in the DOM at all
+   * times and CSS hides the wrong one — but a display:none <video> still
+   * downloads, so the file would land twice, and on phones one of those is
+   * 1.1MB spent on a card nobody can see. Only the live one gets a src. */
+  on: "mobile" | "desktop";
+  scrim?: string;
+}) {
+  // The film is 360x550 portrait. Cover-cropping that into a wide desktop card
+  // keeps only a narrow middle band, and a flat scrim on top of that left the
+  // whole hero reading as plain black. So the scrim is directional instead:
+  // heavy where the type sits, barely there where the film should show.
+  const wash =
+    on === "desktop"
+      ? "bg-gradient-to-r from-fw-night via-fw-night/70 to-fw-night/5"
+      : "bg-gradient-to-t from-fw-night via-fw-night/55 to-fw-night/10";
+  const ref = useRef<HTMLVideoElement>(null);
+  const [still, setStill] = useState(false);
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setStill(true);
+      ref.current?.pause();
+    }
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setLive(on === "desktop" ? mq.matches : !mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, [on]);
+
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <video
+        ref={ref}
+        className="h-full w-full scale-[1.02] object-cover"
+        src={live ? "/brand/hero.mp4" : undefined}
+        poster="/brand/hero-poster.jpg"
+        autoPlay={live && !still}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+      />
+      <div className={`absolute inset-0 ${scrim}`} />
+      <div className={`absolute inset-0 ${wash}`} />
       <div
-        className="absolute inset-0 opacity-[0.5]"
+        className="absolute inset-0 opacity-[0.45]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)",
+            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
           backgroundSize: "74px 74px",
           maskImage: "radial-gradient(ellipse 90% 80% at 40% 50%, #000 30%, transparent 80%)",
           WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 40% 50%, #000 30%, transparent 80%)",
@@ -402,7 +493,7 @@ function SectionHead({
       <span className="ph-xs font-mono uppercase tracking-[0.2em] text-fw-mute">
         {eyebrow}
       </span>
-      <h2 className="ph-h2 mt-[16px] max-w-[15ch] text-fw-ink">{children}</h2>
+      <h2 className="ph-h2 mt-[10px] max-w-[15ch] text-fw-ink md:mt-[16px]">{children}</h2>
     </Reveal>
   );
 }
@@ -507,17 +598,17 @@ const SECURITY: { t: string; d: string }[] = [
 
 export function LandingSections() {
   return (
-    <div className="hidden font-display lg:block">
+    <div data-landing-view className="font-display">
       {/* ── tools ── */}
-      <section id="tools" className="scroll-mt-[96px] px-[clamp(32px,5vw,84px)] pt-[140px]">
+      <section id="tools" className="scroll-mt-[80px] px-[20px] pt-[86px] md:px-[clamp(32px,5vw,84px)] lg:scroll-mt-[96px] lg:pt-[140px]">
         <SectionHead eyebrow="larping">
           Larping tools for <span className="text-fw-violet">everyone</span>
         </SectionHead>
 
         <Reveal>
-          <div className="no-scrollbar mt-[44px] flex snap-x snap-mandatory gap-[18px] overflow-x-auto pb-[10px]">
+          <div className="no-scrollbar -mx-[20px] mt-[28px] flex snap-x snap-mandatory gap-[14px] overflow-x-auto px-[20px] pb-[10px] md:mx-0 md:mt-[44px] md:gap-[18px] md:px-0">
             {TOOLS.map((t) => (
-              <div key={t.t} className="w-[326px] shrink-0 snap-start">
+              <div key={t.t} className="w-[272px] shrink-0 snap-start md:w-[326px]">
                 <Card className="group h-full p-[26px] hover:-translate-y-[4px] hover:border-fw-violet/45">
                   <StepIcon kind={t.icon} />
                   <h3 className="ph-h5 mt-[22px] text-fw-ink">{t.t}</h3>
@@ -530,7 +621,7 @@ export function LandingSections() {
       </section>
 
       {/* ── money ── */}
-      <section id="money" className="scroll-mt-[96px] px-[clamp(32px,5vw,84px)] pt-[150px]">
+      <section id="money" className="scroll-mt-[80px] px-[20px] pt-[96px] md:px-[clamp(32px,5vw,84px)] lg:scroll-mt-[96px] lg:pt-[150px]">
         <SectionHead eyebrow="move money">
           Crack, Charge, &amp; <span className="text-fw-violet">Sell</span>
         </SectionHead>
@@ -542,7 +633,7 @@ export function LandingSections() {
           </p>
         </Reveal>
 
-        <div className="mt-[44px] grid grid-cols-3 gap-[18px]">
+        <div className="mt-[28px] grid grid-cols-1 gap-[14px] md:mt-[44px] md:grid-cols-3 md:gap-[18px]">
           {MONEY.map((m, i) => (
             <Reveal key={m.t} delay={i * 80}>
               <Card className="h-full p-[28px]">
@@ -558,13 +649,13 @@ export function LandingSections() {
       </section>
 
       {/* ── security ── */}
-      <section id="security" className="scroll-mt-[96px] px-[clamp(32px,5vw,84px)] pt-[150px]">
+      <section id="security" className="scroll-mt-[80px] px-[20px] pt-[96px] md:px-[clamp(32px,5vw,84px)] lg:scroll-mt-[96px] lg:pt-[150px]">
         <SectionHead eyebrow="your security">
           Controlled by you, believed by{" "}
           <span className="text-fw-violet">them</span>
         </SectionHead>
 
-        <div className="mt-[44px] grid grid-cols-2 gap-[18px]">
+        <div className="mt-[28px] grid grid-cols-1 gap-[14px] md:mt-[44px] md:grid-cols-2 md:gap-[18px]">
           {SECURITY.map((s, i) => (
             <Reveal key={s.t} delay={i * 70}>
               <Card className="h-full p-[28px]">
@@ -577,7 +668,7 @@ export function LandingSections() {
       </section>
 
       {/* ── callout ── */}
-      <section className="px-[clamp(32px,5vw,84px)] pt-[150px]">
+      <section className="px-[20px] pt-[96px] md:px-[clamp(32px,5vw,84px)] lg:pt-[150px]">
         <Reveal>
           <p className="ph-h3 mx-auto max-w-[24ch] text-center text-fw-ink">
             Trusted by a community of{" "}
@@ -588,9 +679,9 @@ export function LandingSections() {
       </section>
 
       {/* ── get started ── */}
-      <section id="get-started" className="scroll-mt-[96px] px-[clamp(32px,5vw,84px)] pt-[150px]">
+      <section id="get-started" className="scroll-mt-[80px] px-[20px] pt-[96px] md:px-[clamp(32px,5vw,84px)] lg:scroll-mt-[96px] lg:pt-[150px]">
         <Reveal>
-          <div className="relative isolate overflow-hidden rounded-[32px] bg-fw-night px-[clamp(32px,4.4vw,76px)] py-[72px]">
+          <div className="relative isolate overflow-hidden rounded-[26px] bg-fw-night px-[22px] py-[44px] md:rounded-[32px] md:px-[clamp(32px,4.4vw,76px)] md:py-[72px]">
             <PanelArt />
             <span className="ph-xs font-mono uppercase tracking-[0.2em] text-[#e9e4ff]/50">
               get started.
@@ -599,7 +690,7 @@ export function LandingSections() {
               Download larp wallet.
             </h2>
 
-            <ol className="mt-[46px] grid grid-cols-3 gap-[18px]">
+            <ol className="mt-[30px] grid grid-cols-1 gap-[14px] md:mt-[46px] md:grid-cols-3 md:gap-[18px]">
               {STEPS.map((s) => (
                 <li
                   key={s.n}
@@ -628,7 +719,7 @@ export function LandingSections() {
 
         {/* $LARP */}
         <Reveal delay={80}>
-          <Card className="mt-[18px] flex items-center gap-[16px] p-[24px]">
+          <Card className="mt-[14px] flex flex-col items-start gap-[12px] p-[20px] md:mt-[18px] md:flex-row md:items-center md:gap-[16px] md:p-[24px]">
             <span className="fw-grad-text ph-h5 font-bold">$LARP</span>
             <span className="flex flex-1 items-center gap-[10px] rounded-[12px] border border-dashed border-fw-line bg-fw-ground px-[14px] py-[11px] font-mono ph-xs text-fw-mute">
               <span>contract address</span>
@@ -679,10 +770,10 @@ const FOOTER: { head: string; items: { t: string; href?: string; onClick?: strin
 
 export function LandingFooter() {
   return (
-    <footer className="hidden px-[clamp(32px,5vw,84px)] pb-[56px] pt-[150px] font-display lg:block">
+    <footer data-landing-view className="px-[20px] pb-[40px] pt-[96px] font-display md:px-[clamp(32px,5vw,84px)] lg:pb-[56px] lg:pt-[150px]">
       <Reveal>
-        <div className="grid grid-cols-[1.4fr_repeat(3,1fr)_auto] gap-[24px] border-t border-fw-line pt-[44px]">
-          <div>
+        <div className="grid grid-cols-2 gap-[28px] border-t border-fw-line pt-[32px] md:grid-cols-[1.4fr_repeat(3,1fr)_auto] md:gap-[24px] md:pt-[44px]">
+          <div className="col-span-2 md:col-span-1">
             <span className="flex items-center gap-[9px] text-[19px] font-bold tracking-[-0.03em] text-fw-ink">
               <GhostMark size={28} />
               larpwallet<span className="fw-grad-text -ml-[7px]">.</span>
@@ -731,7 +822,7 @@ export function LandingFooter() {
           </div>
         </div>
 
-        <div className="mt-[44px] flex items-center justify-between border-t border-fw-line pt-[22px] ph-xs text-fw-mute">
+        <div className="mt-[32px] flex flex-col gap-[8px] border-t border-fw-line pt-[22px] ph-xs text-fw-mute md:mt-[44px] md:flex-row md:items-center md:justify-between md:gap-0">
           <span>© larp wallet 2026 · no keys, no wallet connect, no real money.</span>
           <span className="font-mono italic">larp it till u make it</span>
         </div>

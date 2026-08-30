@@ -53,52 +53,29 @@
   --scene-edge: rgba(124, 58, 237, 0.06);
 }
 
-/*
- * Dark mode for the landing, toggled by ThemeToggle (sets data-theme on
- * <html>, persisted to localStorage). The wallet is unaffected either way —
- * it's a separate sibling tree that never reads these fw-* tokens.
- */
-[data-theme="dark"] {
-  --color-fw-ground: #120727;
-  --color-fw-paper: #1c0f3c;
-  --color-fw-paper-2: #241450;
-  --color-fw-cream: #1c0f3c;
-  --color-fw-lilac: #3c2f6e;
-  --color-fw-night: #0d0620;
-  --color-fw-ink: #f7f3ff;
-  --color-fw-ink-2: #cdbdf2;
-  --color-fw-mute: #9a87c8;
-  --color-fw-line: #33265f;
-  --color-fw-grad-a: #ffe4a0;
-  --color-fw-grad-b: #a78bfa;
-  --color-fw-violet: #f4c64e;
-  --color-fw-violet-2: #a78bfa;
-  --color-fw-teal: #f4c64e;
-  --scene-bloom-a: rgba(139, 92, 246, 0.3);
-  --scene-bloom-b: rgba(244, 198, 78, 0.16);
-  --scene-grid: rgba(199, 181, 255, 0.05);
-  --scene-edge: rgba(10, 4, 26, 0.55);
-}
-
 html,
 body {
-  background: #000;
+  background: #f5f2ff;
   color: #fff;
   overscroll-behavior-y: none;
 }
 
+/* Phones used to be wallet-only and therefore black. They get the landing
+   first now, so the ground is the landing's — until you enter the app, where
+   the wallet's own black takes back over. Desktop is always the landing. */
+html[data-view="app"],
+html[data-view="app"] body {
+  background: #000;
+}
+
 /*
- * Phones get the wallet full-bleed and nothing else, so they stay black.
- * The landing only exists from lg up — that surface turns white, phantom.com
- * style, with the gold-ghost mark and violet accents carrying the brand
- * (or the dark variant above, when toggled).
+ * The landing runs at every width now. Desktop keeps the lavender ground even
+ * in app view, because there the wallet is the hero's art rather than a
+ * separate screen.
  */
 @media (min-width: 1024px) {
   :root {
     color-scheme: light;
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
   }
   /*
    * Background only. Never set `color` here: this rule is unlayered, so it
@@ -107,12 +84,10 @@ body {
    * Landing text sets its own colour, element by element.
    */
   html,
-  body {
+  body,
+  html[data-view="app"],
+  html[data-view="app"] body {
     background: #f5f2ff;
-  }
-  html[data-theme="dark"],
-  html[data-theme="dark"] body {
-    background: #120727;
   }
 }
 
@@ -328,30 +303,6 @@ body {
   color: transparent;
 }
 
-/* Dark mode: brighter stops for both, since the ground goes to deep violet. */
-[data-theme="dark"] .fw-btn-grad {
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.55),
-    0 1px 2px rgb(0 0 0 / 0.28),
-    0 12px 30px -14px rgb(244 198 78 / 0.55);
-}
-[data-theme="dark"] .fw-btn-grad:hover {
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.55),
-    0 1px 2px rgb(0 0 0 / 0.28),
-    0 16px 38px -12px rgb(244 198 78 / 0.72);
-}
-[data-theme="dark"] .fw-grad-text {
-  background-image: linear-gradient(
-    93deg,
-    #ffe4a0 0%,
-    #f4c64e 22%,
-    #c9a2ff 50%,
-    #f4c64e 78%,
-    #ffe4a0 100%
-  );
-}
-
 @media (prefers-reduced-motion: reduce) {
   .fw-btn-grad,
   .fw-grad-text {
@@ -387,6 +338,17 @@ body {
   .ph-sm      { font-size: 16px;  line-height: 1.4; }
 }
 
+@media screen and (max-width: 767px) {
+  .ph-display { font-size: 48px; line-height: 1; }
+  .ph-h1      { font-size: 32px; line-height: 1.1; }
+  .ph-h2      { font-size: 30px; line-height: 0.98; }
+  .ph-h3      { font-size: 24px; line-height: 1.05; }
+  .ph-h4      { font-size: 20px; line-height: 1.2; }
+  .ph-h5      { font-size: 16px; line-height: 1.2; }
+  .ph-lead    { font-size: 16px; line-height: 1.4; }
+  .ph-sm      { font-size: 13px; line-height: 1.25; }
+}
+
 /* ── scroll reveal ────────────────────────────────────────────────────────
  * The old landing was one fixed screen, so everything could animate on load.
  * The page scrolls now, so sections below the fold wait for the observer in
@@ -410,5 +372,22 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+
+/* ── landing ⇄ app ────────────────────────────────────────────────────────
+ * Phones get the marketing page first and the wallet on demand. `data-view`
+ * lives on <html> because the inline script in layout.tsx has to set it before
+ * paint — an installed home-screen launch must never flash the landing past.
+ * This rule only ever hides; showing the wallet is React's job (see
+ * LandingShell), so Tailwind's own display utilities keep working normally.
+ *
+ * Desktop ignores all of it: the wallet is the hero's art there, so both are
+ * on screen at once and there is nothing to switch.
+ */
+@media (max-width: 1023px) {
+  html[data-view="app"] [data-landing-view] {
+    display: none !important;
   }
 }
