@@ -549,7 +549,7 @@ export function LandingHero({ children }: { children: React.ReactNode }) {
           <HeroVideo on="desktop" />
         </div>
 
-        <div className="hidden font-display lg:flex lg:min-w-0 lg:flex-col lg:items-start">
+        <div className="relative z-10 hidden font-display lg:flex lg:min-w-0 lg:flex-col lg:items-start">
           <span className="reveal reveal-1 ph-lead text-[#e9e4ff]/80 [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
             the money app that&rsquo;ll take you screenshots
           </span>
@@ -596,9 +596,10 @@ function MobileHero() {
 
   return (
     <section data-landing-view className="px-[14px] pb-[8px] font-display lg:hidden">
-      <div className="relative isolate flex min-h-[74dvh] flex-col justify-end overflow-hidden rounded-[26px] bg-fw-night px-[22px] pb-[26px] pt-[46px]">
+      <div className="relative isolate flex min-h-[84dvh] flex-col justify-end overflow-hidden rounded-[26px] bg-fw-night px-[22px] pb-[26px] pt-[46px]">
         <HeroVideo on="mobile" />
 
+        <div className="relative z-10">
         <span className="ph-sm text-[#e9e4ff]/85 [text-shadow:0_2px_20px_rgba(8,4,22,0.85)]">
           the money app that&rsquo;ll take you screenshots
         </span>
@@ -632,6 +633,7 @@ function MobileHero() {
           pixel-perfect wallet ui. live jupiter prices. the gains are fake, the
           screenshot isn&rsquo;t.
         </p>
+        </div>
       </div>
 
       <InstallHelpSheet open={help} onClose={() => setHelp(false)} platform={platform} />
@@ -741,7 +743,13 @@ function HeroVideo({
     <div
       ref={wrap}
       aria-hidden
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      // z-0, never a negative z-index. WebKit composites <video> into its own
+      // layer, and a negatively-stacked child of a parent with an opaque
+      // background gets painted *behind* that background — the film was there
+      // and playing on iOS the whole time, just invisible under bg-fw-night.
+      // Chromium paints it correctly, which is why no emulator caught this.
+      // Everything that sits on top is explicitly z-10 instead.
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
     >
       {on === "desktop" ? (
         // Two overlapping copies, each cover-cropped over about 58% of the
@@ -802,7 +810,7 @@ function HeroVideo({
  * text stays legible over it. */
 function PanelArt() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <div className="absolute -left-[12%] -top-[70%] h-[220%] w-[52%] rounded-full bg-[#3a2472]" />
       <div className="absolute -bottom-[90%] right-[6%] h-[200%] w-[46%] rounded-full bg-[#5b3fd0]/55" />
       <div className="absolute -right-[10%] -top-[40%] h-[150%] w-[34%] rounded-full bg-[#c9962b]/12" />
@@ -819,7 +827,7 @@ function PanelArt() {
  */
 function PhonePreview() {
   return (
-    <section data-landing-view className="px-[20px] pt-[86px] font-display lg:hidden">
+    <section data-landing-view className="px-[20px] pt-[10px] font-display lg:hidden">
       <Reveal>
         <span className="ph-xs font-mono uppercase tracking-[0.2em] text-fw-mute">
           the whole product
@@ -1078,6 +1086,7 @@ export function LandingSections() {
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-[26px] bg-fw-night px-[22px] py-[44px] md:rounded-[32px] md:px-[clamp(32px,4.4vw,76px)] md:py-[72px]">
             <PanelArt />
+            <div className="relative z-10">
             <span className="ph-xs font-mono uppercase tracking-[0.2em] text-[#e9e4ff]/50">
               get started.
             </span>
@@ -1108,6 +1117,7 @@ export function LandingSections() {
               <span className="ph-sm text-[#e9e4ff]/45">
                 open it on your phone. that&rsquo;s the whole install.
               </span>
+            </div>
             </div>
           </div>
         </Reveal>

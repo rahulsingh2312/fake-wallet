@@ -31,7 +31,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="relative lg:h-[calc(892px*var(--s))] lg:w-[calc(432px*var(--s))] lg:shrink-0"
+      className="relative z-10 lg:h-[calc(892px*var(--s))] lg:w-[calc(432px*var(--s))] lg:shrink-0"
       style={{ "--s": scale } as React.CSSProperties}
     >
       {/* glow, so the phone reads as the light source on the page */}
