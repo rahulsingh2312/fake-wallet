@@ -2,8 +2,9 @@
 // key doesn't match, which is the only thing that clears assets stored by an
 // older build. v1 kept serving pre-landing files to phones that had visited
 // before, which is why the mobile landing didn't appear for people who had
-// been on the site already.
-const CACHE = "larp-phantom-v3";
+// been on the site already. v4 stops this worker touching media at all — see
+// the range-request note below.
+const CACHE = "larp-phantom-v4";
 const SHELL = ["/", "/manifest.webmanifest", "/avatar.png", "/icon-192.png"];
 
 self.addEventListener("install", (e) => {
@@ -32,6 +33,19 @@ self.addEventListener("fetch", (e) => {
   // Prices must never come from cache.
   if (url.hostname.endsWith("jup.ag")) return;
 
+  // Media goes straight to the network, untouched.
+  //
+  // Safari fetches video with Range requests and the server answers 206. Two
+  // things then go wrong here: cache.put() rejects outright on a partial
+  // response, and — the real damage — caches.match() ignores Range headers, so
+  // once a full 200 is in the cache every later range request gets handed the
+  // entire file instead of the bytes it asked for. Safari treats that as a
+  // broken stream and simply never plays. This is why the hero film ran on
+  // desktop and sat frozen on its poster on phones.
+  if (req.headers.has("range") || /\.(mp4|webm|mov|m4v|ogg|mp3|wav)$/i.test(url.pathname)) {
+    return;
+  }
+
   // Navigations: network first, fall back to the cached shell when offline.
   if (req.mode === "navigate") {
     e.respondWith(
@@ -54,7 +68,7 @@ self.addEventListener("fetch", (e) => {
     caches.match(req).then((hit) => {
       const fresh = fetch(req)
         .then((res) => {
-          if (res.ok && (url.origin === self.location.origin || res.type === "basic")) {
+          if (res.status === 200 && (url.origin === self.location.origin || res.type === "basic")) {
             const copy = res.clone();
             caches.open(CACHE).then((c) => c.put(req, copy));
           }

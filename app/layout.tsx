@@ -65,7 +65,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  // The landing is what a browser opens on, so the address bar matches the
+  // lavender ground. enterApp() swaps this to black on the way into the
+  // wallet, and the manifest keeps its own black for an installed launch.
+  themeColor: "#f5f2ff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

@@ -48,7 +48,7 @@ export default function BrandPage() {
 
         <section>
           <h2><span className="num">02</span>Header &amp; share card</h2>
-          <p className="sub">Link previews and the profile banner, both on the violet ground with the
+          <p className="sub">Link previews and the profile banner, both on the lavender ground with the
           gold lockup centred so the avatar never covers it.</p>
           <hr className="rule" />
           <figure><img src="/brand/header.png" alt="X header" />
@@ -73,7 +73,7 @@ export default function BrandPage() {
         <section>
           <h2><span className="num">04</span>Palette</h2>
           <p className="sub">Two hues off the mark: brushed gold for the ghost and every primary action,
-          lilac violet for the ground and the quiet accents. The gradient runs gold &rarr; violet &rarr; gold
+          lilac violet for the accents, over a lavender ground. The gradient runs gold &rarr; violet &rarr; gold
           and flows. None of it appears inside the wallet: that screen keeps Phantom&rsquo;s purple so the
           screenshots still match.</p>
           <hr className="rule" />
@@ -82,7 +82,8 @@ export default function BrandPage() {
         <div className="sw"><div className="chip" style={{background:"#c9962b"}} /><div><b>gold deep</b><span className="dm">#c9962b</span><span className="mu">the ghost&rsquo;s lower body, pressed states</span></div></div>
         <div className="sw"><div className="chip" style={{background:"#a78bfa"}} /><div><b>violet</b><span className="dm">#a78bfa</span><span className="mu">secondary accent, step numbers</span></div></div>
         <div className="sw"><div className="chip" style={{background:"#947de0"}} /><div><b>violet deep</b><span className="dm">#947de0</span><span className="mu">the tile behind the mark, sampled off the photo</span></div></div>
-        <div className="sw"><div className="chip" style={{background:"#150a2e"}} /><div><b>ground</b><span className="dm">#150a2e</span><span className="mu">the deep violet the landing sits on</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#f5f2ff"}} /><div><b>ground</b><span className="dm">#f5f2ff</span><span className="mu">the lavender the landing sits on</span></div></div>
+        <div className="sw"><div className="chip" style={{background:"#3c315b"}} /><div><b>ink</b><span className="dm">#3c315b</span><span className="mu">body copy and headings on the ground</span></div></div>
         </section>
 
 

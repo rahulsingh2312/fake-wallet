@@ -49,6 +49,10 @@ export const ENTER_APP_EVENT = "larp:enter-app";
 
 function enterApp() {
   document.documentElement.setAttribute("data-view", "app");
+  // The wallet is black; the browser chrome should follow it in.
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute("content", "#000000");
   window.dispatchEvent(new Event(ENTER_APP_EVENT));
   window.scrollTo(0, 0);
 }
@@ -686,6 +690,39 @@ function HeroVideo({
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, [on]);
+
+  /**
+   * Ask for playback rather than relying on the attribute.
+   *
+   * `src` and `autoPlay` are both withheld until `live`, which only becomes
+   * true in an effect — and `autoplay` governs playback at load time, so
+   * setting it after React has already made the element is unreliable. Desktop
+   * Chrome starts anyway; mobile Safari does not, which is why the film ran on
+   * laptops and sat on its poster frame on phones.
+   *
+   * `muted` is assigned imperatively too: React does not always reflect it to
+   * the property, and an unmuted video is refused autoplay outright on iOS.
+   * A rejected play() is fine — Low Power Mode refuses regardless, and the
+   * poster is a perfectly good still.
+   */
+  useEffect(() => {
+    if (!live || still) return;
+    const vids = Array.from(wrap.current?.querySelectorAll("video") ?? []);
+    const starts = vids.map((v) => {
+      const go = () => {
+        v.muted = true;
+        void v.play().catch(() => {});
+      };
+      go();
+      v.addEventListener("canplay", go);
+      v.addEventListener("loadeddata", go);
+      return () => {
+        v.removeEventListener("canplay", go);
+        v.removeEventListener("loadeddata", go);
+      };
+    });
+    return () => starts.forEach((off) => off());
+  }, [live, still]);
 
   const film = {
     src: live ? "/brand/hero.mp4" : undefined,
