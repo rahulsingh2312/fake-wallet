@@ -69,7 +69,9 @@ export function GhostMark({
 }) {
   return (
     <img
-      src="/brand/ghost-badge.png"
+      // the 128px cut, not the 1024 original: this only ever renders at 24-27px,
+      // and the full-size file was 410KB for a favicon-sized mark
+      src="/brand/ghost-badge-128.png"
       alt=""
       width={size}
       height={size}
@@ -855,8 +857,8 @@ function PhonePreview() {
               <img
                 src="/brand/app-preview.jpg"
                 alt="the larp wallet home screen, showing a portfolio balance"
-                width={824}
-                height={1742}
+                width={732}
+                height={1548}
                 className="block h-auto w-full"
               />
             </div>
